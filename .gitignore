@@ -25,3 +25,20 @@ proguard/
 
 # Log Files
 *.log
+
+
+bin/
+gen/
+gen-external-apklibs/
+./proguard/
+.settings
+*.class
+.idea/**/*
+!.idea/codeStyleSettings.xml
+*.iml
+**/maven-metadata-local.xml
+**/_remote.repositories
+*.DS_Store
+build/
+.gradle/
+local.properties
