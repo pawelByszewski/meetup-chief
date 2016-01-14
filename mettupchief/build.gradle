@@ -3,14 +3,15 @@ buildscript {
         mavenCentral()
         jcenter()
         maven {
-            url "https://plugins.gradle.org/m2/"
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
+        maven {
+            url 'https://maven.fabric.io/public'
         }
     }
 
     dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:2.4.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "gradle.plugin.com.tmiyamon:gradle-config:0.2.1"
     }
 }
 
@@ -24,7 +25,7 @@ repositories {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: "com.tmiyamon.config"
+//apply plugin: "com.tmiyamon.config"
 
 android {
     compileSdkVersion 23
@@ -54,7 +55,23 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
 dependencies {
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    testCompile junit4
+    compile javaxAnnotations
+    compile appcompat
+    compile supportDesign
+    compile retrofit
+    compile kotlin
+    compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile dagger
+    apt daggerCompiler
 }
