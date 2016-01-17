@@ -14,7 +14,7 @@ buildscript {
 }
 
 ext {
-    kotlin_version = '1.0.0-beta-3595'
+    kotlin_version = '1.0.0-beta-4584'
     appcompat = 'com.android.support:appcompat-v7:23.1.1'
     butterknife = 'com.jakewharton:butterknife:7.0.1'
     dagger = 'com.google.dagger:dagger:2.0'
