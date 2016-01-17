@@ -13,9 +13,10 @@ class MeetupEventsSynchronizer : IntentService("EventsSynchronizer") {
     @Inject
     lateinit var meetupResource: MeetupResource
 
+
     override fun onCreate() {
         super.onCreate()
-        MeetupEventsSynchronizerComponent.Initializer.init().inject(this)
+        MeetupEventsSynchronizerComponent.Initializer.init(applicationContext).inject(this)
     }
 
     override fun onHandleIntent(intent: Intent?) {
