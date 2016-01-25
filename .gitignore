@@ -42,3 +42,5 @@ gen-external-apklibs/
 build/
 .gradle/
 local.properties
+
+*_secret.yml
