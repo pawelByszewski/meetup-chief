@@ -15,17 +15,10 @@ buildscript {
     }
 }
 
-repositories {
-    mavenCentral()
-    flatDir {
-        dirs 'libs'
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.neenbedankt.android-apt'
-//apply plugin: "com.tmiyamon.config"
+apply plugin: "com.tmiyamon.config"
 
 android {
     compileSdkVersion 23
@@ -36,7 +29,6 @@ android {
     }
 
     dexOptions {
-//        incremental true
         javaMaxHeapSize "2g"
     }
 
@@ -93,5 +85,4 @@ dependencies {
     compile rxjavaAsyncUtils
 
     compile multidex
-
 }
