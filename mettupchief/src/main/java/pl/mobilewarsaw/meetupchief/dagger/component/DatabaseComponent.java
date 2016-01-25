@@ -5,6 +5,7 @@ import android.content.Context;
 import dagger.Component;
 import pl.mobilewarsaw.meetupchief.dagger.module.DatabaseModule;
 import pl.mobilewarsaw.meetupchief.dagger.module.EventListModule;
+import pl.mobilewarsaw.meetupchief.database.Database;
 import pl.mobilewarsaw.meetupchief.ui.events.EventsListActivity;
 
 @Component(
@@ -19,4 +20,6 @@ public interface DatabaseComponent {
                     .build();
         }
     }
+
+    Database provideDataBase();
 }

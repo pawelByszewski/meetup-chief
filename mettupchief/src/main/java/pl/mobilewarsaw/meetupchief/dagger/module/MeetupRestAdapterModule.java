@@ -3,7 +3,7 @@ package pl.mobilewarsaw.meetupchief.dagger.module;
 
 import dagger.Module;
 import dagger.Provides;
-import pl.mobilewarsaw.meetupchief.resource.meetup.MeetupResource;
+import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupResource;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;

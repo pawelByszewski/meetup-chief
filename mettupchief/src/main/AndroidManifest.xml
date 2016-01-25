@@ -19,6 +19,10 @@
         </activity>
 
         <service android:name=".service.events.MeetupEventsSynchronizer"/>
+
+        <provider android:name=".resource.local.meetup.MeetupEventContentProvider"
+            android:authorities="pl.mobilewarsaw.meetupchief.events">
+        </provider>
     </application>
 
 </manifest>

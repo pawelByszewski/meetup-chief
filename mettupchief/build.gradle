@@ -82,6 +82,7 @@ dependencies {
     compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+    compile 'uy.kohesive.injekt:injekt-core:1.8.+'
     compile dagger
     compile rxjava
     compile rxjavaAndroid

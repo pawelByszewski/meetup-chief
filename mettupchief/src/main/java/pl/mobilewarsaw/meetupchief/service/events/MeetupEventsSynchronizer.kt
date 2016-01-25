@@ -1,10 +1,15 @@
 package pl.mobilewarsaw.meetupchief.service.events
 
 import android.app.IntentService
+import android.content.ContentProviderOperation
+import android.content.ContentValues
 import android.content.Intent
 import android.util.Log
 import pl.mobilewarsaw.meetupchief.dagger.component.MeetupEventsSynchronizerComponent
-import pl.mobilewarsaw.meetupchief.resource.meetup.MeetupResource
+import pl.mobilewarsaw.meetupchief.database.EventTable
+import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupEventContentProvider
+import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupResource
+import pl.mobilewarsaw.meetupchief.resource.remote.meetup.model.MeetupEvent
 import rx.Observable
 import javax.inject.Inject
 
@@ -20,11 +25,22 @@ class MeetupEventsSynchronizer : IntentService("EventsSynchronizer") {
     }
 
     override fun onHandleIntent(intent: Intent?) {
+        val inserts = arrayListOf<ContentProviderOperation>()
         meetupResource.getEvents("Mobile-Warsaw")
             .flatMap { events -> Observable.from(events.events) }
             .subscribe(
-                    { Log.e("kabum   ", "$it") },
-                    { Log.e("kabum", "Something goes wrong", it)}
+                    { event: MeetupEvent ->
+                        Log.e("kabum   ", "$event")
+                        val co: ContentProviderOperation
+                                = ContentProviderOperation.newInsert(MeetupEventContentProvider.CONTENT_URI)
+                                        .withValue(EventTable.NAME, event.name)
+                                        .withValue(EventTable.EVENT_ID, event.id)
+                                        .withValue(EventTable.ATTENDS, event.yesRsvpCount)
+                                        .build()
+                        inserts.add(co)
+                    },
+                    { Log.e("kabum", "Something goes wrong", it)},
+                    { contentResolver.applyBatch(MeetupEventContentProvider.AUTHORITY, inserts) }
             )
     }
 }

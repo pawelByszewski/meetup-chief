@@ -1,6 +1,6 @@
-package pl.mobilewarsaw.meetupchief.resource.meetup
+package pl.mobilewarsaw.meetupchief.resource.remote.meetup
 
-import pl.mobilewarsaw.meetupchief.resource.meetup.model.MeetupEvent
+import pl.mobilewarsaw.meetupchief.resource.meetup.MeetupEvents
 import retrofit.http.GET
 import retrofit.http.Query
 import rx.Observable

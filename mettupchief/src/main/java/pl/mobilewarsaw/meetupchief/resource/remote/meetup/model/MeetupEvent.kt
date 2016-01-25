@@ -1,4 +1,4 @@
-package pl.mobilewarsaw.meetupchief.resource.meetup.model
+package pl.mobilewarsaw.meetupchief.resource.remote.meetup.model
 
 import com.google.gson.annotations.SerializedName
 

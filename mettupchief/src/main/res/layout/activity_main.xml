@@ -11,7 +11,15 @@
     tools:context=".ui.events.EventsListActivity">
 
     <TextView
+        android:id="@+id/label"
         android:text="Hello World!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/testButton"
+        android:layout_below="@id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"/>
 </RelativeLayout>
