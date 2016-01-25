@@ -2,26 +2,21 @@ package pl.mobilewarsaw.meetupchief.service.events
 
 import android.app.IntentService
 import android.content.ContentProviderOperation
-import android.content.ContentValues
 import android.content.Intent
 import android.util.Log
-import pl.mobilewarsaw.meetupchief.dagger.component.MeetupEventsSynchronizerComponent
 import pl.mobilewarsaw.meetupchief.database.EventTable
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupEventContentProvider
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupResource
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.model.MeetupEvent
 import rx.Observable
-import javax.inject.Inject
 
 class MeetupEventsSynchronizer : IntentService("EventsSynchronizer") {
 
-    @Inject
     lateinit var meetupResource: MeetupResource
 
 
     override fun onCreate() {
         super.onCreate()
-        MeetupEventsSynchronizerComponent.Initializer.init(applicationContext).inject(this)
     }
 
     override fun onHandleIntent(intent: Intent?) {

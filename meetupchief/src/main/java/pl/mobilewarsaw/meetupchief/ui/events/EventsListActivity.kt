@@ -10,15 +10,12 @@ import android.util.Log
 import android.widget.Button
 import butterknife.bindView
 import pl.mobilewarsaw.meetupchief.R
-import pl.mobilewarsaw.meetupchief.dagger.component.EventListComponent
 import pl.mobilewarsaw.meetupchief.presenter.events.EventListPresenter
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupEventContentProvider
 import pl.mobilewarsaw.meetupchief.service.events.MeetupEventsSynchronizer
-import javax.inject.Inject
 
 class EventsListActivity : AppCompatActivity(), EventsListView {
 
-    @Inject
     lateinit var eventListPresenter: EventListPresenter
 
     val testButton: Button by bindView(R.id.testButton)
@@ -26,8 +23,6 @@ class EventsListActivity : AppCompatActivity(), EventsListView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        EventListComponent.Initializer.init().inject(this)
 
         startService(Intent(this, MeetupEventsSynchronizer::class.java))
 

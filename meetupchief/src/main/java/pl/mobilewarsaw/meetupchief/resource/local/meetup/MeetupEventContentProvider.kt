@@ -4,11 +4,8 @@ import android.content.*
 import android.database.Cursor
 import android.net.Uri
 import android.util.Log
-import pl.mobilewarsaw.meetupchief.dagger.component.MeetupEventContentProviderComponent
 import pl.mobilewarsaw.meetupchief.database.Database
 import pl.mobilewarsaw.meetupchief.database.EventTable
-import java.util.*
-import javax.inject.Inject
 
 
 class MeetupEventContentProvider : ContentProvider() {
@@ -21,7 +18,6 @@ class MeetupEventContentProvider : ContentProvider() {
     val DIR_PATH = 1
     val ITEM_PATH = 2
 
-    @Inject
     lateinit var databse: Database
 
     val uriMatcher: UriMatcher
@@ -35,7 +31,6 @@ class MeetupEventContentProvider : ContentProvider() {
 
 
     override fun onCreate(): Boolean {
-        MeetupEventContentProviderComponent.Initializer.init(context).inject(this)
         return true
     }
 

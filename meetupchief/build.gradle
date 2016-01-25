@@ -74,23 +74,24 @@ repositories {
 
 dependencies {
     testCompile junit4
-    compile javaxAnnotations
     compile appcompat
     compile supportDesign
-    compile retrofit
+
     compile kotlin
-    compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
-    compile 'com.parse.bolts:bolts-android:1.+'
-    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-    compile 'uy.kohesive.injekt:injekt-core:1.8.+'
-    compile dagger
+    compile injekt
+    compile kotterKnife
+
+    compile retrofit
+    compile retrofitGsonConverter
+    compile okHttpLoggingInterceptor
+    compile(retrofitRxAdapter) {
+        transitive = false
+    }
+
     compile rxjava
     compile rxjavaAndroid
     compile rxjavaAsyncUtils
-    apt daggerCompiler
-    compile 'com.android.support:multidex:1.0.0'
-    compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
-    compile('com.squareup.retrofit:adapter-rxjava:2.0.0-beta2') {
-        transitive = false
-    }
+
+    compile multidex
+
 }
