@@ -19,10 +19,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.events.MeetupEventsSynchronizer"/>
+        <service android:name=".service.events.MeetupSynchronizer"/>
 
-        <provider android:name=".resource.local.meetup.MeetupEventContentProvider"
-            android:authorities="pl.mobilewarsaw.meetupchief.events">
+        <provider android:name=".resource.local.meetup.MeetupContentProvider"
+            android:authorities="pl.mobilewarsaw.meetupchief">
         </provider>
     </application>
 

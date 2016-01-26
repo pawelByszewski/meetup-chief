@@ -3,7 +3,7 @@ package pl.mobilewarsaw.meetupchief.config.injekt.module
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.logging.HttpLoggingInterceptor
 import pl.mobilewarsaw.meetupchief.Settings
-import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupResource
+import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupRemoteResource
 import retrofit.GsonConverterFactory
 import retrofit.Retrofit
 import retrofit.RxJavaCallAdapterFactory
@@ -19,14 +19,14 @@ class MeetupApiModule : InjektModule {
     }
 
     private fun InjektRegistrar.prepareCustomerAdapter() {
-        addFactory(fullType<MeetupResource>()) {
+        addFactory(fullType<MeetupRemoteResource>()) {
             Retrofit.Builder()
                     .baseUrl("${Settings.meetup.url}/${Settings.meetup.version}/")
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(provideOkHttpClient())
                     .build()
-                    .create(MeetupResource::class.java)
+                    .create(MeetupRemoteResource::class.java)
         }
 
     }

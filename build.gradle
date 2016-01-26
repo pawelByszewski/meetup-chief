@@ -38,6 +38,10 @@ ext {
     assertj = 'org.assertj:assertj-core:1.7.0'
     junit4 = 'junit:junit:4.12'
     mockito = 'org.mockito:mockito-all:1.10.19'
-    robolectric = 'org.robolectric:robolectric:3.0'
+    robolectric = 'org.robolectric:robolectric:2.4'
+    hamcrestIntegration = 'org.hamcrest:hamcrest-integration:1.1'
+    hamcrestCore = 'org.hamcrest:hamcrest-core:1.1'
+    hamcrestLibrary = 'org.hamcrest:hamcrest-library:1.1'
+    catchException = 'eu.codearte.catch-exception:catch-exception:1.4.4'
 }
 

@@ -17,10 +17,6 @@ object EventTable {
     fun createInsertStatement(eventId: String, name: String, attends: Int)
             = "INSERT INTO TABLE $TABLE ($EVENT_ID, $NAME, $ATTENDS) VALUES ($eventId, $name, $attends);"
 
-    fun createInsertStatement(values: ContentValues)
-        = createInsertStatement(eventId = values.getAsString(EVENT_ID),
-                                    name = values.getAsString(NAME),
-                                    attends = values.getAsInteger(ATTENDS))
 
 
 }

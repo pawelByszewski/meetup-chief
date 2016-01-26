@@ -5,22 +5,29 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import butterknife.bindView
+import com.arlib.floatingsearchview.FloatingSearchView
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 
 import pl.mobilewarsaw.meetupchief.R
 import pl.mobilewarsaw.meetupchief.presenter.events.EventListPresenter
-import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupEventContentProvider
-import pl.mobilewarsaw.meetupchief.service.events.MeetupEventsSynchronizer
+import pl.mobilewarsaw.meetupchief.ui.searchView.SearchView
 import uy.kohesive.injekt.injectValue
 
 class EventsListActivity : AppCompatActivity(), EventsListView {
 
     val eventListPresenter: EventListPresenter by injectValue()
 
+    val floatingSearchView: SearchView by bindView(R.id.floating_search_view)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        eventListPresenter.bind(this)
+        eventListPresenter.bind(this, this)
+
+
+        floatingSearchView.onSearchListener = { query -> eventListPresenter.findMeetups(query) }
 
 //        startService(Intent(this, MeetupEventsSynchronizer::class.java))
 
