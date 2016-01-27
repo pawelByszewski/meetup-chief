@@ -11,25 +11,27 @@ import android.util.Log
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupRemoteResource
 import pl.mobilewarsaw.meetupchief.service.events.MeetupSynchronizer
-import pl.mobilewarsaw.meetupchief.ui.events.EventsListView
+import pl.mobilewarsaw.meetupchief.ui.events.MeetupGroupsView
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import uy.kohesive.injekt.injectValue
+import kotlin.properties.Delegates
 
-const val QUERY_KEY ="sdf"
+const val QUERY_KEY ="query"
 
-class EventsListPresenterImpl: EventListPresenter {
+class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
 
     lateinit private var context: Context
-    lateinit private var eventsListView: EventsListView
+    private var meetupGroupsView: MeetupGroupsView by Delegates.notNull()
 
     override fun findMeetups(query: String) {
+        checkViewBinding()
         val cursor = context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI)
-        eventsListView.showMeetupGroups(cursor)
-        cursor.setNotificationUri(context.contentResolver, MeetupGroupContentProvider.CONTENT_URI)
+        meetupGroupsView.showMeetupGroups(cursor)
+//        cursor.setNotificationUri(context.contentResolver, MeetupGroupContentProvider.CONTENT_URI)
         cursor.registerContentObserver( object: ContentObserver(Handler()) {
             override fun onChange(selfChange: Boolean) {
-                eventsListView.showMeetupGroups(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI))
+                meetupGroupsView.showMeetupGroups(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI))
             }
         })
 
@@ -38,9 +40,15 @@ class EventsListPresenterImpl: EventListPresenter {
         context.startService(intent)
     }
 
-    override fun bind(context: Context, eventsListView: EventsListView) {
+    private fun checkViewBinding() {
+        if (meetupGroupsView == null) {
+            throw IllegalStateException("A view must be binded to the presenter")
+        }
+    }
+
+    override fun bind(context: Context, meetupGroupsView: MeetupGroupsView) {
         this.context = context
-        this.eventsListView = eventsListView
+        this.meetupGroupsView = meetupGroupsView
     }
 }
 

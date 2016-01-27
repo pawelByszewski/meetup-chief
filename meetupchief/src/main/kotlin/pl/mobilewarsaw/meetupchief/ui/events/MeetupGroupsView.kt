@@ -3,7 +3,7 @@ package pl.mobilewarsaw.meetupchief.ui.events
 import android.database.Cursor
 
 
-interface EventsListView {
+interface MeetupGroupsView {
 
     fun showMeetupGroups(cursor: Cursor)
 }

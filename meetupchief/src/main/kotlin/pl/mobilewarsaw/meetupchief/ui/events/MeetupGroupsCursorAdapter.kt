@@ -14,7 +14,7 @@ import pl.mobilewarsaw.meetupchief.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchief.ui.recycleview.CursorRecyclerViewAdapter
 
 
-class MeetupGroupsCursorAdapter(cursor: Cursor)
+class MeetupGroupsCursorAdapter(cursor: Cursor? = null)
         : CursorRecyclerViewAdapter<MeetupGroupsCursorAdapter.ViewHolder>(cursor) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

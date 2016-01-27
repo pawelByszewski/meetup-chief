@@ -7,30 +7,35 @@ import android.support.v7.widget.RecyclerView
 
 
 private const val ANDROID_ID_COLUMN = "_id"
+private const val MISSING_ITEM_ID: Int = -1
 
-abstract class CursorRecyclerViewAdapter<VH : RecyclerView.ViewHolder>(
-        private var cursor: Cursor)
+abstract class CursorRecyclerViewAdapter<VH : RecyclerView.ViewHolder>
+    (cursor: Cursor?)
     : RecyclerView.Adapter<VH>() {
 
-    private var rowIdColumn: Int = 0
+    private var idColumnIndex: Int = 0
 
     private val dataSetObserver: DataSetObserver?
+    private var cursorWrapper: CursorWrapper;
 
     init {
-        rowIdColumn = this.cursor.getColumnIndex(ANDROID_ID_COLUMN)
+        this.cursorWrapper = CursorWrapper(cursor)
+        idColumnIndex = cursorWrapper.getColumnIndex(ANDROID_ID_COLUMN)
         dataSetObserver = NotifyingDataSetObserver()
-        this.cursor.registerDataSetObserver(dataSetObserver)
+        cursorWrapper.registerDataSetObserver(dataSetObserver)
     }
 
     abstract fun onBindViewHolder(viewHolder: VH, cursor: Cursor)
 
     override fun getItemCount(): Int
-            = cursor.count
+            = cursorWrapper.count
 
     override fun getItemId(position: Int): Long {
-        if (cursor.moveToPosition(position)) {
-            return cursor.getLong(rowIdColumn)
+        //TODO add this case to "kotlin, why?"
+        if (cursorWrapper.moveToPosition(position)) {
+            return cursorWrapper.getLong(idColumnIndex)
         }
+
         throw IllegalArgumentException("Cursor does not contain position: $position")
     }
 
@@ -38,34 +43,34 @@ abstract class CursorRecyclerViewAdapter<VH : RecyclerView.ViewHolder>(
             = super.setHasStableIds(true)
 
     override fun onBindViewHolder(viewHolder: VH, position: Int) {
-        if (!cursor.moveToPosition(position)) {
+        if (!cursorWrapper.moveToPosition(position) ) {
             throw IllegalStateException("couldn't move cursor to position $position")
         }
-        onBindViewHolder(viewHolder, cursor)
+        onBindViewHolder(viewHolder, cursorWrapper.extractCursor())
     }
 
     fun changeCursor(newCursor: Cursor) {
-        val oldCursor = swapCursor(newCursor)
-        oldCursor?.close()
+        val oldCursorWrapper = swapCursor(newCursor)
+        oldCursorWrapper?.close()
     }
 
-    private fun swapCursor(newCursor: Cursor): Cursor? {
-        if (newCursor === cursor) {
+    private fun swapCursor(newCursor: Cursor): CursorWrapper? {
+        if (cursorWrapper.contains(newCursor)) {
             return null
         }
-        val oldCursor = cursor
+        val oldCursorWrapper = cursorWrapper
         if (dataSetObserver != null) {
-            oldCursor.unregisterDataSetObserver(dataSetObserver)
+            oldCursorWrapper.unregisterDataSetObserver(dataSetObserver)
         }
-        cursor = newCursor
+        cursorWrapper = CursorWrapper(newCursor)
 
         if (dataSetObserver != null) {
-            cursor.registerDataSetObserver(dataSetObserver)
+            cursorWrapper.registerDataSetObserver(dataSetObserver)
         }
-        rowIdColumn = newCursor.getColumnIndexOrThrow(ANDROID_ID_COLUMN)
+        idColumnIndex = newCursor.getColumnIndexOrThrow(ANDROID_ID_COLUMN)
         notifyDataSetChanged()
 
-        return oldCursor
+        return oldCursorWrapper
     }
 
     private inner class NotifyingDataSetObserver : DataSetObserver() {
@@ -74,4 +79,35 @@ abstract class CursorRecyclerViewAdapter<VH : RecyclerView.ViewHolder>(
             notifyDataSetChanged()
         }
     }
+}
+
+private class CursorWrapper(private val cursor: Cursor?) {
+
+    val count: Int
+        get() = cursor?.count ?: 0
+
+    fun getColumnIndex(columnName: String) : Int
+            = cursor?.getColumnIndex(columnName) ?: MISSING_ITEM_ID
+
+    fun registerDataSetObserver(dataSetObserver: DataSetObserver)
+            = cursor?.registerDataSetObserver(dataSetObserver)
+
+    fun unregisterDataSetObserver(dataSetObserver: DataSetObserver)
+            = cursor?.unregisterDataSetObserver(dataSetObserver)
+
+    fun moveToPosition(position: Int): Boolean
+            = cursor?.moveToPosition(position) ?: false
+
+    fun getLong(columnIndex: Int): Long
+            = cursor?.getLong(columnIndex)
+            ?: throw IllegalArgumentException("Cursor does not contain column: $columnIndex")
+
+    fun close()
+            = cursor?.close()
+
+    fun extractCursor(): Cursor
+            = cursor!!
+
+    fun contains(newCursor: Cursor): Boolean
+            = newCursor === cursor
 }

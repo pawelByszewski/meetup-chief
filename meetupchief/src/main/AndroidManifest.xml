@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".config.ChiefApplication">
-        <activity android:name=".ui.events.EventsListActivity" >
+        <activity android:name=".ui.events.MeetupGroupsActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

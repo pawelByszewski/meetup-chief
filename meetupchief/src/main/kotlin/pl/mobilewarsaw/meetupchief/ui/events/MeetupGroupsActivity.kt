@@ -15,42 +15,42 @@ import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 
 import pl.mobilewarsaw.meetupchief.R
-import pl.mobilewarsaw.meetupchief.presenter.events.EventListPresenter
+import pl.mobilewarsaw.meetupchief.presenter.events.MeetupGroupsPresenter
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchief.ui.events.MeetupGroupsCursorAdapter
 import pl.mobilewarsaw.meetupchief.ui.searchView.SearchView
 import uy.kohesive.injekt.injectValue
 
-class EventsListActivity : AppCompatActivity(), EventsListView {
+class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
 
-    val eventListPresenter: EventListPresenter by injectValue()
+    val meetupGroupsPresenter: MeetupGroupsPresenter by injectValue()
 
     private val floatingSearchView: SearchView by bindView(R.id.floating_search_view)
     private val groupsRecycleView: RecyclerView by bindView(R.id.meetup_groups_list)
 
-    private var meetupGroupsRecycleViewAdapter: MeetupGroupsCursorAdapter? = null
+    private val meetupGroupsRecycleViewAdapter: MeetupGroupsCursorAdapter by injectValue()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        eventListPresenter.bind(this, this)
+        meetupGroupsPresenter.bind(this, this)
 
-        floatingSearchView.onSearchListener = { query -> eventListPresenter.findMeetups(query) }
+        floatingSearchView.onSearchListener = { query -> meetupGroupsPresenter.findMeetups(query) }
 
+        setupRecycleView()
+
+        meetupGroupsPresenter.findMeetups("mobile warsaw")
+    }
+
+    private fun setupRecycleView() {
         val layoutManager = LinearLayoutManager(this)
         groupsRecycleView.layoutManager = layoutManager
-
-        eventListPresenter.findMeetups("mobile warsaw")
+        groupsRecycleView.adapter = meetupGroupsRecycleViewAdapter
     }
 
     override fun showMeetupGroups(cursor: Cursor) {
-        if (meetupGroupsRecycleViewAdapter  == null) {
-            meetupGroupsRecycleViewAdapter = MeetupGroupsCursorAdapter(cursor)
-            groupsRecycleView.adapter = meetupGroupsRecycleViewAdapter
-        } else {
-            meetupGroupsRecycleViewAdapter!!.changeCursor(cursor)
-        }
+        meetupGroupsRecycleViewAdapter!!.changeCursor(cursor)
     }
 
 }
