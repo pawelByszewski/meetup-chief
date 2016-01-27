@@ -5,8 +5,8 @@ import android.database.Cursor
 import android.net.Uri
 import pl.mobilewarsaw.meetupchief.config.injekt.MeetupChiefInjektMain
 import pl.mobilewarsaw.meetupchief.database.Database
-import pl.mobilewarsaw.meetupchief.database.EventTable
 import uy.kohesive.injekt.injectLazy
+import java.util.*
 
 
 class MeetupContentProvider : ContentProvider() {
@@ -28,13 +28,20 @@ class MeetupContentProvider : ContentProvider() {
         return true
     }
 
+    override fun applyBatch(operations: ArrayList<ContentProviderOperation>): Array<out ContentProviderResult>? {
+        val results =  super.applyBatch(operations)
+        operations.map { pickPartialContentProvider(it.uri)?.uriToNotify }
+                .distinct()
+                .filterNot { it == null }
+                .forEach { context.contentResolver.notifyChange(it, null) }
+        return results
+    }
+
     override fun insert(uri: Uri?, values: ContentValues?): Uri? {
         val partialContentProvider = pickPartialContentProvider(uri!!)
                 ?: throw UnsupportedOperationException()
 
-        val uri = partialContentProvider.insert(uri, values)
-        context.contentResolver.notifyChange(partialContentProvider.uriToNotify, null);
-        return uri
+        return partialContentProvider.insert(uri, values)
     }
 
     private fun pickPartialContentProvider(uri: Uri)

@@ -28,7 +28,7 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
         checkViewBinding()
         val cursor = context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI)
         meetupGroupsView.showMeetupGroups(cursor)
-//        cursor.setNotificationUri(context.contentResolver, MeetupGroupContentProvider.CONTENT_URI)
+        cursor.setNotificationUri(context.contentResolver, MeetupGroupContentProvider.CONTENT_URI)
         cursor.registerContentObserver( object: ContentObserver(Handler()) {
             override fun onChange(selfChange: Boolean) {
                 meetupGroupsView.showMeetupGroups(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI))
