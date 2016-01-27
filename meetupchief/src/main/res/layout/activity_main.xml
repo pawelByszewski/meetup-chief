@@ -7,16 +7,26 @@
     android:layout_height="match_parent"
     tools:context=".ui.events.EventsListActivity">
 
-    <pl.mobilewarsaw.meetupchief.ui.searchView.SearchView
-        android:id="@+id/floating_search_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/meetup_groups_list"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#eeeeee"
+        tools:listitem="@layout/meetup_group_item"/>
+
+    <pl.mobilewarsaw.meetupchief.ui.searchView.SearchView
+        android:visibility="gone"
+        android:id="@+id/floating_search_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:floatingSearch_searchBarMarginLeft="@dimen/default_padding"
         app:floatingSearch_searchBarMarginTop="@dimen/default_padding"
         app:floatingSearch_searchBarMarginRight="@dimen/default_padding"
         app:floatingSearch_searchHint="Meetup name..."
         app:floatingSearch_showSearchKey="true"
         app:floatingSearch_dismissOnOutsideTouch="true"
-        app:floatingSearch_leftActionMode="showSearch"/>
+        app:floatingSearch_leftActionMode="showSearch"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

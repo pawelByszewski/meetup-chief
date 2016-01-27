@@ -6,7 +6,9 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
+import android.util.Log
 import pl.mobilewarsaw.meetupchief.database.Database
+import pl.mobilewarsaw.meetupchief.database.EventTable
 import pl.mobilewarsaw.meetupchief.database.MeetupGroupTable
 import uy.kohesive.injekt.injectLazy
 import uy.kohesive.injekt.injectValue
@@ -20,7 +22,7 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
     }
 
     override val uriToNotify: Uri?
-        get() = throw UnsupportedOperationException()
+        get() = CONTENT_URI
 
     val databse: Database by injectLazy()
 
@@ -43,7 +45,7 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
     }
 
     override fun query(uri: Uri?, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? {
-        throw UnsupportedOperationException()
+        return databse.writableDatabase.query(MeetupGroupTable.TABLE, null, null, null, null, null, null)
     }
 
     override fun onCreate(): Boolean {

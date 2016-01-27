@@ -6,7 +6,7 @@ import android.content.ContentValues
 object EventTable {
 
     val TABLE = "meetup_event"
-    val ID = "id"
+    val ID = "_id"
     val EVENT_ID = "event_id"
     val NAME = "name"
     val ATTENDS = "attends"

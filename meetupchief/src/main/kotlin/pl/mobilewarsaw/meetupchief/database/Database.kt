@@ -7,15 +7,18 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class Database : SQLiteOpenHelper {
 
-    private constructor(context: Context) : super(context, DATABASE_NAME, null, DATABASE_VERSION)
+    private constructor(context: Context) : super(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
+    }
 
     override fun onCreate(db: SQLiteDatabase?) {
         dropAllTables(db)
         db?.execSQL(EventTable.CREATE_STATEMENT)
+        db?.execSQL(MeetupGroupTable.CREATE_STATEMENT)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        dropAllTables(db)
+        onCreate(db)
     }
 
     private fun dropAllTables(db: SQLiteDatabase?) {
@@ -24,8 +27,8 @@ class Database : SQLiteOpenHelper {
     }
 
     companion object {
+        val DATABASE_NAME = "meetup_chief"
         private val DATABASE_VERSION = 1
-        private val DATABASE_NAME = "meetup_chief"
 
         private var INSTANCE: Database? = null
 

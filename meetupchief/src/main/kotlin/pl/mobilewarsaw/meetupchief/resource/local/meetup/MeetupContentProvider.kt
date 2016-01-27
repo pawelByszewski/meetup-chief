@@ -41,7 +41,11 @@ class MeetupContentProvider : ContentProvider() {
             = contentProviders.firstOrNull { it.canHandle(uri) }
 
     override fun query(uri: Uri?, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? {
-       return databse.writableDatabase.query(EventTable.TABLE, null, null, null, null, null, null)
+        val partialContentProvider = pickPartialContentProvider(uri!!)
+                ?: throw UnsupportedOperationException()
+
+       return partialContentProvider.query(uri)
+
     }
 
     override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {

@@ -9,8 +9,8 @@ import pl.mobilewarsaw.meetupchief.resource.remote.meetup.model.Meetup
 
 object MeetupGroupTable {
 
-    val TABLE = "group"
-    val ID = "id"
+    val TABLE = "meetupGroups"
+    val ID = "_id"
     val GROUP_ID = "group_id"
     val NAME = "name"
     val MEMBERS = "members"
@@ -26,9 +26,10 @@ object MeetupGroupTable {
 
     fun createContentValues(meetup: Meetup): ContentProviderOperation {
         return ContentProviderOperation.newInsert(MeetupGroupContentProvider.CONTENT_URI)
-                .withValue(EventTable.NAME, meetup.name)
-                .withValue(EventTable.EVENT_ID, meetup.id)
-                .withValue(EventTable.ATTENDS, meetup.members)
+                .withValue(MeetupGroupTable.NAME, meetup.name)
+                .withValue(MeetupGroupTable.GROUP_ID, meetup.id)
+                .withValue(MeetupGroupTable.MEMBERS, meetup.members)
+                .withValue(MeetupGroupTable.PHOTO, meetup.photo?.url ?: "")
                 .build()
     }
 

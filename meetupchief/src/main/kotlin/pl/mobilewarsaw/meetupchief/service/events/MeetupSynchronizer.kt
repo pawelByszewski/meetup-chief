@@ -33,8 +33,8 @@ class MeetupSynchronizer : Service() {
         super.onCreate()
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        val query = intent.getStringExtra(QUERY_KEY) ?: ""
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val query = intent?.getStringExtra(QUERY_KEY) ?: ""
         if (query.isNotBlank()) {
             handleRequest(query)
         }
