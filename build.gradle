@@ -17,6 +17,7 @@ ext {
     appcompat = "com.android.support:appcompat-v7:$support_version"
     supportDesign = "com.android.support:design:$support_version"
 
+    floatingSearchView = 'com.github.arimorty:floatingsearchview:1.1.2'
 
     javaxAnnotations = 'javax.annotation:jsr250-api:1.0'
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

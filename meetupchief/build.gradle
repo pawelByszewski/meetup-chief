@@ -74,7 +74,7 @@ dependencies {
     testCompile junit4
     compile appcompat
     compile supportDesign
-    compile 'com.github.arimorty:floatingsearchview:1.1.2'
+    compile floatingSearchView
 
     compile kotlin
     compile injekt

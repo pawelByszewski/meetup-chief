@@ -18,8 +18,6 @@ class MeetupContentProvider : ContentProvider() {
         val URI_NOT_MATCH = -1
     }
 
-    val databse: Database by injectLazy()
-
     val contentProviders = arrayListOf<PartialContentProvider>()
 
     override fun onCreate(): Boolean {
@@ -30,11 +28,15 @@ class MeetupContentProvider : ContentProvider() {
 
     override fun applyBatch(operations: ArrayList<ContentProviderOperation>): Array<out ContentProviderResult>? {
         val results =  super.applyBatch(operations)
+        notifyOperationsUris(operations)
+        return results
+    }
+
+    private fun notifyOperationsUris(operations: ArrayList<ContentProviderOperation>) {
         operations.map { pickPartialContentProvider(it.uri)?.uriToNotify }
                 .distinct()
                 .filterNot { it == null }
                 .forEach { context.contentResolver.notifyChange(it, null) }
-        return results
     }
 
     override fun insert(uri: Uri?, values: ContentValues?): Uri? {
