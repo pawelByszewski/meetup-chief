@@ -4,14 +4,18 @@ import android.app.Application
 import android.content.Intent
 import pl.mobilewarsaw.meetupchief.config.injekt.MeetupChiefInjektMain
 import pl.mobilewarsaw.meetupchief.database.Database
+import pl.mobilewarsaw.meetupchief.database.DatabaseEnvironment
 import pl.mobilewarsaw.meetupchief.service.events.MeetupSynchronizer
+import uy.kohesive.injekt.injectValue
 
 
 class ChiefApplication: Application() {
 
+    private val databaseEnvironment = DatabaseEnvironment()
+
     override fun onCreate() {
         initInjektConfig()
-        deleteDatabase(Database.DATABASE_NAME);
+        databaseEnvironment.prepare(this)
         startService(Intent(this, MeetupSynchronizer::class.java))
     }
 
