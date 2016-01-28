@@ -40,7 +40,7 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
 
         setupRecycleView()
 
-//        meetupGroupsPresenter.findMeetups("mobile warsaw")
+        meetupGroupsPresenter.findMeetups("mobile warsaw")
     }
 
     private fun setupRecycleView() {
