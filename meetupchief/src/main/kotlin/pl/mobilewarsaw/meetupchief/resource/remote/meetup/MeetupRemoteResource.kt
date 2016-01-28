@@ -7,7 +7,6 @@ import retrofit.http.GET
 import retrofit.http.Query
 import rx.Observable
 
-
 interface MeetupRemoteResource {
 
     @GET("events")
