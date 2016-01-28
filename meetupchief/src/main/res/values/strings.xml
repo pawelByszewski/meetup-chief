@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Mettup Chief</string>
+    <string name="app_name">Meetup Chief</string>
+    <string name="category_label">Category</string>
+    <string name="members_label">Members</string>
 </resources>

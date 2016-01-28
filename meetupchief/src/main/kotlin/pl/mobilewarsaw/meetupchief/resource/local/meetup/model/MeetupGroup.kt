@@ -1,4 +1,4 @@
-package pl.mobilewarsaw.meetupchief.resource.local.meetup.model
+        package pl.mobilewarsaw.meetupchief.resource.local.meetup.model
 
 import android.database.Cursor
 import com.google.gson.annotations.SerializedName
@@ -9,7 +9,8 @@ import pl.mobilewarsaw.meetupchief.resource.remote.meetup.model.MeetupPhoto
 data class MeetupGroup(val groupId: String,
                        val name: String,
                        val members: Int,
-                       val photoUrl: String?) {
+                       val photoUrl: String?,
+                       val category: String) {
 
     companion object {
         fun fromCursor(cursor: Cursor): MeetupGroup {
@@ -17,7 +18,8 @@ data class MeetupGroup(val groupId: String,
                     groupId = cursor.getString(MeetupGroupTable.GROUP_ID),
                     name = cursor.getString(MeetupGroupTable.NAME),
                     members = cursor.getInt(MeetupGroupTable.MEMBERS),
-                    photoUrl = cursor.getString(MeetupGroupTable.PHOTO))
+                    photoUrl = cursor.getString(MeetupGroupTable.PHOTO),
+                    category = cursor.getString(MeetupGroupTable.CATEGORY))
         }
     }
 }

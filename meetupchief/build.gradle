@@ -76,6 +76,8 @@ dependencies {
     compile supportDesign
     compile floatingSearchView
 
+    compile picasso
+
     compile kotlin
     compile injekt
     compile kotterKnife

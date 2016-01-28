@@ -6,7 +6,10 @@ import com.google.gson.annotations.SerializedName
 data class Meetup(val id: String,
                   val name: String,
                   val members: Int,
-                  @SerializedName("group_photo") val photo: MeetupPhoto) {
+                  @SerializedName("group_photo") val photo: MeetupPhoto,
+                  val category: GroupCategory) {
 }
 
 data class MeetupPhoto(@SerializedName("photo_link") val url: String)
+
+data class GroupCategory(val name: String)

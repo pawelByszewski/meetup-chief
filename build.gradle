@@ -23,6 +23,7 @@ ext {
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     kotterKnife = 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
     ottoBus = 'com.squareup:otto:1.3.8'
+    picasso = 'com.squareup.picasso:picasso:2.5.1'
 
     retrofit = 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
     retrofitGsonConverter = 'com.squareup.retrofit:converter-gson:2.0.0-beta2'

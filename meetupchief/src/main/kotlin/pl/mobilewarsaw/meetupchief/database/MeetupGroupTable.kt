@@ -15,6 +15,7 @@ object MeetupGroupTable {
     val NAME = "name"
     val MEMBERS = "members"
     val PHOTO = "photo"
+    val CATEGORY = "category"
 
 
     val CREATE_STATEMENT: String = "create table $TABLE " +
@@ -22,6 +23,7 @@ object MeetupGroupTable {
                                     "$GROUP_ID text not null, " +
                                     "$NAME text not null, " +
                                     "$PHOTO text not null, " +
+                                    "$CATEGORY text not null, " +
                                     "$MEMBERS integer not null);"
 
     fun createContentValues(meetup: Meetup): ContentProviderOperation {
@@ -30,18 +32,24 @@ object MeetupGroupTable {
                 .withValue(MeetupGroupTable.GROUP_ID, meetup.id)
                 .withValue(MeetupGroupTable.MEMBERS, meetup.members)
                 .withValue(MeetupGroupTable.PHOTO, meetup.photo?.url ?: "")
+                .withValue(MeetupGroupTable.CATEGORY, meetup.category?.name ?: "")
                 .build()
     }
 
-    fun createInsertStatement(groupId: String, name: String, members: Int, photoUrl: String)
-            = "INSERT INTO TABLE $TABLE ($GROUP_ID, $NAME, $MEMBERS, $PHOTO) " +
-                "VALUES ($groupId, $name, $members, $photoUrl);"
+    fun createInsertStatement(groupId: String,
+                              name: String,
+                              members: Int,
+                              photoUrl: String,
+                              category: String)
+            = "INSERT INTO TABLE $TABLE ($GROUP_ID, $NAME, $MEMBERS, $PHOTO, $CATEGORY) " +
+                "VALUES ($groupId, $name, $members, $photoUrl, $category);"
 
     fun createInsertStatement(values: ContentValues)
         = createInsertStatement(groupId = values.getAsString(GROUP_ID),
                                     name = values.getAsString(NAME),
                                     members = values.getAsInteger(MEMBERS),
-                                    photoUrl = values.getAsString(PHOTO))
+                                    photoUrl = values.getAsString(PHOTO),
+                                    category = values.getAsString(CATEGORY))
 
 
 }
