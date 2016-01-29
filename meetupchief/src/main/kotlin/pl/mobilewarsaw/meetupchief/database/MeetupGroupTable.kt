@@ -51,5 +51,9 @@ object MeetupGroupTable {
                                     photoUrl = values.getAsString(PHOTO),
                                     category = values.getAsString(CATEGORY))
 
+    fun createDeleteAllOperation(): ContentProviderOperation
+        = ContentProviderOperation.newDelete(MeetupGroupContentProvider.CONTENT_URI).build()
+
+
 
 }

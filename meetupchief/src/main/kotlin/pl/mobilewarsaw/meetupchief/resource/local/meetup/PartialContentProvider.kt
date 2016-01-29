@@ -12,6 +12,8 @@ interface PartialContentProvider {
 
     fun insert(uri: Uri?, values: ContentValues?): Uri?
 
+    fun delete(uri: Uri?): Int
+
     fun query(uri: Uri?,
               projection: Array<out String>? = null,
               selection: String? = null,

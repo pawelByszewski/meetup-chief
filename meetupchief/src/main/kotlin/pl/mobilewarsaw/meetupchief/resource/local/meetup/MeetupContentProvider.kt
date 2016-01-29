@@ -62,7 +62,10 @@ class MeetupContentProvider : ContentProvider() {
     }
 
     override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int {
-        throw UnsupportedOperationException()
+        val partialContentProvider = pickPartialContentProvider(uri!!)
+                ?: throw UnsupportedOperationException()
+
+        return partialContentProvider.delete(uri)
     }
 
     override fun getType(uri: Uri?): String?

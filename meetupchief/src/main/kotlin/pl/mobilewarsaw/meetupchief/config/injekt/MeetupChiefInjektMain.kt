@@ -1,10 +1,7 @@
 package pl.mobilewarsaw.meetupchief.config.injekt
 
 import android.content.Context
-import pl.mobilewarsaw.meetupchief.config.injekt.module.DatabaseModule
-import pl.mobilewarsaw.meetupchief.config.injekt.module.MeetupApiModule
-import pl.mobilewarsaw.meetupchief.config.injekt.module.PicassoModule
-import pl.mobilewarsaw.meetupchief.config.injekt.module.PresentersModule
+import pl.mobilewarsaw.meetupchief.config.injekt.module.*
 import uy.kohesive.injekt.InjektMain
 import uy.kohesive.injekt.api.InjektRegistrar
 
@@ -18,6 +15,7 @@ class MeetupChiefInjektMain(val context: Context){
                     importModule(PresentersModule())
                     importModule(DatabaseModule(context))
                     importModule(PicassoModule(context))
+                    importModule(RepositoryModule(context))
                 }
             })
         }

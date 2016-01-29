@@ -1,7 +1,10 @@
 package pl.touk.android.basil
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.res.TypedArray
+import android.database.Cursor
+import android.net.Uri
 import android.support.v4.app.Fragment
 import android.view.View
 import kotlin.properties.ReadOnlyProperty
@@ -59,4 +62,8 @@ inline fun TypedArray.recycleAfter(operation: TypedArray.() -> Unit) {
         recycle()
     }
 }
+
+
+inline fun ContentResolver.query(uri: Uri): Cursor
+        = query(uri, null, null, null, null)
 

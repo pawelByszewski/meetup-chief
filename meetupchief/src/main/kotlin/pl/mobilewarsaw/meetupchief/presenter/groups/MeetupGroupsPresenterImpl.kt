@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupGroupContentProvider
+import pl.mobilewarsaw.meetupchief.resource.local.meetup.repository.GroupRepository
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupRemoteResource
 import pl.mobilewarsaw.meetupchief.service.events.MeetupSynchronizer
 import pl.mobilewarsaw.meetupchief.ui.groups.MeetupGroupsView
@@ -24,7 +25,12 @@ const val QUERY_KEY ="query"
 class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
 
     lateinit private var context: Context
+    private val groupRepository: GroupRepository by injectValue()
+
     private var meetupGroupsView: MeetupGroupsView? = null
+    private var currentQuery: String? = null
+
+
 
     override fun bind(context: Context, meetupGroupsView: MeetupGroupsView,
                       savedInstanceState: Bundle?) {
@@ -32,18 +38,21 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
         this.meetupGroupsView = meetupGroupsView
 
         registerUriObserver(MeetupGroupContentProvider.CONTENT_URI) {
-            Observable.just(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { cursor -> meetupGroupsView.showMeetupGroups(cursor) }
+            showAllGroups()
         }
 
+        restoreState(savedInstanceState)
+    }
+
+    private fun showAllGroups() {
+        groupRepository.fetchAllGroups { cursor: Cursor -> meetupGroupsView?.showMeetupGroups(cursor) }
+    }
+
+    private fun restoreState(savedInstanceState: Bundle?) {
         val shouldRestoreQuery = savedInstanceState?.getBoolean(RESTORE_KEY, false) ?: false
         if (shouldRestoreQuery) {
-            Observable.just(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { cursor -> meetupGroupsView.showMeetupGroups(cursor) }
+            currentQuery = savedInstanceState?.getString(RESTORE_QUERY)
+            showAllGroups()
         }
     }
 
@@ -56,6 +65,7 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
 
     override fun findMeetups(query: String) {
         checkViewBinding()
+        currentQuery = query
         val intent = Intent(context, MeetupSynchronizer::class.java)
         intent.putExtra(QUERY_KEY, query)
         context.startService(intent)
@@ -66,8 +76,12 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
             throw IllegalStateException("A view must be binded to the presenter")
         }
     }
+
+    override fun refreshGroups() {
+        val query = currentQuery ?: null
+        if (query != null) {
+            findMeetups(query)
+        }
+    }
 }
 
-//TODO to basil
-inline fun ContentResolver.query(uri: Uri): Cursor
-        = query(uri, null, null, null, null)

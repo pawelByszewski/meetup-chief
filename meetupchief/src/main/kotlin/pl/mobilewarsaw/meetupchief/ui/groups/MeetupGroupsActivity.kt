@@ -14,6 +14,7 @@ import pl.mobilewarsaw.meetupchief.R
 import pl.mobilewarsaw.meetupchief.ui.searchview.SearchView
 import pl.mobilewarsaw.meetupchief.presenter.groups.MeetupGroupsPresenter
 import pl.mobilewarsaw.meetupchief.presenter.groups.RESTORE_KEY
+import pl.mobilewarsaw.meetupchief.presenter.groups.RESTORE_QUERY
 import uy.kohesive.injekt.injectValue
 
 class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
@@ -28,6 +29,8 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
 
     private val meetupGroupsRecycleViewAdapter: MeetupGroupsCursorAdapter by injectValue()
 
+    private var showedQuery: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meetup_groups)
@@ -36,20 +39,19 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         meetupGroupsPresenter.bind(this, this, savedInstanceState)
         setupRecycleView()
 
-        searchView.onSearch = { query -> meetupGroupsPresenter.findMeetups(query) }
+        searchView.onSearch = { query ->
+            showedQuery = query
+            meetupGroupsPresenter.findMeetups(query) }
 
         swipeRefreshLayout.setOnRefreshListener {
-            refreshAllEvents()
+            meetupGroupsPresenter.refreshGroups()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putBoolean(RESTORE_KEY, true)
+        outState?.putString(RESTORE_QUERY, showedQuery)
         super.onSaveInstanceState(outState)
-    }
-
-    private fun refreshAllEvents() {
-        meetupGroupsPresenter.findMeetups("mobile warsaw")
     }
 
     private fun setupRecycleView() {

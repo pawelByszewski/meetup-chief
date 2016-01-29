@@ -7,8 +7,10 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import pl.mobilewarsaw.meetupchief.database.MeetupGroupTable
+import pl.mobilewarsaw.meetupchief.presenter.groups.MeetupGroupsPresenter
 import pl.mobilewarsaw.meetupchief.presenter.groups.QUERY_KEY
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupContentProvider
+import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupRemoteResource
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.model.Meetup
 import rx.Observable
@@ -36,14 +38,17 @@ class MeetupSynchronizer : Service() {
     }
 
     private fun handleRequest(query: String) {
-        val inserts = arrayListOf<ContentProviderOperation>()
+        val databaseOperation = arrayListOf<ContentProviderOperation>()
         meetupRemoteResource.findGroup(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMap { meetups -> Observable.from(meetups) }
-                .subscribe({  meetup: Meetup -> inserts.add(MeetupGroupTable.createContentValues(meetup)) },
+                .subscribe({  meetup: Meetup -> databaseOperation.add(MeetupGroupTable.createContentValues(meetup)) },
                         { Log.e("MeetupSynchronizer", "Fail to find groups", it) },
-                        { contentResolver.applyBatch(MeetupContentProvider.AUTHORITY, inserts) }
+                        {
+                            databaseOperation.add(0, MeetupGroupTable.createDeleteAllOperation())
+                            contentResolver.applyBatch(MeetupContentProvider.AUTHORITY, databaseOperation)
+                        }
                 )
     }
 

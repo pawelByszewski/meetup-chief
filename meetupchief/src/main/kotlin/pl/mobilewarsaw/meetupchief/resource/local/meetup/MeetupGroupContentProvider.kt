@@ -35,7 +35,8 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
         }
 
     //TODO to basil
-    override fun canHandle(uri: Uri) = uriMatcher.match(uri) != MeetupContentProvider.URI_NOT_MATCH
+    override fun canHandle(uri: Uri)
+            = uriMatcher.match(uri) != MeetupContentProvider.URI_NOT_MATCH
 
     override fun insert(uri: Uri?, values: ContentValues?): Uri? {
         val id = databse.writableDatabase.insertWithOnConflict(MeetupGroupTable.TABLE, null,
@@ -43,9 +44,11 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
         return Uri.parse("content://${MeetupContentProvider.AUTHORITY}/$PATH/$id")
     }
 
-    override fun query(uri: Uri?, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? {
-        return databse.writableDatabase.query(MeetupGroupTable.TABLE, null, null, null, null, null, null)
-    }
+    override fun query(uri: Uri?, projection: Array<out String>?,
+                       selection: String?, selectionArgs: Array<out String>?,
+                       sortOrder: String?): Cursor?
+        = databse.writableDatabase.query(MeetupGroupTable.TABLE, null, null, null, null, null, null)
+
 
     override fun onCreate(): Boolean {
         throw UnsupportedOperationException()
@@ -55,9 +58,13 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
         throw UnsupportedOperationException()
     }
 
-    override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int {
-        throw UnsupportedOperationException()
-    }
+
+    override fun delete(uri: Uri?): Int
+        =  delete(uri, null, null)
+
+    override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int
+        = databse.writableDatabase.delete(MeetupGroupTable.TABLE, selection, selectionArgs)
+
 
     override fun getType(uri: Uri?): String? {
         return when (uriMatcher.match(uri)) {
