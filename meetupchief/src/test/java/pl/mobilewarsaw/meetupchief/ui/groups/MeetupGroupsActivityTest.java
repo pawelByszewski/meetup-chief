@@ -1,8 +1,7 @@
-package pl.mobilewarsaw.meetupchief.ui.events;
+package pl.mobilewarsaw.meetupchief.ui.groups;
 
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.view.View;
 
 import org.junit.Before;
 import org.junit.Test;

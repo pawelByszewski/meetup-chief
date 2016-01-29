@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import pl.mobilewarsaw.meetupchief.database.MeetupGroupTable
-import pl.mobilewarsaw.meetupchief.presenter.events.QUERY_KEY
+import pl.mobilewarsaw.meetupchief.presenter.groups.QUERY_KEY
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupContentProvider
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupRemoteResource
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.model.Meetup

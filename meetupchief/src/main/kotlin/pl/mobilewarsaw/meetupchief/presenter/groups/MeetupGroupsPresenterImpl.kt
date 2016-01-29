@@ -1,4 +1,4 @@
-package pl.mobilewarsaw.meetupchief.presenter.events
+package pl.mobilewarsaw.meetupchief.presenter.groups
 
 import android.content.ContentResolver
 import android.content.Context
@@ -6,12 +6,13 @@ import android.content.Intent
 import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
+import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupRemoteResource
 import pl.mobilewarsaw.meetupchief.service.events.MeetupSynchronizer
-import pl.mobilewarsaw.meetupchief.ui.events.MeetupGroupsView
+import pl.mobilewarsaw.meetupchief.ui.groups.MeetupGroupsView
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -25,7 +26,8 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
     lateinit private var context: Context
     private var meetupGroupsView: MeetupGroupsView? = null
 
-    override fun bind(context: Context, meetupGroupsView: MeetupGroupsView) {
+    override fun bind(context: Context, meetupGroupsView: MeetupGroupsView,
+                      savedInstanceState: Bundle?) {
         this.context = context
         this.meetupGroupsView = meetupGroupsView
 
@@ -34,6 +36,14 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe { cursor -> meetupGroupsView.showMeetupGroups(cursor) }
+        }
+
+        val shouldRestoreQuery = savedInstanceState?.getBoolean(RESTORE_KEY, false) ?: false
+        if (shouldRestoreQuery) {
+            Observable.just(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { cursor -> meetupGroupsView.showMeetupGroups(cursor) }
         }
     }
 

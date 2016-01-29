@@ -1,8 +1,9 @@
-package pl.mobilewarsaw.meetupchief.ui.events
+package pl.mobilewarsaw.meetupchief.ui.groups
 
 import android.database.Cursor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,7 +12,8 @@ import butterknife.bindView
 
 import pl.mobilewarsaw.meetupchief.R
 import pl.mobilewarsaw.meetupchief.ui.searchview.SearchView
-import pl.mobilewarsaw.meetupchief.presenter.events.MeetupGroupsPresenter
+import pl.mobilewarsaw.meetupchief.presenter.groups.MeetupGroupsPresenter
+import pl.mobilewarsaw.meetupchief.presenter.groups.RESTORE_KEY
 import uy.kohesive.injekt.injectValue
 
 class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
@@ -31,7 +33,7 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         setContentView(R.layout.activity_meetup_groups)
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
 
-        meetupGroupsPresenter.bind(this, this)
+        meetupGroupsPresenter.bind(this, this, savedInstanceState)
         setupRecycleView()
 
         searchView.onSearch = { query -> meetupGroupsPresenter.findMeetups(query) }
@@ -39,6 +41,11 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         swipeRefreshLayout.setOnRefreshListener {
             refreshAllEvents()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putBoolean(RESTORE_KEY, true)
+        super.onSaveInstanceState(outState)
     }
 
     private fun refreshAllEvents() {

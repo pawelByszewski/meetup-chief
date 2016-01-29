@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteCursor;
 import android.net.Uri;
 
 import org.junit.Test;
@@ -12,9 +11,9 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
 import org.robolectric.RobolectricTestRunner;
 
-import pl.mobilewarsaw.meetupchief.presenter.events.MeetupGroupsPresenter;
-import pl.mobilewarsaw.meetupchief.presenter.events.MeetupGroupsPresenterImpl;
-import pl.mobilewarsaw.meetupchief.ui.events.MeetupGroupsView;
+import pl.mobilewarsaw.meetupchief.presenter.groups.MeetupGroupsPresenter;
+import pl.mobilewarsaw.meetupchief.presenter.groups.MeetupGroupsPresenterImpl;
+import pl.mobilewarsaw.meetupchief.ui.groups.MeetupGroupsView;
 
 import static com.googlecode.catchexception.CatchException.catchException;
 import static com.googlecode.catchexception.CatchException.caughtException;
@@ -46,7 +45,7 @@ public class MeetupGroupsPresenterImplTest {
         MeetupGroupsView meetupGroupView = mock(MeetupGroupsView.class);
         mockContentResolverMechanism(context);
 
-        presenter.bind(context, meetupGroupView);
+        presenter.bind(context, meetupGroupView, savedInstanceState);
 
         //when
         presenter.findMeetups("mobile");
@@ -74,7 +73,7 @@ public class MeetupGroupsPresenterImplTest {
         MeetupGroupsView meetupGroupView = mock(MeetupGroupsView.class);
         Cursor curosr = mockContentResolverMechanism(context);
 
-        presenter.bind(context, meetupGroupView);
+        presenter.bind(context, meetupGroupView, savedInstanceState);
         presenter.findMeetups("mobile");
 
         //when

@@ -1,4 +1,4 @@
-package pl.mobilewarsaw.meetupchief.ui.events
+package pl.mobilewarsaw.meetupchief.ui.groups
 
 import android.database.Cursor
 import android.support.v7.widget.RecyclerView

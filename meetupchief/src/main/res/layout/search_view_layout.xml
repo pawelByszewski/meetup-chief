@@ -38,6 +38,7 @@
             android:layout_toRightOf="@+id/search_bar_left_action_container"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
+            android:focusableInTouchMode="true"
             android:layout_centerInParent="true">
 
             <EditText
@@ -51,7 +52,9 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:inputType="textNoSuggestions"
-                android:imeOptions="actionSearch"/>
+                android:imeOptions="actionSearch"
+                android:nextFocusUp="@id/search_bar_text"
+                android:nextFocusLeft="@id/search_bar_text"/>
 
         </FrameLayout>
 
