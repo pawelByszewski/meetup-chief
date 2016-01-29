@@ -16,6 +16,7 @@ ext {
 
     appcompat = "com.android.support:appcompat-v7:$support_version"
     supportDesign = "com.android.support:design:$support_version"
+    cardview = "com.android.support:cardview-v7:23.1.0"
 
     floatingSearchView = 'com.github.arimorty:floatingsearchview:1.1.2'
 
@@ -33,14 +34,18 @@ ext {
     rxjavaAndroid = 'io.reactivex:rxandroid:1.0.1'
     rxjavaAsyncUtils = 'io.reactivex:rxjava-async-util:0.21.0'
     injekt = 'uy.kohesive.injekt:injekt-core:1.8.+'
-    multidex = 'com.android.support:multidex:1.0.0'
+    multidex = "com.android.support:multidex:1.0.1"
     okHttpLoggingInterceptor = 'com.squareup.okhttp:logging-interceptor:2.6.0'
 
     // tests
     assertj = 'org.assertj:assertj-core:1.7.0'
+    fest_assert_core = "org.easytesting:fest-assert-core:2.0M10"
+    fest_reflect = "org.easytesting:fest-reflect:1.4.1"
+    fest_android = "com.squareup:fest-android:1.0.8"
     junit4 = 'junit:junit:4.12'
     mockito = 'org.mockito:mockito-all:1.10.19'
-    robolectric = 'org.robolectric:robolectric:2.4'
+    robolectric = 'org.robolectric:robolectric:3.0'
+    robolectric_shadows = "org.robolectric:shadows-support-v4:3.0"
     hamcrestIntegration = 'org.hamcrest:hamcrest-integration:1.1'
     hamcrestCore = 'org.hamcrest:hamcrest-core:1.1'
     hamcrestLibrary = 'org.hamcrest:hamcrest-library:1.1'

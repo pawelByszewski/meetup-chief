@@ -2,4 +2,7 @@
     <string name="app_name">Meetup Chief</string>
     <string name="category_label">Category</string>
     <string name="members_label">Members</string>
+    <string name="groups_error_view">Try with another name</string>
+    <string name="grups_empty_view">Find your meetup</string>
+    <string name="search_group_hint">meetup name...</string>
 </resources>

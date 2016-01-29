@@ -12,6 +12,7 @@ import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupGroupContentProvi
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupRemoteResource
 import pl.mobilewarsaw.meetupchief.service.events.MeetupSynchronizer
 import pl.mobilewarsaw.meetupchief.ui.events.MeetupGroupsView
+import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import uy.kohesive.injekt.injectValue
@@ -22,19 +23,29 @@ const val QUERY_KEY ="query"
 class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
 
     lateinit private var context: Context
-    private var meetupGroupsView: MeetupGroupsView by Delegates.notNull()
+    private var meetupGroupsView: MeetupGroupsView? = null
+
+    override fun bind(context: Context, meetupGroupsView: MeetupGroupsView) {
+        this.context = context
+        this.meetupGroupsView = meetupGroupsView
+
+        registerUriObserver(MeetupGroupContentProvider.CONTENT_URI) {
+            Observable.just(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe { cursor -> meetupGroupsView.showMeetupGroups(cursor) }
+        }
+    }
+
+    private fun registerUriObserver(uri: Uri, action: () -> Unit) {
+        this.context.contentResolver.registerContentObserver(uri, true,
+                object : ContentObserver(Handler()) {
+                    override fun onChange(selfChange: Boolean) = action()
+                })
+    }
 
     override fun findMeetups(query: String) {
         checkViewBinding()
-        val cursor = context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI)
-        meetupGroupsView.showMeetupGroups(cursor)
-        cursor.setNotificationUri(context.contentResolver, MeetupGroupContentProvider.CONTENT_URI)
-        cursor.registerContentObserver( object: ContentObserver(Handler()) {
-            override fun onChange(selfChange: Boolean) {
-                meetupGroupsView.showMeetupGroups(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI))
-            }
-        })
-
         val intent = Intent(context, MeetupSynchronizer::class.java)
         intent.putExtra(QUERY_KEY, query)
         context.startService(intent)
@@ -44,11 +55,6 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
         if (meetupGroupsView == null) {
             throw IllegalStateException("A view must be binded to the presenter")
         }
-    }
-
-    override fun bind(context: Context, meetupGroupsView: MeetupGroupsView) {
-        this.context = context
-        this.meetupGroupsView = meetupGroupsView
     }
 }
 

@@ -20,7 +20,7 @@ object MeetupGroupTable {
 
     val CREATE_STATEMENT: String = "create table $TABLE " +
                                     "($ID integer primary key autoincrement, " +
-                                    "$GROUP_ID text not null, " +
+                                    "$GROUP_ID text not null unique, " +
                                     "$NAME text not null, " +
                                     "$PHOTO text not null, " +
                                     "$CATEGORY text not null, " +

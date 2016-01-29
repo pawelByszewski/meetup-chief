@@ -5,13 +5,11 @@ import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
-import android.util.Log
 import pl.mobilewarsaw.meetupchief.database.Database
-import pl.mobilewarsaw.meetupchief.database.EventTable
 import pl.mobilewarsaw.meetupchief.database.MeetupGroupTable
 import uy.kohesive.injekt.injectLazy
-import uy.kohesive.injekt.injectValue
 
 
 class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
@@ -30,7 +28,7 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
         get() {
             val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
             uriMatcher.addURI(MeetupContentProvider.AUTHORITY,
-                                "groups", MeetupContentProvider.DIR_PATH)
+                                PATH, MeetupContentProvider.DIR_PATH)
             uriMatcher.addURI(MeetupContentProvider.AUTHORITY, "$PATH/#",
                                 MeetupContentProvider.ITEM_PATH)
             return uriMatcher
@@ -40,7 +38,8 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
     override fun canHandle(uri: Uri) = uriMatcher.match(uri) != MeetupContentProvider.URI_NOT_MATCH
 
     override fun insert(uri: Uri?, values: ContentValues?): Uri? {
-        val id = databse.writableDatabase.insert(MeetupGroupTable.TABLE, null, values)
+        val id = databse.writableDatabase.insertWithOnConflict(MeetupGroupTable.TABLE, null,
+                values, SQLiteDatabase.CONFLICT_REPLACE)
         return Uri.parse("content://${MeetupContentProvider.AUTHORITY}/$PATH/$id")
     }
 

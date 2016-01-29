@@ -10,6 +10,7 @@
     <color name="accentPressed">#afb72a</color>
     <color name="lightPrimary">#33ff5253</color>
     <color name="very_dark_light_transparent_grey">#88464646</color>
+    <color name="transparent">#00ffffff</color>
 
     <color name="listing_bacground">#dedede</color>
     <color name="camera_preview_background">#212121</color>

@@ -46,7 +46,6 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
     }
 
     sourceSets {
@@ -74,7 +73,7 @@ dependencies {
     testCompile junit4
     compile appcompat
     compile supportDesign
-    compile floatingSearchView
+    compile cardview
 
     compile picasso
 
@@ -100,6 +99,11 @@ dependencies {
     testCompile hamcrestCore
     testCompile hamcrestLibrary
     testCompile assertj
+    testCompile fest_assert_core
+    testCompile fest_reflect
+    testCompile(fest_android) {
+        exclude(module: 'support-v4')
+    }
     testCompile catchException
     testCompile(robolectric) {
         exclude module: 'classworlds'
@@ -118,5 +122,7 @@ dependencies {
         exclude module: 'wagon-http-lightweight'
         exclude module: 'wagon-provider-api'
     }
-
+    testCompile robolectric_shadows
 }
+
+apply from: "${rootDir}/gradle/fixTestJavaResourcesMissing.gradle"
