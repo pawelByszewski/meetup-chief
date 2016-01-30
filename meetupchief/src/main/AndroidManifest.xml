@@ -11,18 +11,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".config.ChiefApplication">
-        <activity android:name=".ui.events.EventsListActivity" >
+        <activity android:name=".ui.groups.MeetupGroupsActivity"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <service android:name=".service.events.MeetupEventsSynchronizer"/>
+        <service android:name=".service.events.MeetupSynchronizer"/>
 
-        <provider android:name=".resource.local.meetup.MeetupEventContentProvider"
-            android:authorities="pl.mobilewarsaw.meetupchief.events">
+        <provider android:name=".resource.local.meetup.MeetupContentProvider"
+            android:authorities="pl.mobilewarsaw.meetupchief">
         </provider>
     </application>
 

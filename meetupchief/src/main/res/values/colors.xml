@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+
+    <color name="black_overlay">#66000000</color>
+    <color name="colorPrimary">#ff5253</color>
+    <color name="colorPrimaryDark">#b6393a</color>
+    <color name="colorAccent">#cddc39</color>
+    <color name="accentRipple">#cddc39</color>
+    <color name="accentPressed">#afb72a</color>
+    <color name="lightPrimary">#33ff5253</color>
+    <color name="very_dark_light_transparent_grey">#88464646</color>
+    <color name="transparent">#00ffffff</color>
+
+    <color name="listing_bacground">#dedede</color>
+    <color name="camera_preview_background">#212121</color>
+
+    <color name="listing_item_pressed_background">#77aa22</color>
+
+    <color name="card_name_background">#33000000</color>
+    <color name="card_name">#FFFFFF</color>
+    <color name="card_font_light">@color/font_light</color>
+    <color name="card_font_normal">@color/font_normal</color>
+
+    <color name="font_light">#AAAAAA</color>
+    <color name="font_normal">#333333</color>
 </resources>

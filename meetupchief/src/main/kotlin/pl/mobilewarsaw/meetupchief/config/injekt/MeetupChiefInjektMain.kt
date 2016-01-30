@@ -1,21 +1,23 @@
 package pl.mobilewarsaw.meetupchief.config.injekt
 
-import pl.mobilewarsaw.meetupchief.config.injekt.module.MeetupApiModule
-import pl.mobilewarsaw.meetupchief.config.injekt.module.PresentersModule
+import android.content.Context
+import pl.mobilewarsaw.meetupchief.config.injekt.module.*
 import uy.kohesive.injekt.InjektMain
 import uy.kohesive.injekt.api.InjektRegistrar
 
-
-class MeetupChiefInjektMain : InjektMain() {
+class MeetupChiefInjektMain(val context: Context){
 
     companion object {
-        fun init() {
-            MeetupChiefInjektMain()
+        fun init(context: Context) {
+            (object : InjektMain() {
+                override fun InjektRegistrar.registerInjectables() {
+                    importModule(MeetupApiModule())
+                    importModule(PresentersModule())
+                    importModule(DatabaseModule(context))
+                    importModule(PicassoModule(context))
+                    importModule(RepositoryModule(context))
+                }
+            })
         }
-    }
-
-    override fun InjektRegistrar.registerInjectables() {
-        importModule(MeetupApiModule())
-        importModule(PresentersModule())
     }
 }
