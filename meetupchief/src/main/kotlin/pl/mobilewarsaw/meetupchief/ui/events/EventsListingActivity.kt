@@ -11,7 +11,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import android.widget.ImageView
 import butterknife.bindView
+import com.squareup.picasso.Picasso
 import pl.mobilewarsaw.meetupchief.R
 import pl.mobilewarsaw.meetupchief.presenter.events.EventsListingPresenter
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.model.MeetupGroup
@@ -20,13 +22,16 @@ import uy.kohesive.injekt.injectValue
 
 const val GROUP_URL_NAME_KEY = "urlname"
 const val GROUP_NAME_KEY = "groupName"
+const val GROUP_PHOTO = "groupPhoto"
 
 class EventsListingActivity : AppCompatActivity(), EventsListingView {
 
     private val toolbar: Toolbar by bindView(R.id.toolbar)
     private val eventsListing: RecyclerView by bindView(R.id.meetup_events_list)
+    private val toolbarImage: ImageView by bindView(R.id.toolbar_image)
     private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.swipe_container)
     private val presenter: EventsListingPresenter by injectValue()
+    private val picasso: Picasso by injectValue()
 
     private val eventsRecycleViewAdapter: MeetupEventCursorAdapter by injectValue()
 
@@ -35,6 +40,7 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
             val intent = Intent(context, EventsListingActivity::class.java)
             intent.putExtra(GROUP_URL_NAME_KEY, meetupGroup.urlName)
             intent.putExtra(GROUP_NAME_KEY, meetupGroup.name)
+            intent.putExtra(GROUP_PHOTO, meetupGroup.photoUrl)
             return intent
         }
     }
@@ -50,8 +56,31 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
         swipeRefreshLayout.setOnRefreshListener {
             presenter.refreshEvents()
         }
+//        showGroupPhoto(null)
 
         presenter.bind(this, this)
+    }
+
+    override fun showGroupPhoto(photoUrl: String?) {
+        if (photoUrl.isNullOrBlank()) {
+            showPlaceHolder()
+        } else {
+            showImage(photoUrl!!    )
+        }
+    }
+
+    private fun showPlaceHolder() {
+        picasso.load(R.drawable.card_image_empty_view)
+                .fit()
+                .centerCrop()
+                .into(toolbarImage)
+    }
+
+    private fun showImage(pictureUrl: String) {
+        picasso.load(pictureUrl)
+                .fit()
+                .centerCrop()
+                .into(toolbarImage)
     }
 
     private fun setupRecycleView() {

@@ -10,10 +10,7 @@ import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupEventContentProvi
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.repository.EventRepository
 import pl.mobilewarsaw.meetupchief.service.MeetupSynchronizer
 import pl.mobilewarsaw.meetupchief.service.model.MeetupSynchronizerQuery
-import pl.mobilewarsaw.meetupchief.ui.events.EventsListingView
-import pl.mobilewarsaw.meetupchief.ui.events.GROUP_NAME_KEY
-import pl.mobilewarsaw.meetupchief.ui.events.GROUP_URL_NAME_KEY
-import pl.mobilewarsaw.meetupchief.ui.events.MeetuGroupInitData
+import pl.mobilewarsaw.meetupchief.ui.events.*
 import uy.kohesive.injekt.injectValue
 
 
@@ -35,8 +32,13 @@ class EventListingPresenterImpl : EventsListingPresenter {
         registerUriObserver(MeetupEventContentProvider.CONTENT_URI) {
             showEvents()
         }
+        showMeetupGroupImage()
         eventsListingView.showProgressBar()
         synchronizeEvents()
+    }
+
+    private fun showMeetupGroupImage() {
+        eventsListingView.showGroupPhoto(meetuGroupInitData.photoUrl)
     }
 
     private fun synchronizeEvents() {
@@ -52,7 +54,8 @@ class EventListingPresenterImpl : EventsListingPresenter {
 
     private fun extractInitData()
         = MeetuGroupInitData(urlName = eventsListingView.getIntent().getStringExtra(GROUP_URL_NAME_KEY),
-                             name = eventsListingView.getIntent().getStringExtra(GROUP_NAME_KEY))
+                             name = eventsListingView.getIntent().getStringExtra(GROUP_NAME_KEY),
+                             photoUrl = eventsListingView.getIntent().getStringExtra(GROUP_PHOTO))
 
     private fun showEvents() {
         eventRepository.fetchEvents(meetuGroupInitData.urlName) { cursor: Cursor -> eventsListingView?.showEvents(cursor) }

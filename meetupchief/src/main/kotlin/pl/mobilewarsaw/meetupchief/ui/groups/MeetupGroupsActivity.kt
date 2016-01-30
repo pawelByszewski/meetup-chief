@@ -3,10 +3,10 @@ package pl.mobilewarsaw.meetupchief.ui.groups
 import android.database.Cursor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.View
 import butterknife.bindView
 import com.squareup.otto.Bus
@@ -17,7 +17,6 @@ import pl.mobilewarsaw.meetupchief.ui.searchview.SearchView
 import pl.mobilewarsaw.meetupchief.presenter.groups.MeetupGroupsPresenter
 import pl.mobilewarsaw.meetupchief.presenter.groups.RESTORE_KEY
 import pl.mobilewarsaw.meetupchief.presenter.groups.RESTORE_QUERY
-import pl.mobilewarsaw.meetupchief.ui.events.EventsListingActivity
 import pl.mobilewarsaw.meetupchief.ui.groups.bus.GroupClicked
 import pl.touk.android.basil.hide
 import pl.touk.android.basil.show
@@ -27,12 +26,12 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
 
     protected val emptyView: View by bindView(R.id.empty_view)
     protected val errorView: View by bindView(R.id.error_view)
-
-    private val meetupGroupsPresenter: MeetupGroupsPresenter by injectValue()
     private val searchView: SearchView by bindView(R.id.search_view)
     private val groupsRecycleView: RecyclerView by bindView(R.id.meetup_groups_list)
     private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.swipe_container)
+    private val toolbar: Toolbar by bindView(R.id.toolbar)
 
+    private val meetupGroupsPresenter: MeetupGroupsPresenter by injectValue()
     private val meetupGroupsRecycleViewAdapter: MeetupGroupsCursorAdapter by injectValue()
     private val bus: Bus by injectValue()
 
@@ -55,6 +54,12 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         }
 
         bus.register(this)
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar);
+        supportActionBar.setDisplayHomeAsUpEnabled(false);
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

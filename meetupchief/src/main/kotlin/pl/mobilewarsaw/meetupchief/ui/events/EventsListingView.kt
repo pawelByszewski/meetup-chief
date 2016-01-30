@@ -12,4 +12,6 @@ interface EventsListingView {
     fun showEvents(cursor: Cursor)
 
     fun showProgressBar()
+
+    fun showGroupPhoto(photoUrl: String?)
 }
