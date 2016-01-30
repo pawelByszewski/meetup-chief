@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import pl.mobilewarsaw.meetupchief.config.injekt.MeetupChiefInjektMain
 import pl.mobilewarsaw.meetupchief.database.DatabaseEnvironment
-import pl.mobilewarsaw.meetupchief.service.events.MeetupSynchronizer
+import pl.mobilewarsaw.meetupchief.service.MeetupSynchronizer
 
 
 class ChiefApplication: Application() {

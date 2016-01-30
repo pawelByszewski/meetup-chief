@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class Meetup(val id: String,
                   val name: String,
                   val members: Int,
+                  @SerializedName("urlname") val urlName: String,
                   @SerializedName("group_photo") val photo: MeetupPhoto,
                   val category: GroupCategory) {
 }

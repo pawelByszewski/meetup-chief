@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme"
         android:name=".config.ChiefApplication">
         <activity android:name=".ui.groups.MeetupGroupsActivity"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,10 +20,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.events.EventsListingActivity"/>
+        <activity android:name=".ui.events.EventsListingActivity"
+            android:parentActivityName=".ui.groups.MeetupGroupsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.groups.MeetupGroupsActivity" />
+        </activity>
 
 
-        <service android:name=".service.events.MeetupSynchronizer"/>
+        <service android:name=".service.MeetupSynchronizer"/>
 
         <provider android:name=".resource.local.meetup.MeetupContentProvider"
             android:authorities="pl.mobilewarsaw.meetupchief">

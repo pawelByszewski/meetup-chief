@@ -8,21 +8,15 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.repository.GroupRepository
-import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupRemoteResource
-import pl.mobilewarsaw.meetupchief.service.events.MeetupSynchronizer
+import pl.mobilewarsaw.meetupchief.service.MeetupSynchronizer
+import pl.mobilewarsaw.meetupchief.service.model.MeetupSynchronizerQuery
 import pl.mobilewarsaw.meetupchief.ui.events.EventsListingActivity
 import pl.mobilewarsaw.meetupchief.ui.groups.MeetupGroupsView
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import uy.kohesive.injekt.injectValue
-import kotlin.properties.Delegates
 
-const val QUERY_KEY ="query"
 
 class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
 
@@ -68,8 +62,10 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
     override fun findMeetups(query: String) {
         checkViewBinding()
         currentQuery = query
+
+        val synchronizerQuery = MeetupSynchronizerQuery.Groups(query)
         val intent = Intent(context, MeetupSynchronizer::class.java)
-        intent.putExtra(QUERY_KEY, query)
+        synchronizerQuery.toIntent(intent)
         context.startService(intent)
     }
 

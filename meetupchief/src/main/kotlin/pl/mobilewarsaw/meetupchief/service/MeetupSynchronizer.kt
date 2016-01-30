@@ -1,18 +1,15 @@
-package pl.mobilewarsaw.meetupchief.service.events
+package pl.mobilewarsaw.meetupchief.service
 
-import android.app.IntentService
 import android.app.Service
 import android.content.ContentProviderOperation
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import pl.mobilewarsaw.meetupchief.database.MeetupGroupTable
-import pl.mobilewarsaw.meetupchief.presenter.groups.MeetupGroupsPresenter
-import pl.mobilewarsaw.meetupchief.presenter.groups.QUERY_KEY
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupContentProvider
-import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupRemoteResource
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.model.Meetup
+import pl.mobilewarsaw.meetupchief.service.model.MeetupSynchronizerQuery
 import rx.Observable
 import rx.schedulers.Schedulers
 import uy.kohesive.injekt.injectValue
@@ -30,16 +27,24 @@ class MeetupSynchronizer : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val query = intent?.getStringExtra(QUERY_KEY) ?: ""
-        if (query.isNotBlank()) {
-            handleRequest(query)
+
+        val query = MeetupSynchronizerQuery.extract(intent!!)
+
+        when(query) {
+            is MeetupSynchronizerQuery.Groups -> featchGroups(query)
+            is MeetupSynchronizerQuery.Events -> featchEvents(query)
         }
+
         return START_STICKY;
     }
 
-    private fun handleRequest(query: String) {
+    private fun featchEvents(query: MeetupSynchronizerQuery.Events) {
+
+    }
+
+    private fun featchGroups(query: MeetupSynchronizerQuery.Groups) {
         val databaseOperation = arrayListOf<ContentProviderOperation>()
-        meetupRemoteResource.findGroup(query)
+        meetupRemoteResource.findGroup(query.query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMap { meetups -> Observable.from(meetups) }

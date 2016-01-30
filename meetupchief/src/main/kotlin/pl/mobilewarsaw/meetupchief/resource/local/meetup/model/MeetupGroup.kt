@@ -11,7 +11,8 @@ data class MeetupGroup(val groupId: String,
                        val name: String,
                        val members: Int,
                        val photoUrl: String?,
-                       val category: String) {
+                       val category: String,
+                       val urlName: String) {
 
     companion object {
         fun fromCursor(cursor: Cursor): MeetupGroup {
@@ -20,7 +21,8 @@ data class MeetupGroup(val groupId: String,
                     name = cursor.getString(MeetupGroupTable.NAME),
                     members = cursor.getInt(MeetupGroupTable.MEMBERS),
                     photoUrl = cursor.getString(MeetupGroupTable.PHOTO),
-                    category = cursor.getString(MeetupGroupTable.CATEGORY))
+                    category = cursor.getString(MeetupGroupTable.CATEGORY),
+                    urlName = cursor.getString(MeetupGroupTable.URL_NAME))
         }
     }
 }

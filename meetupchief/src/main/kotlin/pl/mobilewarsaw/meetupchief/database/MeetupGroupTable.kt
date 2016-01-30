@@ -16,6 +16,7 @@ object MeetupGroupTable {
     val MEMBERS = "members"
     val PHOTO = "photo"
     val CATEGORY = "category"
+    val URL_NAME = "url_name"
 
 
     val CREATE_STATEMENT: String = "create table $TABLE " +
@@ -24,7 +25,8 @@ object MeetupGroupTable {
                                     "$NAME text not null, " +
                                     "$PHOTO text not null, " +
                                     "$CATEGORY text not null, " +
-                                    "$MEMBERS integer not null);"
+                                    "$MEMBERS integer not null, " +
+                                    "$URL_NAME text not null);"
 
     fun createContentValues(meetup: Meetup): ContentProviderOperation {
         return ContentProviderOperation.newInsert(MeetupGroupContentProvider.CONTENT_URI)
@@ -33,6 +35,7 @@ object MeetupGroupTable {
                 .withValue(MeetupGroupTable.MEMBERS, meetup.members)
                 .withValue(MeetupGroupTable.PHOTO, meetup.photo?.url ?: "")
                 .withValue(MeetupGroupTable.CATEGORY, meetup.category?.name ?: "")
+                .withValue(MeetupGroupTable.URL_NAME, meetup.urlName)
                 .build()
     }
 
@@ -40,16 +43,18 @@ object MeetupGroupTable {
                               name: String,
                               members: Int,
                               photoUrl: String,
-                              category: String)
-            = "INSERT INTO TABLE $TABLE ($GROUP_ID, $NAME, $MEMBERS, $PHOTO, $CATEGORY) " +
-                "VALUES ($groupId, $name, $members, $photoUrl, $category);"
+                              category: String,
+                              urlName: String)
+            = "INSERT INTO TABLE $TABLE ($GROUP_ID, $NAME, $MEMBERS, $PHOTO, $CATEGORY, $URL_NAME) " +
+                "VALUES ($groupId, $name, $members, $photoUrl, $category, $URL_NAME);"
 
     fun createInsertStatement(values: ContentValues)
         = createInsertStatement(groupId = values.getAsString(GROUP_ID),
                                     name = values.getAsString(NAME),
                                     members = values.getAsInteger(MEMBERS),
                                     photoUrl = values.getAsString(PHOTO),
-                                    category = values.getAsString(CATEGORY))
+                                    category = values.getAsString(CATEGORY),
+                                    urlName = values.getAsString(URL_NAME))
 
     fun createDeleteAllOperation(): ContentProviderOperation
         = ContentProviderOperation.newDelete(MeetupGroupContentProvider.CONTENT_URI).build()
