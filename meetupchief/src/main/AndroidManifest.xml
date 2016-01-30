@@ -19,6 +19,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.events.EventsListingActivity"/>
+
+
         <service android:name=".service.events.MeetupSynchronizer"/>
 
         <provider android:name=".resource.local.meetup.MeetupContentProvider"

@@ -1,6 +1,7 @@
         package pl.mobilewarsaw.meetupchief.resource.local.meetup.model
 
 import android.database.Cursor
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import pl.mobilewarsaw.meetupchief.database.MeetupGroupTable
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.model.MeetupPhoto

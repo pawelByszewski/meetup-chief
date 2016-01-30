@@ -81,6 +81,8 @@ dependencies {
     compile injekt
     compile kotterKnife
 
+    compile ottoBus
+
     compile retrofit
     compile retrofitGsonConverter
     compile okHttpLoggingInterceptor

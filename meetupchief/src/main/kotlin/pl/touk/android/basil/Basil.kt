@@ -67,3 +67,12 @@ inline fun TypedArray.recycleAfter(operation: TypedArray.() -> Unit) {
 inline fun ContentResolver.query(uri: Uri): Cursor
         = query(uri, null, null, null, null)
 
+
+fun View.show() {
+    visibility = View.VISIBLE
+}
+
+fun View.hide() {
+    visibility = View.GONE
+}
+

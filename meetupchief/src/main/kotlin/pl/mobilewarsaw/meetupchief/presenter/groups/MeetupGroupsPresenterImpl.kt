@@ -10,9 +10,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupGroupContentProvider
+import pl.mobilewarsaw.meetupchief.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.repository.GroupRepository
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupRemoteResource
 import pl.mobilewarsaw.meetupchief.service.events.MeetupSynchronizer
+import pl.mobilewarsaw.meetupchief.ui.events.EventsListingActivity
 import pl.mobilewarsaw.meetupchief.ui.groups.MeetupGroupsView
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
@@ -82,6 +84,11 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
         if (query != null) {
             findMeetups(query)
         }
+    }
+
+    override fun onGroupClicked(meetupGroup: MeetupGroup) {
+        val intent = EventsListingActivity.createIntent(context, meetupGroup)
+        context.startActivity(intent)
     }
 }
 

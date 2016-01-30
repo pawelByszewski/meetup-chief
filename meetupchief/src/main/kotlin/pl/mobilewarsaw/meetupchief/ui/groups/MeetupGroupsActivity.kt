@@ -9,12 +9,18 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import butterknife.bindView
+import com.squareup.otto.Bus
+import com.squareup.otto.Subscribe
 
 import pl.mobilewarsaw.meetupchief.R
 import pl.mobilewarsaw.meetupchief.ui.searchview.SearchView
 import pl.mobilewarsaw.meetupchief.presenter.groups.MeetupGroupsPresenter
 import pl.mobilewarsaw.meetupchief.presenter.groups.RESTORE_KEY
 import pl.mobilewarsaw.meetupchief.presenter.groups.RESTORE_QUERY
+import pl.mobilewarsaw.meetupchief.ui.events.EventsListingActivity
+import pl.mobilewarsaw.meetupchief.ui.groups.bus.GroupClicked
+import pl.touk.android.basil.hide
+import pl.touk.android.basil.show
 import uy.kohesive.injekt.injectValue
 
 class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
@@ -28,6 +34,7 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
     private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.swipe_container)
 
     private val meetupGroupsRecycleViewAdapter: MeetupGroupsCursorAdapter by injectValue()
+    private val bus: Bus by injectValue()
 
     private var showedQuery: String? = null
 
@@ -46,6 +53,8 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         swipeRefreshLayout.setOnRefreshListener {
             meetupGroupsPresenter.refreshGroups()
         }
+
+        bus.register(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -54,10 +63,17 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         super.onSaveInstanceState(outState)
     }
 
+    @Subscribe
+    public fun onMeetupGroupClick(groupClicked: GroupClicked) {
+        meetupGroupsPresenter.onGroupClicked(groupClicked.meetupGroup)
+    }
+
     private fun setupRecycleView() {
         val layoutManager = LinearLayoutManager(this)
         groupsRecycleView.layoutManager = layoutManager
         groupsRecycleView.adapter = meetupGroupsRecycleViewAdapter
+
+
     }
 
     override fun showMeetupGroups(cursor: Cursor) {
@@ -73,14 +89,9 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         meetupGroupsRecycleViewAdapter!!.changeCursor(cursor)
         swipeRefreshLayout.isRefreshing = false
     }
-}
 
-//TODO to basil
-
-fun View.show() {
-    visibility = View.VISIBLE
-}
-
-fun View.hide() {
-    visibility = View.GONE
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(R.anim.activity_slide_in_from_right, R.anim.activity_slide_out_to_left)
+    }
 }

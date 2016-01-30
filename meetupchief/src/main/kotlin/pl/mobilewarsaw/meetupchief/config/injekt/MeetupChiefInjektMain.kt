@@ -13,6 +13,7 @@ class MeetupChiefInjektMain(val context: Context){
                 override fun InjektRegistrar.registerInjectables() {
                     importModule(MeetupApiModule())
                     importModule(PresentersModule())
+                    importModule(OttoModule())
                     importModule(DatabaseModule(context))
                     importModule(PicassoModule(context))
                     importModule(RepositoryModule(context))
