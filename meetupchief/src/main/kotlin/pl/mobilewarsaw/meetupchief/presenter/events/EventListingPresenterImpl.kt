@@ -35,17 +35,19 @@ class EventListingPresenterImpl : EventsListingPresenter {
         registerUriObserver(MeetupEventContentProvider.CONTENT_URI) {
             showEvents()
         }
+        eventsListingView.showProgressBar()
+        synchronizeEvents()
+    }
 
+    private fun synchronizeEvents() {
         val query = MeetupSynchronizerQuery.Events(meetuGroupInitData.urlName)
-
         val intent = Intent(context, MeetupSynchronizer::class.java)
         query.toIntent(intent)
         context.startService(intent)
-
     }
 
     override fun refreshEvents() {
-        showEvents()
+        synchronizeEvents()
     }
 
     private fun extractInitData()

@@ -5,6 +5,7 @@ import pl.mobilewarsaw.meetupchief.database.EventTable
 import pl.touk.android.basil.getInt
 import pl.touk.android.basil.getString
 
+private const val STATUS_CLOSED = "past"
 
 data class MeetupEvent(val eventId: String,
                        val name: String,
@@ -24,4 +25,7 @@ data class MeetupEvent(val eventId: String,
                     groupUrlName = cursor.getString(EventTable.GROUP_URL_NAME))
         }
     }
+
+    fun isOpen() = status != STATUS_CLOSED
+
 }

@@ -6,6 +6,7 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:layout_height="100dp"
     android:layout_marginBottom="@dimen/card_vertical_margin_small"
     android:layout_marginLeft="@dimen/card_horizontal_margin"
     android:layout_marginRight="@dimen/card_horizontal_margin"
@@ -13,16 +14,67 @@
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:padding="@dimen/default_padding"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.7">
+
+        <ImageView
+            android:id="@+id/status_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@mipmap/ic_closed"
+            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
-            android:id="@+id/event_name"
+            android:id="@+id/event_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/status_icon"
+            android:layout_marginLeft="@dimen/event_attends_card_small_margin"
+            tools:text="Mobile Warsaw Edition - Chris Eidhof"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/event_title_text_size"/>
 
-    </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.2">
+
+            <TextView
+                android:id="@+id/attends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/event_attends_text_size"
+                android:paddingBottom="@dimen/event_attends_card_small_margin"
+                tools:text="45"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attends"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/very_dark_light_transparent_grey"
+                android:textSize="@dimen/event_attends_label_text_size"
+                android:text="attends"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

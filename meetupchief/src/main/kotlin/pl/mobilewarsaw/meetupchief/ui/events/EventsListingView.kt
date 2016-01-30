@@ -10,4 +10,6 @@ interface EventsListingView {
     fun showInToolbar(meeupGroupInitData: MeetuGroupInitData)
 
     fun showEvents(cursor: Cursor)
+
+    fun showProgressBar()
 }

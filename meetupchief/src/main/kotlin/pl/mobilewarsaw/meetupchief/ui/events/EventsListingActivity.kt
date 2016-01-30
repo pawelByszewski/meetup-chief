@@ -25,7 +25,7 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
 
     private val toolbar: Toolbar by bindView(R.id.toolbar)
     private val eventsListing: RecyclerView by bindView(R.id.meetup_events_list)
-    private val swipeRefresLayout: SwipeRefreshLayout by bindView(R.id.swipe_container)
+    private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.swipe_container)
     private val presenter: EventsListingPresenter by injectValue()
 
     private val eventsRecycleViewAdapter: MeetupEventCursorAdapter by injectValue()
@@ -42,8 +42,15 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_events_listing)
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
+
         setupToolbar()
         setupRecycleView()
+
+        swipeRefreshLayout.setOnRefreshListener {
+            presenter.refreshEvents()
+        }
+
         presenter.bind(this, this)
     }
 
@@ -64,7 +71,11 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
 
     override fun showEvents(cursor: Cursor) {
         eventsRecycleViewAdapter!!.changeCursor(cursor)
-        swipeRefresLayout.isRefreshing = false
+        swipeRefreshLayout.isRefreshing = false
+    }
+
+    override fun showProgressBar() {
+        //TODO
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

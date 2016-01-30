@@ -42,6 +42,10 @@
     <dimen name="square_button_size">48dp</dimen>
     <dimen name="suggestion_body_text_size">18sp</dimen>
     <dimen name="text_content_margin">16dp</dimen>
+    <dimen name="event_title_text_size">18sp</dimen>
+    <dimen name="event_attends_text_size">28sp</dimen>
+    <dimen name="event_attends_label_text_size">10sp</dimen>
+    <dimen name="event_attends_card_small_margin">4dp</dimen>
 
 
 </resources>
