@@ -9,16 +9,15 @@ import rx.Observable
 
 interface MeetupRemoteResource {
 
-    @GET("events")
-    fun getEvents(@Query("group_urlname") groupName: String,
-                  @Query("page") page: String = "20",
+    @GET("/2/events")
+    fun getEvents(@Query("group_urlname") urlName: String,
+                  @Query("only") only: String = "id,status,name,yes_rsvp_count,venue.name,description,group.urlname",
+                  @Query("sign") sign: String = "true",
                   @Query("status") status: String = "past,upcoming",
                   @Query("photo-host") photoHost: String = "public",
-                  @Query("sign") sign: String = "true",
                   @Query("key") key: String = Settings.meetup.apiKey,
                   @Query("desc") desc: String = "true")
             : Observable<MeetupEvents>
-
 
     @GET("/find/groups")
     fun findGroup(@Query("text") query: String,

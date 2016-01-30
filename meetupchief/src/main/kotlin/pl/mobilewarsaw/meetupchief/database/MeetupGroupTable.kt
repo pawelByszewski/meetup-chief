@@ -46,7 +46,7 @@ object MeetupGroupTable {
                               category: String,
                               urlName: String)
             = "INSERT INTO TABLE $TABLE ($GROUP_ID, $NAME, $MEMBERS, $PHOTO, $CATEGORY, $URL_NAME) " +
-                "VALUES ($groupId, $name, $members, $photoUrl, $category, $URL_NAME);"
+                "VALUES ($groupId, $name, $members, $photoUrl, $category, $urlName);"
 
     fun createInsertStatement(values: ContentValues)
         = createInsertStatement(groupId = values.getAsString(GROUP_ID),

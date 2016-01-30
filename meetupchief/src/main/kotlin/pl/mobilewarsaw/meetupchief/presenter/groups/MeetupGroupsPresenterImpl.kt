@@ -26,8 +26,6 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
     private var meetupGroupsView: MeetupGroupsView? = null
     private var currentQuery: String? = null
 
-
-
     override fun bind(context: Context, meetupGroupsView: MeetupGroupsView,
                       savedInstanceState: Bundle?) {
         this.context = context
@@ -44,10 +42,9 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
         groupRepository.fetchAllGroups { cursor: Cursor -> meetupGroupsView?.showMeetupGroups(cursor) }
     }
 
-    private fun restoreState(savedInstanceState: Bundle?) {
-        val shouldRestoreQuery = savedInstanceState?.getBoolean(RESTORE_KEY, false) ?: false
-        if (shouldRestoreQuery) {
-            currentQuery = savedInstanceState?.getString(RESTORE_QUERY)
+    private fun restoreState(savedInstanceState: Bundle? = null) {
+        currentQuery = savedInstanceState?.getString(RESTORE_QUERY) ?: currentQuery
+        if (!currentQuery.isNullOrBlank()) {
             showAllGroups()
         }
     }

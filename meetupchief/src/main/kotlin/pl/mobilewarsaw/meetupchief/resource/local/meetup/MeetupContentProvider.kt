@@ -23,11 +23,12 @@ class MeetupContentProvider : ContentProvider() {
     override fun onCreate(): Boolean {
         MeetupChiefInjektMain.init(context)
         contentProviders.add(MeetupGroupContentProvider())
+        contentProviders.add(MeetupEventContentProvider())
         return true
     }
 
     override fun applyBatch(operations: ArrayList<ContentProviderOperation>): Array<out ContentProviderResult>? {
-        val results =  super.applyBatch(operations)
+        val results = super.applyBatch(operations)
         notifyOperationsUris(operations)
         return results
     }
@@ -53,8 +54,7 @@ class MeetupContentProvider : ContentProvider() {
         val partialContentProvider = pickPartialContentProvider(uri!!)
                 ?: throw UnsupportedOperationException()
 
-       return partialContentProvider.query(uri)
-
+       return partialContentProvider.query(uri, projection, selection, selectionArgs, sortOrder)
     }
 
     override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {

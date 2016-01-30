@@ -5,8 +5,10 @@ import android.content.ContentProviderOperation
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import pl.mobilewarsaw.meetupchief.database.EventTable
 import pl.mobilewarsaw.meetupchief.database.MeetupGroupTable
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupContentProvider
+import pl.mobilewarsaw.meetupchief.resource.meetup.MeetupEvent
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.MeetupRemoteResource
 import pl.mobilewarsaw.meetupchief.resource.remote.meetup.model.Meetup
 import pl.mobilewarsaw.meetupchief.service.model.MeetupSynchronizerQuery
@@ -31,18 +33,29 @@ class MeetupSynchronizer : Service() {
         val query = MeetupSynchronizerQuery.extract(intent!!)
 
         when(query) {
-            is MeetupSynchronizerQuery.Groups -> featchGroups(query)
-            is MeetupSynchronizerQuery.Events -> featchEvents(query)
+            is MeetupSynchronizerQuery.Groups -> fetchGroups(query)
+            is MeetupSynchronizerQuery.Events -> fetchEvents(query)
         }
 
         return START_STICKY;
     }
 
-    private fun featchEvents(query: MeetupSynchronizerQuery.Events) {
-
+    private fun fetchEvents(query: MeetupSynchronizerQuery.Events) {
+        val databaseOperation = arrayListOf<ContentProviderOperation>()
+        meetupRemoteResource.getEvents(query.urlName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap { meetupEvents -> Observable.from(meetupEvents.events) }
+                .subscribe({  event: MeetupEvent -> databaseOperation.add(EventTable.createInsertOperation(event)) },
+                        { Log.e("MeetupSynchronizer", "Fail to find Events", it) },
+                        {
+                            databaseOperation.add(0, EventTable.createDeleteForGroupOperations(query.urlName))
+                            contentResolver.applyBatch(MeetupContentProvider.AUTHORITY, databaseOperation)
+                        }
+                )
     }
 
-    private fun featchGroups(query: MeetupSynchronizerQuery.Groups) {
+    private fun fetchGroups(query: MeetupSynchronizerQuery.Groups) {
         val databaseOperation = arrayListOf<ContentProviderOperation>()
         meetupRemoteResource.findGroup(query.query)
                 .subscribeOn(Schedulers.io())

@@ -5,6 +5,8 @@ import pl.mobilewarsaw.meetupchief.ui.events.EventsListingView
 
 
 interface EventsListingPresenter {
+
     fun bind(eventsListingView: EventsListingView, context: Context)
 
+    open fun refreshEvents()
 }

@@ -76,3 +76,6 @@ fun View.hide() {
     visibility = View.GONE
 }
 
+
+fun Cursor.getString(columnName: String) = getString(getColumnIndex(columnName))
+fun Cursor.getInt(columnName: String) = getInt(getColumnIndex(columnName))

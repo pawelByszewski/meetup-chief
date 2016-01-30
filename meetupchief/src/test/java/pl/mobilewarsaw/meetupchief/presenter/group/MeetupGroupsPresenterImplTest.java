@@ -80,7 +80,6 @@ public class MeetupGroupsPresenterImplTest {
         //TODO test it
     }
 
-
     private Cursor mockContentResolverMechanism(Context context) {
         ContentResolver contentResolver = mock(ContentResolver.class);
         Cursor cursor = mock(Cursor.class);

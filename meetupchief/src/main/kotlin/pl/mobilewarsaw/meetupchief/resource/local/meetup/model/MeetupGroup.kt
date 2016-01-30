@@ -1,10 +1,9 @@
-        package pl.mobilewarsaw.meetupchief.resource.local.meetup.model
+package pl.mobilewarsaw.meetupchief.resource.local.meetup.model
 
 import android.database.Cursor
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import pl.mobilewarsaw.meetupchief.database.MeetupGroupTable
-import pl.mobilewarsaw.meetupchief.resource.remote.meetup.model.MeetupPhoto
+import pl.touk.android.basil.getString
+import pl.touk.android.basil.getInt
 
 
 data class MeetupGroup(val groupId: String,
@@ -26,7 +25,3 @@ data class MeetupGroup(val groupId: String,
         }
     }
 }
-
-//TODO to basil
-fun Cursor.getString(columnName: String) = getString(getColumnIndex(columnName))
-fun Cursor.getInt(columnName: String) = getInt(getColumnIndex(columnName))

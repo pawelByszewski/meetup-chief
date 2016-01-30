@@ -72,8 +72,6 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         val layoutManager = LinearLayoutManager(this)
         groupsRecycleView.layoutManager = layoutManager
         groupsRecycleView.adapter = meetupGroupsRecycleViewAdapter
-
-
     }
 
     override fun showMeetupGroups(cursor: Cursor) {
