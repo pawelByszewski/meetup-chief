@@ -2,4 +2,52 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="default_padding">8dp</dimen>
+
+    <dimen name="dimen_m_navigation_drawer_width">240dp</dimen>
+    <color name="black">#000000</color>
+
+    <dimen name="staggered_child_small">120dp</dimen>
+    <dimen name="staggered_child_medium">230dp</dimen>
+    <dimen name="staggered_child_large">310dp</dimen>
+    <dimen name="staggered_child_xlarge">400dp</dimen>
+    <dimen name="camera_button_vertical_padding">15dp</dimen>
+    <dimen name="camera_button_horizontal_padding">30dp</dimen>
+
+    <dimen name="padding_standard">8dp</dimen>
+    <dimen name="registration_form_width">300dp</dimen>
+    <dimen name="card_vertical_margin_small">2dp</dimen>
+    <dimen name="card_horizontal_margin">5dp</dimen>
+    <dimen name="card_corner_radius">4dp</dimen>
+    <dimen name="card_image_section_height">150dp</dimen>
+    <dimen name="card_font_big">20sp</dimen>
+    <dimen name="card_standard_horizontal_padding">20dp</dimen>
+    <dimen name="card_font_medium">14sp</dimen>
+    <dimen name="event_card_title_font_small">10sp</dimen>
+    <dimen name="card_vertical_margin_medium">5dp</dimen>
+    <dimen name="card_vertical_margin_big">10dp</dimen>
+
+
+
+    <dimen name="search_bar_filter_section_marin_left">64dp</dimen>
+    <dimen name="search_bar_height">48dp</dimen>
+    <dimen name="search_bar_left_icon_left_margin">4dp</dimen>
+    <dimen name="search_bar_right_icon_right_margin">4dp</dimen>
+    <dimen name="search_bar_search_input_left_margin">20dp</dimen>
+    <dimen name="search_bar_search_input_right_margin">68dp</dimen>
+    <dimen name="search_bar_text_size">16dp</dimen>
+    <dimen name="square_button_icon_size">24dp</dimen>
+    <dimen name="square_button_padding">12dp</dimen>
+    <dimen name="square_button_size">48dp</dimen>
+    <dimen name="suggestion_body_text_size">18sp</dimen>
+    <dimen name="text_content_margin">16dp</dimen>
+    <dimen name="event_title_text_size">18sp</dimen>
+    <dimen name="event_attends_text_size">28sp</dimen>
+    <dimen name="event_attends_label_text_size">10sp</dimen>
+    <dimen name="event_attends_card_small_margin">4dp</dimen>
+    <dimen name="group_image_toolbar_height">200dp</dimen>
+    <dimen name="empty_view_icon_margin">40dp</dimen>
+
+
 </resources>

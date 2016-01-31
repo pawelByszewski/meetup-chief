@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/card_vertical_margin_small"
+    android:layout_marginLeft="@dimen/card_horizontal_margin"
+    android:layout_marginRight="@dimen/card_horizontal_margin"
+    android:layout_marginTop="@dimen/card_vertical_margin_small"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/image_section"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_image_section_height">
+
+            <ImageView
+                android:id="@+id/group_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/card_image_empty_view" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/card_name_background">
+
+                <TextView
+                    android:id="@+id/group_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/card_vertical_margin_medium"
+                    android:paddingLeft="@dimen/card_standard_horizontal_padding"
+                    android:paddingRight="@dimen/card_standard_horizontal_padding"
+                    android:paddingTop="@dimen/card_vertical_margin_medium"
+                    android:textColor="@color/card_name"
+                    android:textSize="@dimen/card_font_big"
+                    tools:text="example title" />
+            </FrameLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_section">
+
+            <RelativeLayout
+                android:id="@+id/category_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:clickable="true"
+                android:paddingLeft="@dimen/card_standard_horizontal_padding">
+
+                <TextView
+                    android:id="@+id/category_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:paddingTop="@dimen/card_vertical_margin_big"
+                    android:textColor="@color/card_font_light"
+                    android:textSize="@dimen/card_font_medium"
+                    android:text="@string/category_label" />
+
+                <TextView
+                    android:id="@+id/group_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/card_font_normal"
+                    android:textSize="@dimen/card_font_medium"
+                    android:layout_below="@id/category_label"
+                    tools:text="Tech" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/participants_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:clickable="true"
+                android:paddingRight="@dimen/card_standard_horizontal_padding">
+
+                <TextView
+                    android:id="@+id/participants_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingTop="@dimen/card_vertical_margin_big"
+                    android:textColor="@color/card_font_light"
+                    android:textSize="@dimen/card_font_medium"
+                    android:text="@string/members_label" />
+
+                <TextView
+                    android:id="@+id/members"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/card_font_normal"
+                    android:textSize="@dimen/card_font_medium"
+                    android:layout_below="@id/participants_label"
+                    tools:text="1" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
