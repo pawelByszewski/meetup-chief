@@ -5,3 +5,7 @@ meetup:
 
 databse:
   name: meetup_chef
+  version: 1
+
+contentProvider:
+  authority: pl.mobilewarsaw.meetupchef

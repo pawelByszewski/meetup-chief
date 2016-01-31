@@ -2,8 +2,8 @@ package pl.mobilewarsaw.meetupchef.database
 
 import android.content.ContentProviderOperation
 import android.content.ContentValues
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupEventContentProvider
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupGroupContentProvider
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupEventContentProvider
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchef.resource.meetup.MeetupEvent
 import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Meetup
 
@@ -21,6 +21,7 @@ object EventTable {
     val GROUP_URL_NAME = "groupUrlName"
 
 
+    //TODO use the Kotlin Luke
     val CREATE_STATEMENT: String = "create table $TABLE ($ID integer primary key autoincrement, " +
                                                         "$EVENT_ID text not null unique, " +
                                                         "$NAME text not null, " +
@@ -29,21 +30,6 @@ object EventTable {
                                                         "$VENUE text, " +
                                                         "$GROUP_URL_NAME text not null, " +
                                                         "$ATTENDS integer not null);"
-
-//    fun createInsertStatement(eventId: String, name: String, attends: Int,
-//                              description: String, status: String, venue: String,
-//                              groupUrlName: String)
-//            = "INSERT INTO TABLE $TABLE ($EVENT_ID, $NAME, $DESCRIPTION, $STATUS, $VENUE $ATTENDS, $GROUP_URL_NAME) VALUES " +
-//                "($eventId, $name, $description, $status, $venue, $attends, $groupUrlName);"
-
-//    fun createInsertStatement(values: ContentValues)
-//            = EventTable.createInsertStatement(eventId = values.getAsString(EventTable.EVENT_ID),
-//                                                    name = values.getAsString(EventTable.NAME),
-//                                                    attends = values.getAsInteger(EventTable.ATTENDS),
-//                                                    description = values.getAsString(EventTable.DESCRIPTION),
-//                                                    status = values.getAsString(EventTable.STATUS),
-//                                                    groupUrlName = values.getAsString(EventTable.GROUP_URL_NAME),
-//                                                    venue = values.getAsString(EventTable.VENUE ))
 
     fun createInsertOperation(event: MeetupEvent): ContentProviderOperation {
         return ContentProviderOperation.newInsert(MeetupEventContentProvider.CONTENT_URI)

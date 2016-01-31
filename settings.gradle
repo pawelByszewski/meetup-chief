@@ -1,1 +1,1 @@
-include ':meetupchief'
+include ':meetupchief', ':basil'

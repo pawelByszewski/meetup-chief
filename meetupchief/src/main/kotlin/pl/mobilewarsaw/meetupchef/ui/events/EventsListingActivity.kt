@@ -21,10 +21,9 @@ import pl.mobilewarsaw.meetupchef.presenter.events.EventsListingPresenter
 import pl.mobilewarsaw.meetupchef.presenter.events.State
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.ui.groups.MeetupEventCursorAdapter
-import pl.mobilewarsaw.meetupchef.ui.progressbar.ChefProgressBar
-import pl.touk.android.basil.hide
-import pl.touk.android.basil.isEmpty
-import pl.touk.android.basil.show
+import pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
+import pl.touk.basil.isEmpty
+import pl.touk.basil.show
 import uy.kohesive.injekt.injectValue
 
 const val GROUP_URL_NAME_KEY = "urlname"

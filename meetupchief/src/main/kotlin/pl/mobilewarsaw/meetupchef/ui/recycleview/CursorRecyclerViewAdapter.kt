@@ -9,14 +9,30 @@ import android.support.v7.widget.RecyclerView
 private const val ANDROID_ID_COLUMN = "_id"
 private const val MISSING_ITEM_ID: Int = -1
 
+const val BASIC_VIEW_TYPE = 0
+const val LAST_VIEW_TYPE = 1
+
 abstract class CursorRecyclerViewAdapter<VH : RecyclerView.ViewHolder>
     (cursor: Cursor?)
     : RecyclerView.Adapter<VH>() {
 
+    var lastViewMode = false
+        set(value) {
+            field = value
+            cursorWrapper.lastViewMode = field
+        }
+
     private var idColumnIndex: Int = 0
 
     private val dataSetObserver: DataSetObserver?
-    private var cursorWrapper: CursorWrapper;
+    private var cursorWrapper: CursorWrapper
+
+    private val countCorrection: Int
+        get() = if (lastViewMode) 1 else 0
+
+    fun isAfterLast(position: Int): Boolean {
+        return lastViewMode && position == cursorWrapper.count
+    }
 
     init {
         this.cursorWrapper = CursorWrapper(cursor)
@@ -27,8 +43,17 @@ abstract class CursorRecyclerViewAdapter<VH : RecyclerView.ViewHolder>
 
     abstract fun onBindViewHolder(viewHolder: VH, cursor: Cursor)
 
+    open fun onBindViewHolderAfterLast(viewHolder: VH) {}
+
+    override fun getItemViewType(position: Int): Int
+        = when {
+            !lastViewMode -> BASIC_VIEW_TYPE
+            isAfterLast(position) -> LAST_VIEW_TYPE
+            else -> BASIC_VIEW_TYPE
+        }
+
     override fun getItemCount(): Int
-            = cursorWrapper.count
+            = cursorWrapper.count + countCorrection
 
     override fun getItemId(position: Int): Long {
         //TODO add this case to "kotlin, why?"
@@ -39,6 +64,7 @@ abstract class CursorRecyclerViewAdapter<VH : RecyclerView.ViewHolder>
         throw IllegalArgumentException("Cursor does not contain position: $position")
     }
 
+    //???
     override fun setHasStableIds(hasStableIds: Boolean)
             = super.setHasStableIds(true)
 
@@ -46,7 +72,11 @@ abstract class CursorRecyclerViewAdapter<VH : RecyclerView.ViewHolder>
         if (!cursorWrapper.moveToPosition(position) ) {
             throw IllegalStateException("couldn't move cursor to position $position")
         }
-        onBindViewHolder(viewHolder, cursorWrapper.extractCursor())
+        if(!isAfterLast(position)) {
+            onBindViewHolder(viewHolder, cursorWrapper.extractCursor())
+        } else {
+            onBindViewHolderAfterLast(viewHolder)
+        }
     }
 
     fun changeCursor(newCursor: Cursor) {
@@ -83,8 +113,16 @@ abstract class CursorRecyclerViewAdapter<VH : RecyclerView.ViewHolder>
 
 private class CursorWrapper(private val cursor: Cursor?) {
 
+    var lastViewMode = false
+
     val count: Int
         get() = cursor?.count ?: 0
+
+    private val correctedCount: Int
+        get() = count + countCorrection
+
+    private val countCorrection: Int
+            = if (lastViewMode) 1 else 0
 
     fun getColumnIndex(columnName: String) : Int
             = cursor?.getColumnIndex(columnName) ?: MISSING_ITEM_ID
@@ -96,7 +134,12 @@ private class CursorWrapper(private val cursor: Cursor?) {
             = cursor?.unregisterDataSetObserver(dataSetObserver)
 
     fun moveToPosition(position: Int): Boolean
-            = cursor?.moveToPosition(position) ?: false
+        = when {
+            cursor == null              -> false
+            position == correctedCount  -> true
+            else                        -> cursor.moveToPosition(position)
+        }
+
 
     fun getLong(columnIndex: Int): Long
             = cursor?.getLong(columnIndex)

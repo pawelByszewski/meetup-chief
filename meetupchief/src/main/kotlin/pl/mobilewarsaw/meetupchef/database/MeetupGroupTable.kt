@@ -3,7 +3,7 @@ package pl.mobilewarsaw.meetupchef.database
 import android.content.ContentProviderOperation
 import android.content.ContentValues
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupContentProvider
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupGroupContentProvider
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Meetup
 
 
@@ -19,6 +19,7 @@ object MeetupGroupTable {
     val URL_NAME = "url_name"
 
 
+    //TODO use the Kotlin Luke
     val CREATE_STATEMENT: String = "create table $TABLE " +
                                     "($ID integer primary key autoincrement, " +
                                     "$GROUP_ID text not null unique, " +
@@ -39,26 +40,7 @@ object MeetupGroupTable {
                 .build()
     }
 
-    fun createInsertStatement(groupId: String,
-                              name: String,
-                              members: Int,
-                              photoUrl: String,
-                              category: String,
-                              urlName: String)
-            = "INSERT INTO TABLE $TABLE ($GROUP_ID, $NAME, $MEMBERS, $PHOTO, $CATEGORY, $URL_NAME) " +
-                "VALUES ($groupId, $name, $members, $photoUrl, $category, $urlName);"
-
-    fun createInsertStatement(values: ContentValues)
-        = createInsertStatement(groupId = values.getAsString(GROUP_ID),
-                                    name = values.getAsString(NAME),
-                                    members = values.getAsInteger(MEMBERS),
-                                    photoUrl = values.getAsString(PHOTO),
-                                    category = values.getAsString(CATEGORY),
-                                    urlName = values.getAsString(URL_NAME))
-
     fun createDeleteAllOperation(): ContentProviderOperation
         = ContentProviderOperation.newDelete(MeetupGroupContentProvider.CONTENT_URI).build()
-
-
 
 }

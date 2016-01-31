@@ -8,23 +8,28 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupGroupContentProvider
+import com.squareup.otto.Bus
+import com.squareup.otto.Subscribe
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.GroupRepository
 import pl.mobilewarsaw.meetupchef.service.MeetupSynchronizer
 import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
 import pl.mobilewarsaw.meetupchef.ui.events.EventsListingActivity
 import pl.mobilewarsaw.meetupchef.ui.groups.MeetupGroupsView
-import pl.touk.android.basil.registerUriObserver
+import pl.mobilewarsaw.meetupchef.ui.groups.bus.GroupClicked
+import pl.touk.basil.registerUriObserver
 import uy.kohesive.injekt.injectValue
 
 
 class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
 
     private val groupRepository: GroupRepository by injectValue()
+    private val bus: Bus by injectValue()
+
     private val state = State()
     private var meetupGroupsView: MeetupGroupsView? = null
-    lateinit private var context: Context
+    private var context: Context? = null
 
     override fun bind(meetupGroupsView: MeetupGroupsView,
                       context: Context,
@@ -37,10 +42,11 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
         }
 
         restoreState(savedInstanceState)
+        bus.register(this)
     }
 
     private val contentResolver: ContentResolver
-        get() = context.contentResolver
+        get() = context!!.contentResolver
 
     private fun showAllGroups()
         = groupRepository.fetchAllGroups { cursor: Cursor -> meetupGroupsView?.showMeetupGroups(cursor) }
@@ -60,13 +66,18 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
         val intent = Intent(context, MeetupSynchronizer::class.java)
         val synchronizerQuery = MeetupSynchronizerQuery.Groups(query)
         synchronizerQuery.toIntent(intent)
-        context.startService(intent)
+        context?.startService(intent)
     }
 
     private fun checkViewBinding() {
         if (meetupGroupsView == null) {
             throw IllegalStateException("A view must be binded to the presenter")
         }
+    }
+
+    @Subscribe
+    public fun onMeetupGroupClick(groupClicked: GroupClicked) {
+        onGroupClicked(groupClicked.meetupGroup)
     }
 
     override fun refreshGroups() {
@@ -76,11 +87,17 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
     }
 
     override fun onGroupClicked(meetupGroup: MeetupGroup) {
-        val intent = EventsListingActivity.createIntent(context, meetupGroup)
-        context.startActivity(intent)
+        val intent = EventsListingActivity.createIntent(context!!, meetupGroup)
+        context?.startActivity(intent)
     }
 
     override fun saveState(outState: Bundle)
         = state.save(outState)
+
+    override fun unbind() {
+        bus.unregister(this)
+        meetupGroupsView = null
+        context = null
+    }
 }
 

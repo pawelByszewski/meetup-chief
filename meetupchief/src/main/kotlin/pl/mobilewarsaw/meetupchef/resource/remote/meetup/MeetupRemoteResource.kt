@@ -21,8 +21,9 @@ interface MeetupRemoteResource {
 
     @GET("/find/groups")
     fun findGroup(@Query("text") query: String,
-                  @Query("page") page: String = "5",
+                  @Query("page") page: String = "20",
                   @Query("photo-host") photoHost: String = "public",
+                  @Query("only") only: String = "id,name,members,group_photo.photo_link,category.name,urlname",
                   @Query("sign") sign: String = "true",
                   @Query("key") key: String = Settings.meetup.apiKey)
         : Observable<List<Meetup>>

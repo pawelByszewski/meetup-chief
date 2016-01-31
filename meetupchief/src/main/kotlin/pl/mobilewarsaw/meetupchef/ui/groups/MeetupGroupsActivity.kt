@@ -1,6 +1,5 @@
 package pl.mobilewarsaw.meetupchef.ui.groups
 
-import android.animation.Animator
 import android.database.Cursor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -10,16 +9,15 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.View
 import butterknife.bindView
-import com.squareup.otto.Bus
-import com.squareup.otto.Subscribe
 
 import pl.mobilewarsaw.meetupchef.R
-import pl.mobilewarsaw.meetupchef.ui.searchview.SearchView
+import pl.mobilewarsaw.meetupchef.widget.searchview.SearchView
 import pl.mobilewarsaw.meetupchef.presenter.groups.MeetupGroupsPresenter
-import pl.mobilewarsaw.meetupchef.ui.groups.bus.GroupClicked
-import pl.mobilewarsaw.meetupchef.ui.progressbar.ChefProgressBar
-import pl.touk.android.basil.hide
-import pl.touk.android.basil.show
+import pl.mobilewarsaw.meetupchef.ui.groups.listingadapter.MeetupGroupsCursorAdapter
+import pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
+import pl.touk.basil.hide
+import pl.touk.basil.isEmpty
+import pl.touk.basil.show
 import uy.kohesive.injekt.injectValue
 
 class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
@@ -34,28 +32,30 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
 
     private val presenter: MeetupGroupsPresenter by injectValue()
     private val meetupGroupsRecycleViewAdapter: MeetupGroupsCursorAdapter by injectValue()
-    private val bus: Bus by injectValue()
 
-    private var showedQuery: String? = null
+    private var savedInstanceState: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meetup_groups)
+        this.savedInstanceState = savedInstanceState
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
 
-        presenter.bind(this, this, savedInstanceState)
         setupRecycleView()
+        setupToolbar()
 
         searchView.onSearch = { query ->
-            showedQuery = query
-            presenter.findMeetups(query) }
+            presenter.findMeetups(query)
+        }
 
         swipeRefreshLayout.setOnRefreshListener {
             presenter.refreshGroups()
         }
+    }
 
-        bus.register(this)
-        setupToolbar()
+    override fun onResume() {
+        super.onResume()
+        presenter.bind(this, this, savedInstanceState)
     }
 
     private fun setupToolbar() {
@@ -68,19 +68,14 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         super.onSaveInstanceState(outState)
     }
 
-    @Subscribe
-    public fun onMeetupGroupClick(groupClicked: GroupClicked) {
-        presenter.onGroupClicked(groupClicked.meetupGroup)
-    }
-
     private fun setupRecycleView() {
-        val layoutManager = LinearLayoutManager(this)
-        groupsRecycleView.layoutManager = layoutManager
+        groupsRecycleView.layoutManager = LinearLayoutManager(this)
+        meetupGroupsRecycleViewAdapter.lastViewMode = true
         groupsRecycleView.adapter = meetupGroupsRecycleViewAdapter
     }
 
     override fun showMeetupGroups(cursor: Cursor) {
-        if (cursor.count == 0) {
+        if (cursor.isEmpty()) {
             errorView.show()
             swipeRefreshLayout.hide()
             emptyView.hide()
@@ -95,11 +90,14 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
     }
 
     override fun showProgressBar() {
+        emptyView.hide()
+        errorView.hide()
         progressBar.show()
     }
 
     override fun onPause() {
         super.onPause()
         overridePendingTransition(R.anim.activity_slide_in_from_right, R.anim.activity_slide_out_to_left)
+        presenter.unbind()
     }
 }

@@ -3,7 +3,7 @@ package pl.mobilewarsaw.meetupchef.resource.local.meetup.repository
 import android.content.Context
 import android.database.Cursor
 import pl.mobilewarsaw.meetupchef.database.EventTable
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupEventContentProvider
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupEventContentProvider
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

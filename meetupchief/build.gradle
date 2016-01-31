@@ -96,6 +96,8 @@ dependencies {
 
     compile multidex
 
+    compile project(':basil')
+
     testCompile mockito
     testCompile hamcrestIntegration
     testCompile hamcrestCore

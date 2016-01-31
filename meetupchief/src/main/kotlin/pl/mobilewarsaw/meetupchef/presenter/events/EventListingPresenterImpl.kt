@@ -8,12 +8,12 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupEventContentProvider
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupEventContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.EventRepository
 import pl.mobilewarsaw.meetupchef.service.MeetupSynchronizer
 import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
 import pl.mobilewarsaw.meetupchef.ui.events.*
-import pl.touk.android.basil.registerUriObserver
+import pl.touk.basil.registerUriObserver
 import uy.kohesive.injekt.injectValue
 
 

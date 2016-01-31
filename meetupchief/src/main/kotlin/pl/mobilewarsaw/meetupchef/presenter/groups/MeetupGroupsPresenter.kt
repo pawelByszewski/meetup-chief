@@ -19,4 +19,6 @@ interface MeetupGroupsPresenter {
     fun refreshGroups()
 
     fun onGroupClicked(meetupGroup: MeetupGroup)
+
+    fun unbind()
 }

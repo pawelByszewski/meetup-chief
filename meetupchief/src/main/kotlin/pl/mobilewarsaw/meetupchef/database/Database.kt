@@ -4,13 +4,12 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import pl.mobilewarsaw.meetupchef.Settings
+import pl.touk.basil.dropTableIfExists
 
 
 class Database : SQLiteOpenHelper {
 
-    private constructor(context: Context) : super(context, DATABASE_NAME, null, DATABASE_VERSION) {
-
-    }
+    private constructor(context: Context) : super(context, Settings.databse.name, null, Settings.databse.version)
 
     override fun onCreate(db: SQLiteDatabase?) {
         dropAllTables(db)
@@ -23,14 +22,11 @@ class Database : SQLiteOpenHelper {
     }
 
     private fun dropAllTables(db: SQLiteDatabase?) {
-        db?.execSQL("DROP TABLE IF EXISTS " + EventTable.TABLE)
-        db?.execSQL("DROP TABLE IF EXISTS " + MeetupGroupTable.TABLE)
+        db?.dropTableIfExists(EventTable.TABLE)
+        db?.dropTableIfExists(MeetupGroupTable.TABLE)
     }
 
     companion object {
-        val DATABASE_NAME = Settings.databse.name
-        private val DATABASE_VERSION = 1
-
         private var INSTANCE: Database? = null
 
         @Synchronized

@@ -1,4 +1,4 @@
-package pl.mobilewarsaw.meetupchef.ui.searchview
+package pl.mobilewarsaw.meetupchef.widget.searchview
 
 import android.app.Activity
 import android.content.Context
@@ -13,8 +13,8 @@ import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import butterknife.bindView
 import pl.mobilewarsaw.meetupchef.R
-import pl.touk.android.basil.bindSystemService
-import pl.touk.android.basil.recycleAfter
+import pl.touk.basil.bindSystemService
+import pl.touk.basil.recycleAfter
 
 
 class SearchView(context: Context?, attrs: AttributeSet?) : FrameLayout(context, attrs) {
