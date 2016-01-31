@@ -46,31 +46,8 @@
 
     <include layout="@layout/groups_empty_view"/>
 
-    <RelativeLayout
-        android:id="@+id/error_view"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+    <include layout="@layout/groups_error_view"/>
 
-        <ImageView
-            android:id="@+id/error_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/ic_search" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/error_icon"
-            android:text="@string/groups_error_view"
-            android:textSize="24sp"
-            android:textColor="@color/very_dark_light_transparent_grey"
-            />
-
-    </RelativeLayout>
 
     <View
         android:id="@+id/toolbar_shadow"
