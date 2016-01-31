@@ -18,6 +18,7 @@ import pl.mobilewarsaw.meetupchief.R
 import pl.mobilewarsaw.meetupchief.presenter.events.EventsListingPresenter
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchief.ui.groups.MeetupEventCursorAdapter
+import pl.mobilewarsaw.meetupchief.ui.progressbar.ChiefProgressBar
 import uy.kohesive.injekt.injectValue
 
 const val GROUP_URL_NAME_KEY = "urlname"
@@ -30,6 +31,7 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
     private val eventsListing: RecyclerView by bindView(R.id.meetup_events_list)
     private val toolbarImage: ImageView by bindView(R.id.toolbar_image)
     private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.swipe_container)
+    private val progressBar: ChiefProgressBar by bindView(R.id.progress_bar)
     private val presenter: EventsListingPresenter by injectValue()
     private val picasso: Picasso by injectValue()
 
@@ -56,7 +58,6 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
         swipeRefreshLayout.setOnRefreshListener {
             presenter.refreshEvents()
         }
-//        showGroupPhoto(null)
 
         presenter.bind(this, this)
     }
@@ -101,10 +102,11 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
     override fun showEvents(cursor: Cursor) {
         eventsRecycleViewAdapter!!.changeCursor(cursor)
         swipeRefreshLayout.isRefreshing = false
+        progressBar.hide()
     }
 
     override fun showProgressBar() {
-        //TODO
+        progressBar.show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

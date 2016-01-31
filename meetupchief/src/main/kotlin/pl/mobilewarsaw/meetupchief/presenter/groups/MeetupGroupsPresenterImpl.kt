@@ -1,6 +1,5 @@
 package pl.mobilewarsaw.meetupchief.presenter.groups
 
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.database.ContentObserver
@@ -44,9 +43,7 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
 
     private fun restoreState(savedInstanceState: Bundle? = null) {
         currentQuery = savedInstanceState?.getString(RESTORE_QUERY) ?: currentQuery
-        if (!currentQuery.isNullOrBlank()) {
-            showAllGroups()
-        }
+        showAllGroups()
     }
 
     private fun registerUriObserver(uri: Uri, action: () -> Unit) {
@@ -59,6 +56,7 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
     override fun findMeetups(query: String) {
         checkViewBinding()
         currentQuery = query
+        meetupGroupsView?.showProgressBar()
 
         val synchronizerQuery = MeetupSynchronizerQuery.Groups(query)
         val intent = Intent(context, MeetupSynchronizer::class.java)

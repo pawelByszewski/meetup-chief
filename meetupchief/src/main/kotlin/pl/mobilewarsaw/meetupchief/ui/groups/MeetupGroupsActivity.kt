@@ -1,5 +1,6 @@
 package pl.mobilewarsaw.meetupchief.ui.groups
 
+import android.animation.Animator
 import android.database.Cursor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -18,6 +19,7 @@ import pl.mobilewarsaw.meetupchief.presenter.groups.MeetupGroupsPresenter
 import pl.mobilewarsaw.meetupchief.presenter.groups.RESTORE_KEY
 import pl.mobilewarsaw.meetupchief.presenter.groups.RESTORE_QUERY
 import pl.mobilewarsaw.meetupchief.ui.groups.bus.GroupClicked
+import pl.mobilewarsaw.meetupchief.ui.progressbar.ChiefProgressBar
 import pl.touk.android.basil.hide
 import pl.touk.android.basil.show
 import uy.kohesive.injekt.injectValue
@@ -30,6 +32,7 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
     private val groupsRecycleView: RecyclerView by bindView(R.id.meetup_groups_list)
     private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.swipe_container)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
+    private val progressBar: ChiefProgressBar by bindView(R.id.progress_bar)
 
     private val meetupGroupsPresenter: MeetupGroupsPresenter by injectValue()
     private val meetupGroupsRecycleViewAdapter: MeetupGroupsCursorAdapter by injectValue()
@@ -91,6 +94,11 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         }
         meetupGroupsRecycleViewAdapter!!.changeCursor(cursor)
         swipeRefreshLayout.isRefreshing = false
+        progressBar.hide()
+    }
+
+    override fun showProgressBar() {
+        progressBar.show()
     }
 
     override fun onPause() {

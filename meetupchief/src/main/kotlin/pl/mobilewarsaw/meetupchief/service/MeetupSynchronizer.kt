@@ -30,7 +30,7 @@ class MeetupSynchronizer : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        val query = MeetupSynchronizerQuery.extract(intent!!)
+        val query = MeetupSynchronizerQuery.extract(intent)
 
         when(query) {
             is MeetupSynchronizerQuery.Groups -> fetchGroups(query)

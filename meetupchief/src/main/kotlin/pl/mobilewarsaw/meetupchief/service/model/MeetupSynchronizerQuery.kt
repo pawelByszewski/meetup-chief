@@ -12,8 +12,8 @@ sealed class MeetupSynchronizerQuery() {
         GROUPS, EVENTS;
 
         companion object {
-            fun extract(intent: Intent): Type? {
-                val ordinal = intent.getIntExtra(TYPE_KEY, -1)
+            fun extract(intent: Intent?): Type? {
+                val ordinal = intent?.getIntExtra(TYPE_KEY, -1)
                 return Type.values().firstOrNull { it.ordinal == ordinal }
             }
         }
@@ -37,11 +37,11 @@ sealed class MeetupSynchronizerQuery() {
     }
 
     companion object {
-        fun extract(intent: Intent) : MeetupSynchronizerQuery? {
+        fun extract(intent: Intent?) : MeetupSynchronizerQuery? {
             val type = Type.extract(intent)
             return when(type) {
-                Type.GROUPS -> intent.toGroupsQuery()
-                Type.EVENTS -> intent.toEventsQuery()
+                Type.GROUPS -> intent?.toGroupsQuery()
+                Type.EVENTS -> intent?.toEventsQuery()
                 else -> null
             }
         }
