@@ -12,4 +12,4 @@ env:
   matrix:
     - ANDROID_TARGET=android-23  ANDROID_ABI=armeabi-v7a MAVEN_OPTS="-XX:MaxPermSize=2048M -Xmx4g -Xms2g"
 
-script: ./gradlew clean build --stacktrace
+script: ./gradlew clean build --stacktrace --debug
