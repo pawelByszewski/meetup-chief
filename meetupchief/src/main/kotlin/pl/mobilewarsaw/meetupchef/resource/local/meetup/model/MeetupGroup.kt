@@ -2,8 +2,8 @@ package pl.mobilewarsaw.meetupchef.resource.local.meetup.model
 
 import android.database.Cursor
 import pl.mobilewarsaw.meetupchef.database.MeetupGroupTable
-import pl.touk.android.basil.getString
-import pl.touk.android.basil.getInt
+import pl.touk.basil.getString
+import pl.touk.basil.getInt
 
 
 data class MeetupGroup(val groupId: String,

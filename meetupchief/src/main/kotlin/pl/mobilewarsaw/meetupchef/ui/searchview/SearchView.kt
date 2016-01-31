@@ -13,8 +13,8 @@ import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import butterknife.bindView
 import pl.mobilewarsaw.meetupchef.R
-import pl.touk.android.basil.bindSystemService
-import pl.touk.android.basil.recycleAfter
+import pl.touk.basil.bindSystemService
+import pl.touk.basil.recycleAfter
 
 
 class SearchView(context: Context?, attrs: AttributeSet?) : FrameLayout(context, attrs) {

@@ -2,12 +2,11 @@ package pl.mobilewarsaw.meetupchef.resource.local.meetup.repository
 
 import android.content.Context
 import android.database.Cursor
-import pl.touk.android.basil.query
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupGroupContentProvider
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-
+import pl.touk.basil.query
 
 open class GroupRepository(val context: Context) {
 

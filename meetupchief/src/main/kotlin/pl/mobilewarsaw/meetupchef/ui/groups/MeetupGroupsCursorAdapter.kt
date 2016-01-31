@@ -13,6 +13,7 @@ import pl.mobilewarsaw.meetupchef.R
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.ui.groups.bus.GroupClicked
 import pl.mobilewarsaw.meetupchef.ui.recycleview.CursorRecyclerViewAdapter
+import pl.touk.basil.clear
 import uy.kohesive.injekt.injectValue
 import kotlin.properties.Delegates
 
@@ -91,6 +92,3 @@ class MeetupGroupsCursorAdapter(cursor: Cursor? = null)
                 .into(viewHolder.image)
     }
 }
-
-//TODO to basil
-fun ImageView.clear() = setImageResource(0)

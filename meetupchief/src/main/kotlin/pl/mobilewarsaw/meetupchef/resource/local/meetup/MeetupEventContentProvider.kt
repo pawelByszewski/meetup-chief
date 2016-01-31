@@ -34,7 +34,6 @@ class MeetupEventContentProvider : ContentProvider(), PartialContentProvider {
             return uriMatcher
         }
 
-    //TODO to basil
     override fun canHandle(uri: Uri)
             = uriMatcher.match(uri) != MeetupContentProvider.URI_NOT_MATCH
 

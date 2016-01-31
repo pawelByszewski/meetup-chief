@@ -15,7 +15,7 @@ import pl.mobilewarsaw.meetupchef.service.MeetupSynchronizer
 import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
 import pl.mobilewarsaw.meetupchef.ui.events.EventsListingActivity
 import pl.mobilewarsaw.meetupchef.ui.groups.MeetupGroupsView
-import pl.touk.android.basil.registerUriObserver
+import pl.touk.basil.registerUriObserver
 import uy.kohesive.injekt.injectValue
 
 

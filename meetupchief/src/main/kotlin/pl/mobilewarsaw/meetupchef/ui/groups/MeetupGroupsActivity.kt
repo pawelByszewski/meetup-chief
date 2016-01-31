@@ -18,8 +18,8 @@ import pl.mobilewarsaw.meetupchef.ui.searchview.SearchView
 import pl.mobilewarsaw.meetupchef.presenter.groups.MeetupGroupsPresenter
 import pl.mobilewarsaw.meetupchef.ui.groups.bus.GroupClicked
 import pl.mobilewarsaw.meetupchef.ui.progressbar.ChefProgressBar
-import pl.touk.android.basil.hide
-import pl.touk.android.basil.show
+import pl.touk.basil.hide
+import pl.touk.basil.show
 import uy.kohesive.injekt.injectValue
 
 class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
