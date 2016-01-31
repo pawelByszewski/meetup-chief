@@ -3,8 +3,10 @@ package pl.touk.android.basil
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.res.TypedArray
+import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.View
 import kotlin.properties.ReadOnlyProperty
@@ -79,3 +81,11 @@ fun View.hide() {
 
 fun Cursor.getString(columnName: String) = getString(getColumnIndex(columnName))
 fun Cursor.getInt(columnName: String) = getInt(getColumnIndex(columnName))
+
+
+inline fun ContentResolver.registerUriObserver(uri: Uri, noinline  action: () -> Unit) {
+    registerContentObserver(uri, true,
+            object : ContentObserver(Handler()) {
+                override fun onChange(selfChange: Boolean) = action()
+            })
+}

@@ -2,3 +2,6 @@ meetup:
   url:  https://api.meetup.com
   version: 2
   apiKey: replace_with_valid_key
+
+databse:
+  name: meetup_chef

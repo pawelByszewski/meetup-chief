@@ -57,7 +57,7 @@
                 android:layout_height="match_parent"
                 tools:listitem="@layout/meetup_event_item"/>
 
-            <pl.mobilewarsaw.meetupchief.ui.progressbar.ChiefProgressBar
+            <pl.mobilewarsaw.meetupchef.ui.progressbar.ChefProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
