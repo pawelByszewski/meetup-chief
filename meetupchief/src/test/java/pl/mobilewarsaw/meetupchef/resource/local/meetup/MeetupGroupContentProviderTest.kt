@@ -2,7 +2,7 @@ package pl.mobilewarsaw.meetupchef.resource.local.meetup
 
 import android.net.Uri
 import org.junit.Test
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupGroupContentProvider
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

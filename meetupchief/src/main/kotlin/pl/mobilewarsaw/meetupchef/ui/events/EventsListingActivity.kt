@@ -21,7 +21,7 @@ import pl.mobilewarsaw.meetupchef.presenter.events.EventsListingPresenter
 import pl.mobilewarsaw.meetupchef.presenter.events.State
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.ui.groups.MeetupEventCursorAdapter
-import pl.mobilewarsaw.meetupchef.ui.progressbar.ChefProgressBar
+import pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
 import pl.touk.basil.isEmpty
 import pl.touk.basil.show
 import uy.kohesive.injekt.injectValue

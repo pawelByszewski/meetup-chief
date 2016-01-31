@@ -1,4 +1,4 @@
-package pl.mobilewarsaw.meetupchef.ui.searchview
+package pl.mobilewarsaw.meetupchef.widget.searchview
 
 import android.app.Activity
 import android.content.Context

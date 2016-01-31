@@ -17,7 +17,7 @@
         app:contentInsetStart="0dp"
         android:background="?attr/colorPrimary">
 
-        <pl.mobilewarsaw.meetupchef.ui.searchview.SearchView
+        <pl.mobilewarsaw.meetupchef.widget.searchview.SearchView
             android:id="@+id/search_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
         android:layout_height="5dp"
         android:background="@drawable/toolbar_dropshadow"/>
 
-    <pl.mobilewarsaw.meetupchef.ui.progressbar.ChefProgressBar
+    <pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

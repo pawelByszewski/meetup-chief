@@ -1,4 +1,4 @@
-package pl.mobilewarsaw.meetupchef.ui.progressbar
+package pl.mobilewarsaw.meetupchef.widget.progressbar
 
 import android.animation.Animator
 import android.animation.AnimatorInflater
@@ -9,6 +9,8 @@ import android.widget.ImageView
 import pl.mobilewarsaw.meetupchef.R
 
 
+private const val START_ALPHA_VALUE = 0f
+
 class ChefProgressBar(context: Context?, attrs: AttributeSet?) : ImageView(context, attrs) {
 
     private val showAnimator: Animator by lazy { loadAnimator(R.animator.progress_bar_show) }
@@ -17,7 +19,7 @@ class ChefProgressBar(context: Context?, attrs: AttributeSet?) : ImageView(conte
     init {
         setImageResource(R.mipmap.ic_search)
         visibility = View.GONE
-        alpha = 0f
+        alpha = START_ALPHA_VALUE
     }
 
     private fun loadAnimator(animatorResId: Int): Animator {

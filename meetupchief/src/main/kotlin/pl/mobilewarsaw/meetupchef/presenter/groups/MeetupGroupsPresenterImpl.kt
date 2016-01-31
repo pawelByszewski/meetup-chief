@@ -8,7 +8,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupGroupContentProvider
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.GroupRepository
 import pl.mobilewarsaw.meetupchef.service.MeetupSynchronizer

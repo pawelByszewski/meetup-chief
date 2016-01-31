@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.PartialContentProvider;
+
 import static com.googlecode.catchexception.CatchException.catchException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;

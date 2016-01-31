@@ -14,10 +14,10 @@ import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
 
 import pl.mobilewarsaw.meetupchef.R
-import pl.mobilewarsaw.meetupchef.ui.searchview.SearchView
+import pl.mobilewarsaw.meetupchef.widget.searchview.SearchView
 import pl.mobilewarsaw.meetupchef.presenter.groups.MeetupGroupsPresenter
 import pl.mobilewarsaw.meetupchef.ui.groups.bus.GroupClicked
-import pl.mobilewarsaw.meetupchef.ui.progressbar.ChefProgressBar
+import pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
 import pl.touk.basil.hide
 import pl.touk.basil.show
 import uy.kohesive.injekt.injectValue
@@ -95,6 +95,8 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
     }
 
     override fun showProgressBar() {
+        emptyView.hide()
+        errorView.hide()
         progressBar.show()
     }
 

@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class MeetupEvents(@SerializedName("results") val events: List<MeetupEvent>)
 
-//    https://api.meetup.com/Mobile-Warsaw/events?&sign=true&photo-host=public&desc=true&only=id,status,name,yes_rsvp_count,venue.name,description
 
 data class MeetupEvent(val name: String,
                        val id: String,
@@ -15,5 +14,6 @@ data class MeetupEvent(val name: String,
                        @SerializedName("yes_rsvp_count") val attends: Int)
 
 data class Venue(val name: String)
+
 data class Group(val urlname: String)
 
