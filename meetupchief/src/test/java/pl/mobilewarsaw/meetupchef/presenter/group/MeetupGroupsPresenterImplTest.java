@@ -61,7 +61,7 @@ public class MeetupGroupsPresenterImplTest {
         MeetupGroupsView meetupGroupView = mock(MeetupGroupsView.class);
         mockContentResolverMechanism(context);
 
-        presenter.bind(context, meetupGroupView, null);
+        presenter.bind(meetupGroupView, context, null);
 
         //when
         presenter.findMeetups("mobile");
