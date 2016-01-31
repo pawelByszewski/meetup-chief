@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v4.app.NavUtils
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
@@ -59,7 +60,14 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
             presenter.refreshEvents()
         }
 
-        presenter.bind(this, this)
+        presenter.bind(this, this, savedInstanceState, intent)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        if (outState != null) {
+            presenter.saveState(outState)
+        }
+        super.onSaveInstanceState(outState)
     }
 
     override fun showGroupPhoto(photoUrl: String?) {

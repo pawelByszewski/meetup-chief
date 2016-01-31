@@ -5,6 +5,7 @@ import android.content.Intent
 import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
+import android.os.Bundle
 import android.os.Handler
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.MeetupEventContentProvider
 import pl.mobilewarsaw.meetupchief.resource.local.meetup.repository.EventRepository
@@ -18,15 +19,20 @@ class EventListingPresenterImpl : EventsListingPresenter {
 
     private lateinit var eventsListingView: EventsListingView
     private lateinit var context: Context
+    private lateinit var intent: Intent
     private lateinit var meetuGroupInitData: MeetuGroupInitData
 
     private val eventRepository: EventRepository by injectValue()
 
-    override fun bind(eventsListingView: EventsListingView, context: Context) {
+    override fun bind(eventsListingView: EventsListingView,
+                      context: Context,
+                      savedInstanceState: Bundle?,
+                      intent: Intent) {
         this.eventsListingView = eventsListingView
         this.context = context
+        this.intent = intent
 
-        meetuGroupInitData = extractInitData()
+        meetuGroupInitData = extractInitData(savedInstanceState)
         eventsListingView.showInToolbar(meetuGroupInitData)
 
         registerUriObserver(MeetupEventContentProvider.CONTENT_URI) {
@@ -41,6 +47,10 @@ class EventListingPresenterImpl : EventsListingPresenter {
         eventsListingView.showGroupPhoto(meetuGroupInitData.photoUrl)
     }
 
+    override fun saveState(outState: Bundle) {
+        meetuGroupInitData.saveIn(outState)
+    }
+
     private fun synchronizeEvents() {
         val query = MeetupSynchronizerQuery.Events(meetuGroupInitData.urlName)
         val intent = Intent(context, MeetupSynchronizer::class.java)
@@ -52,10 +62,13 @@ class EventListingPresenterImpl : EventsListingPresenter {
         synchronizeEvents()
     }
 
-    private fun extractInitData()
-        = MeetuGroupInitData(urlName = eventsListingView.getIntent().getStringExtra(GROUP_URL_NAME_KEY),
-                             name = eventsListingView.getIntent().getStringExtra(GROUP_NAME_KEY),
-                             photoUrl = eventsListingView.getIntent().getStringExtra(GROUP_PHOTO))
+    private fun extractInitData(savedInstanceState: Bundle?)
+        = if (savedInstanceState != null) {
+            MeetuGroupInitData.createFrom(savedInstanceState)
+        } else {
+            MeetuGroupInitData.Companion.createFrom(intent)
+        }
+
 
     private fun showEvents() {
         eventRepository.fetchEvents(meetuGroupInitData.urlName) { cursor: Cursor -> eventsListingView?.showEvents(cursor) }
