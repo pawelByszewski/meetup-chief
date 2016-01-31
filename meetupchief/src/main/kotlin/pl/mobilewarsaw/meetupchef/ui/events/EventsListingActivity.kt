@@ -17,6 +17,7 @@ import butterknife.bindView
 import com.squareup.picasso.Picasso
 import pl.mobilewarsaw.meetupchef.R
 import pl.mobilewarsaw.meetupchef.presenter.events.EventsListingPresenter
+import pl.mobilewarsaw.meetupchef.presenter.events.State
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.ui.groups.MeetupEventCursorAdapter
 import pl.mobilewarsaw.meetupchef.ui.progressbar.ChefProgressBar
@@ -103,7 +104,7 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
         supportActionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    override fun showInToolbar(meeupGroupInitData: MeetuGroupInitData) {
+    override fun showInToolbar(meeupGroupInitData: State) {
         supportActionBar.title = meeupGroupInitData.name;
     }
 

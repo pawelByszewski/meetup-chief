@@ -82,28 +82,5 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
 
     override fun saveState(outState: Bundle)
         = state.save(outState)
-
-    private class State {
-
-        private val RESTORE_QUERY = "restoreLastQuery"
-        private var realQuery: String? = null
-
-        val isDetermined: Boolean
-            get() = !query.isNullOrBlank()
-
-        var query: String
-            get() = realQuery ?: ""
-            set(value) {
-               realQuery = value
-            }
-
-        fun save(bundle: Bundle)
-            = bundle.putString(RESTORE_QUERY, query)
-
-
-        fun setup(bundle: Bundle?) {
-            realQuery = bundle?.getString(RESTORE_QUERY)
-        }
-    }
 }
 

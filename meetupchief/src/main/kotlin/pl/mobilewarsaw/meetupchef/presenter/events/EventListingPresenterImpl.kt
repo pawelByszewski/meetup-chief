@@ -1,5 +1,6 @@
 package pl.mobilewarsaw.meetupchef.presenter.events
 
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.database.ContentObserver
@@ -12,6 +13,7 @@ import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.EventReposito
 import pl.mobilewarsaw.meetupchef.service.MeetupSynchronizer
 import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
 import pl.mobilewarsaw.meetupchef.ui.events.*
+import pl.touk.android.basil.registerUriObserver
 import uy.kohesive.injekt.injectValue
 
 
@@ -19,8 +21,7 @@ class EventListingPresenterImpl : EventsListingPresenter {
 
     private lateinit var eventsListingView: EventsListingView
     private lateinit var context: Context
-    private lateinit var intent: Intent
-    private lateinit var meetuGroupInitData: MeetuGroupInitData
+    private val state = State()
 
     private val eventRepository: EventRepository by injectValue()
 
@@ -30,29 +31,36 @@ class EventListingPresenterImpl : EventsListingPresenter {
                       intent: Intent) {
         this.eventsListingView = eventsListingView
         this.context = context
-        this.intent = intent
 
-        meetuGroupInitData = extractInitData(savedInstanceState)
-        eventsListingView.showInToolbar(meetuGroupInitData)
+        state.setup(intent, savedInstanceState)
+        eventsListingView.showInToolbar(state)
 
-        registerUriObserver(MeetupEventContentProvider.CONTENT_URI) {
+        contentResolver.registerUriObserver(MeetupEventContentProvider.CONTENT_URI) {
             showEvents()
         }
+
         showMeetupGroupImage()
-        eventsListingView.showProgressBar()
-        synchronizeEvents()
+        if (savedInstanceState == null) {
+            eventsListingView.showProgressBar()
+            synchronizeEvents()
+        } else {
+            showEvents()
+        }
     }
 
+    private val contentResolver: ContentResolver
+        get() = context.contentResolver
+
     private fun showMeetupGroupImage() {
-        eventsListingView.showGroupPhoto(meetuGroupInitData.photoUrl)
+        eventsListingView.showGroupPhoto(state.photoUrl)
     }
 
     override fun saveState(outState: Bundle) {
-        meetuGroupInitData.saveIn(outState)
+        state.saveIn(outState)
     }
 
     private fun synchronizeEvents() {
-        val query = MeetupSynchronizerQuery.Events(meetuGroupInitData.urlName)
+        val query = MeetupSynchronizerQuery.Events(state.urlName)
         val intent = Intent(context, MeetupSynchronizer::class.java)
         query.toIntent(intent)
         context.startService(intent)
@@ -62,22 +70,7 @@ class EventListingPresenterImpl : EventsListingPresenter {
         synchronizeEvents()
     }
 
-    private fun extractInitData(savedInstanceState: Bundle?)
-        = if (savedInstanceState != null) {
-            MeetuGroupInitData.createFrom(savedInstanceState)
-        } else {
-            MeetuGroupInitData.Companion.createFrom(intent)
-        }
-
-
     private fun showEvents() {
-        eventRepository.fetchEvents(meetuGroupInitData.urlName) { cursor: Cursor -> eventsListingView?.showEvents(cursor) }
-    }
-
-    private fun registerUriObserver(uri: Uri, action: () -> Unit) {
-        this.context.contentResolver.registerContentObserver(uri, true,
-                object : ContentObserver(Handler()) {
-                    override fun onChange(selfChange: Boolean) = action()
-                })
+        eventRepository.fetchEvents(state.urlName) { cursor: Cursor -> eventsListingView?.showEvents(cursor) }
     }
 }
