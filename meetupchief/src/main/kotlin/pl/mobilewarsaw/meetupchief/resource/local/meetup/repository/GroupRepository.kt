@@ -9,9 +9,9 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 
-class GroupRepository(val context: Context) {
+open class GroupRepository(val context: Context) {
 
-     fun fetchAllGroups(action: (Cursor) -> Unit) {
+     open fun fetchAllGroups(action: (Cursor) -> Unit) {
         Observable.just(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -17,7 +17,6 @@ sealed class MeetupSynchronizerQuery() {
                 return Type.values().firstOrNull { it.ordinal == ordinal }
             }
         }
-
     }
 
     abstract val toIntent: (Intent) -> Unit

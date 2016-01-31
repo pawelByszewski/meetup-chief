@@ -6,14 +6,22 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
+import pl.mobilewarsaw.meetupchief.config.injekt.MeetupChiefInjektMain;
 import pl.mobilewarsaw.meetupchief.presenter.groups.MeetupGroupsPresenter;
 import pl.mobilewarsaw.meetupchief.presenter.groups.MeetupGroupsPresenterImpl;
+import pl.mobilewarsaw.meetupchief.resource.local.meetup.repository.GroupRepository;
 import pl.mobilewarsaw.meetupchief.ui.groups.MeetupGroupsView;
+import uy.kohesive.injekt.InjektMain;
+import uy.kohesive.injekt.api.FullTypeReference;
+import uy.kohesive.injekt.api.InjektRegistrar;
 
 import static com.googlecode.catchexception.CatchException.catchException;
 import static com.googlecode.catchexception.CatchException.caughtException;
@@ -27,7 +35,18 @@ import static org.mockito.Mockito.when;
 @RunWith(RobolectricTestRunner.class)
 public class MeetupGroupsPresenterImplTest {
 
-    MeetupGroupsPresenter presenter = new MeetupGroupsPresenterImpl();
+    MeetupGroupsPresenter presenter;
+
+    @Before
+    public void setUp() throws Exception {
+        InjektMain injektMain = new InjektMain() {
+            @Override
+            public void registerInjectables(InjektRegistrar injektRegistrar) {
+                injektRegistrar.addSingleton(new FullTypeReference<GroupRepository>(){}, mock(GroupRepository.class));
+            }
+        };
+        presenter = new MeetupGroupsPresenterImpl();
+    }
 
     @Test
     public void shouldThrowExceptionWhenTryToUseBeforeViewBinding() throws Exception {
@@ -64,20 +83,6 @@ public class MeetupGroupsPresenterImplTest {
                 return false;
             }
         }));
-    }
-
-    @Test
-    public void shouldNotifyViewWhenNewDataInDatabase() throws Exception {
-        //given
-        Context context = mock(Context.class);
-        MeetupGroupsView meetupGroupView = mock(MeetupGroupsView.class);
-        Cursor curosr = mockContentResolverMechanism(context);
-
-        presenter.bind(context, meetupGroupView, null);
-        presenter.findMeetups("mobile");
-
-        //when
-        //TODO test it
     }
 
     private Cursor mockContentResolverMechanism(Context context) {

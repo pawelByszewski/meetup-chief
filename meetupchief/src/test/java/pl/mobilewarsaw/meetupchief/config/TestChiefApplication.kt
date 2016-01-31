@@ -7,7 +7,7 @@ import pl.mobilewarsaw.meetupchief.database.DatabaseEnvironment
 import pl.mobilewarsaw.meetupchief.service.MeetupSynchronizer
 
 
-class MeetupChiefTestApplication: Application() {
+class TestChiefApplication : Application() {
 
     private val databaseEnvironment = DatabaseEnvironment()
 
