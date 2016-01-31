@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import butterknife.bindView
 import com.squareup.picasso.Picasso
@@ -21,6 +22,9 @@ import pl.mobilewarsaw.meetupchef.presenter.events.State
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.ui.groups.MeetupEventCursorAdapter
 import pl.mobilewarsaw.meetupchef.ui.progressbar.ChefProgressBar
+import pl.touk.android.basil.hide
+import pl.touk.android.basil.isEmpty
+import pl.touk.android.basil.show
 import uy.kohesive.injekt.injectValue
 
 const val GROUP_URL_NAME_KEY = "urlname"
@@ -34,6 +38,8 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
     private val toolbarImage: ImageView by bindView(R.id.toolbar_image)
     private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.swipe_container)
     private val progressBar: ChefProgressBar by bindView(R.id.progress_bar)
+    private val emptyView: View by bindView(R.id.empty_view)
+
     private val presenter: EventsListingPresenter by injectValue()
     private val picasso: Picasso by injectValue()
 
@@ -112,6 +118,7 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
         eventsRecycleViewAdapter!!.changeCursor(cursor)
         swipeRefreshLayout.isRefreshing = false
         progressBar.hide()
+        emptyView.show(cursor.isEmpty() )
     }
 
     override fun showProgressBar() {

@@ -5,4 +5,5 @@
     <string name="groups_error_view">Try with another name</string>
     <string name="grups_empty_view">Find your meetup…</string>
     <string name="search_group_hint">group name</string>
+    <string name="events_empty_views_label">The group has not met yet</string>
 </resources>

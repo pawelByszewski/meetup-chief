@@ -53,10 +53,6 @@ private class Lazy<T, V>(private val initializer: (T, KProperty<*>) -> V) : Read
 }
 
 
-
-
-
-
 inline fun TypedArray.recycleAfter(operation: TypedArray.() -> Unit) {
     try {
         operation()
@@ -70,12 +66,12 @@ inline fun ContentResolver.query(uri: Uri): Cursor
         = query(uri, null, null, null, null)
 
 
-fun View.show() {
-    visibility = View.VISIBLE
+fun View.show(show: Boolean = true) {
+    visibility = if (show) View.VISIBLE else View.GONE
 }
 
 fun View.hide() {
-    visibility = View.GONE
+    show(false)
 }
 
 
@@ -89,3 +85,6 @@ inline fun ContentResolver.registerUriObserver(uri: Uri, noinline  action: () ->
                 override fun onChange(selfChange: Boolean) = action()
             })
 }
+
+inline fun Cursor.isEmpty()
+    = count == 0

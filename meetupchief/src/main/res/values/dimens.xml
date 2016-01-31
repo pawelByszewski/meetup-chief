@@ -47,6 +47,7 @@
     <dimen name="event_attends_label_text_size">10sp</dimen>
     <dimen name="event_attends_card_small_margin">4dp</dimen>
     <dimen name="group_image_toolbar_height">200dp</dimen>
+    <dimen name="empty_view_icon_margin">40dp</dimen>
 
 
 </resources>

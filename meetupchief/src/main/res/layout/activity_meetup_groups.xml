@@ -44,22 +44,7 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <RelativeLayout
-        android:id="@+id/empty_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/grups_empty_view"
-            android:textSize="24sp"
-            android:textColor="@color/very_dark_light_transparent_grey"
-            />
-
-    </RelativeLayout>
+    <include layout="@layout/groups_empty_view"/>
 
     <RelativeLayout
         android:id="@+id/error_view"
