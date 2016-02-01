@@ -21,6 +21,6 @@ class State {
 
 
     fun setup(bundle: Bundle?) {
-        realQuery = bundle?.getString(RESTORE_QUERY)
+        realQuery = bundle?.getString(RESTORE_QUERY) ?: realQuery
     }
 }

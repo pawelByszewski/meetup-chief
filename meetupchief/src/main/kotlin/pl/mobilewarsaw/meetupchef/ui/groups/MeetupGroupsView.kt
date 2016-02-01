@@ -8,4 +8,6 @@ interface MeetupGroupsView {
     fun showMeetupGroups(cursor: Cursor)
 
     fun showProgressBar()
+
+    fun showNetworkError()
 }

@@ -18,13 +18,18 @@ interface PartialContentProvider {
 
     fun insert(uri: Uri?, values: ContentValues?): Uri?
 
-    fun delete(uri: Uri?): Int
+    fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int
 
     fun query(uri: Uri?,
               projection: Array<out String>? = null,
               selection: String? = null,
               selectionArgs: Array<out String>? = null,
               sortOrder: String? = null): Cursor?
+
+    fun update(uri: Uri?,
+               values: ContentValues?,
+               selection: String?,
+               selectionArgs: Array<out String>?): Int
 
     fun getType(uri: Uri?): String?
 

@@ -3,6 +3,8 @@ package pl.mobilewarsaw.meetupchef.ui.groups
 import android.database.Cursor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.support.design.widget.Snackbar
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -22,6 +24,7 @@ import uy.kohesive.injekt.injectValue
 
 class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
 
+    protected val rootView: View by bindView(R.id.container)
     protected val emptyView: View by bindView(R.id.empty_view)
     protected val errorView: View by bindView(R.id.error_view)
     private val searchView: SearchView by bindView(R.id.search_view)
@@ -94,6 +97,10 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         errorView.hide()
         progressBar.show()
     }
+
+    override fun showNetworkError()
+         = Snackbar.make(rootView, R.string.network_error_message, Snackbar.LENGTH_LONG)
+                    .show()
 
     override fun onPause() {
         super.onPause()

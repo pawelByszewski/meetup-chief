@@ -63,4 +63,5 @@ repositories {
 dependencies {
     compile kotlin
     compile appcompat
+    compile ottoBus
 }
