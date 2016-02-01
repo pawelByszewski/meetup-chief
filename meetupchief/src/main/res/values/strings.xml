@@ -6,4 +6,5 @@
     <string name="grups_empty_view">Find your meetup…</string>
     <string name="search_group_hint">group name</string>
     <string name="events_empty_views_label">The group has not met yet</string>
+    <string name="network_error_message">Chef is presenting cached items. Check Internet connection.</string>
 </resources>

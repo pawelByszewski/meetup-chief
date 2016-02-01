@@ -7,6 +7,9 @@ import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupCont
 import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Meetup
 
 
+const val CACHED = 1
+const val UNCACHED = 0
+
 object MeetupGroupTable {
 
     val TABLE = "meetupGroups"
@@ -17,6 +20,8 @@ object MeetupGroupTable {
     val PHOTO = "photo"
     val CATEGORY = "category"
     val URL_NAME = "url_name"
+    val CACHE = "CACHE"
+    val QUERY = "QUERY"
 
 
     //TODO use the Kotlin Luke
@@ -26,10 +31,12 @@ object MeetupGroupTable {
                                     "$NAME text not null, " +
                                     "$PHOTO text not null, " +
                                     "$CATEGORY text not null, " +
+                                    "$QUERY text not null, " +
                                     "$MEMBERS integer not null, " +
+                                    "$CACHE integer not null DEFAULT 0, " +
                                     "$URL_NAME text not null);"
 
-    fun createContentValues(meetup: Meetup): ContentProviderOperation {
+    fun createInsertOperation(query: String, meetup: Meetup): ContentProviderOperation {
         return ContentProviderOperation.newInsert(MeetupGroupContentProvider.CONTENT_URI)
                 .withValue(MeetupGroupTable.NAME, meetup.name)
                 .withValue(MeetupGroupTable.GROUP_ID, meetup.id)
@@ -37,10 +44,13 @@ object MeetupGroupTable {
                 .withValue(MeetupGroupTable.PHOTO, meetup.photo?.url ?: "")
                 .withValue(MeetupGroupTable.CATEGORY, meetup.category?.name ?: "")
                 .withValue(MeetupGroupTable.URL_NAME, meetup.urlName)
+                .withValue(MeetupGroupTable.QUERY, query)
                 .build()
     }
 
-    fun createDeleteAllOperation(): ContentProviderOperation
-        = ContentProviderOperation.newDelete(MeetupGroupContentProvider.CONTENT_URI).build()
+    fun createDeleteNotCachedOperation(): ContentProviderOperation
+        = ContentProviderOperation.newDelete(MeetupGroupContentProvider.CONTENT_URI)
+            .withSelection("$CACHE = ?", arrayOf("$UNCACHED"))
+            .build()
 
 }

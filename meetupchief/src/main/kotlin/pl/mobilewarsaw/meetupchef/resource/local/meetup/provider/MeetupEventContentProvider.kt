@@ -49,7 +49,7 @@ class MeetupEventContentProvider : ContentProvider(), PartialContentProvider {
                        sortOrder: String?): Cursor?
         = databse.writableDatabase.query(EventTable.TABLE, projection, selection, selectionArgs, null, null, null)
 
-    override fun delete(uri: Uri?): Int {
+    fun delete(uri: Uri?): Int {
         val groupUrlName = uri?.getQueryParameter(EventTable.GROUP_URL_NAME)
         var where: String? = null
         var args: Array<String>? = null
@@ -61,7 +61,14 @@ class MeetupEventContentProvider : ContentProvider(), PartialContentProvider {
     }
 
     override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int {
-        return databse.writableDatabase.delete(EventTable.TABLE, selection, selectionArgs)
+        val groupUrlName = uri?.getQueryParameter(EventTable.GROUP_URL_NAME)
+        var where: String? = null
+        var args: Array<String>? = null
+        if (groupUrlName  != null) {
+            where = EventTable.GROUP_URL_NAME + "=?"
+            args = arrayOf(groupUrlName)
+        }
+        return databse.writableDatabase.delete(EventTable.TABLE, where, args)
     }
 
     //TODO use kotlin

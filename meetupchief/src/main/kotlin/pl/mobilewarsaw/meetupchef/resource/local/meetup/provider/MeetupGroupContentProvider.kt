@@ -39,8 +39,15 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
         get() = CONTENT_URI
 
     override fun insert(uri: Uri?, values: ContentValues?): Uri? {
-        val id = databse.writableDatabase.insertWithOnConflict(MeetupGroupTable.TABLE, null,
-                values, SQLiteDatabase.CONFLICT_REPLACE)
+
+        //TODO use the kotlin Luke
+        var id =  databse.writableDatabase.insertWithOnConflict(MeetupGroupTable.TABLE, null,
+                                values, SQLiteDatabase.CONFLICT_IGNORE);
+        if (id == -1L) {
+            id = databse.writableDatabase.update(MeetupGroupTable.TABLE, values,
+                    "${MeetupGroupTable.GROUP_ID}=?", arrayOf(values?.getAsString(MeetupGroupTable.GROUP_ID))).toLong()
+        }
+
         return createContentUri(id)
     }
 
@@ -50,7 +57,7 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
         = databse.writableDatabase.query(MeetupGroupTable.TABLE, projection, selection,
                                             selectionArgs, null, null, sortOrder)
 
-    override fun delete(uri: Uri?): Int
+    fun delete(uri: Uri?): Int
         =  delete(uri, null, null)
 
     override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int
@@ -70,7 +77,6 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
         throw UnsupportedOperationException()
     }
 
-    override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
-        throw UnsupportedOperationException()
-    }
+    override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int
+        = databse.writableDatabase.update(MeetupGroupTable.TABLE, values, selection, selectionArgs)
 }
