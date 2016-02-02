@@ -26,29 +26,38 @@ class MeetupGroupsCursorAdapter(cursor: Cursor? = null)
     private val picasso: Picasso by injectValue()
     private val bus: Bus by injectValue()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == BASIC_VIEW_TYPE) {
-            val itemView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.meetup_group_item, parent, false)
-            val viewHolder = GroupViewHolder(itemView)
-            viewHolder.container.setOnClickListener { clickedView: View ->
-                val clickedViewHolder = clickedView.tag as GroupViewHolder
-                bus.post(GroupClicked(clickedViewHolder.meetupGroup))
-            }
-            return viewHolder
-        } else {
-            val itemView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.meetup_group_after_last_item, parent, false)
-            val viewHolder = BlankViewHolder(itemView)
-            return viewHolder
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
+        = when (viewType) {
+            BASIC_VIEW_TYPE -> createEventViewHolder(parent)
+            else -> createLastViewHolder(parent)
         }
+
+    private fun createEventViewHolder(parent: ViewGroup): GroupViewHolder {
+        val itemView = inflateView(R.layout.meetup_group_item, parent)
+        val viewHolder = GroupViewHolder(itemView)
+        viewHolder.container.setOnClickListener { clickedView: View ->
+            val clickedViewHolder = clickedView.tag as GroupViewHolder
+            bus.post(GroupClicked(clickedViewHolder.meetupGroup))
+        }
+        return viewHolder
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, cursor: Cursor) {
-        if (viewHolder is GroupViewHolder) {
+    private fun inflateView(meetup_group_item: Int, parent: ViewGroup): View {
+        val itemView = LayoutInflater.from(parent.context)
+                .inflate(meetup_group_item, parent, false)
+        return itemView
+    }
+
+    private fun createLastViewHolder(parent: ViewGroup): BlankViewHolder {
+        val lastView = inflateView(R.layout.meetup_group_after_last_item, parent)
+        return BlankViewHolder(lastView)
+    }
+
+    override fun onBindViewHolder(eventViewHolder: RecyclerView.ViewHolder, cursor: Cursor) {
+        if (eventViewHolder is GroupViewHolder) {
             val meetupGroup = MeetupGroup.fromCursor(cursor)
-            viewHolder.setup(meetupGroup)
-            showImage(viewHolder, meetupGroup)
+            eventViewHolder.setup(meetupGroup)
+            showImage(eventViewHolder, meetupGroup)
         } else {
             throw IllegalArgumentException("Must provide custom ViewHolder")
         }

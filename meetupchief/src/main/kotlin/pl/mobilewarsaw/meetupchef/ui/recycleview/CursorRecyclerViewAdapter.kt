@@ -41,7 +41,7 @@ abstract class CursorRecyclerViewAdapter<VH : RecyclerView.ViewHolder>
         cursorWrapper.registerDataSetObserver(dataSetObserver)
     }
 
-    abstract fun onBindViewHolder(viewHolder: VH, cursor: Cursor)
+    abstract fun onBindViewHolder(eventViewHolder: VH, cursor: Cursor)
 
     open fun onBindViewHolderAfterLast(viewHolder: VH) {}
 

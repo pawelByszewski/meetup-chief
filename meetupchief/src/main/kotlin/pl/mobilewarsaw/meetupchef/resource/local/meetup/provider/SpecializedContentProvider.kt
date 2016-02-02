@@ -22,7 +22,7 @@ abstract class SpecializedContentProvider : ContentProvider() {
         get() {
             val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
             uriMatcher.addURI(MeetupContentProvider.AUTHORITY,
-                    MeetupParticipantContentProvider.PATH, MeetupContentProvider.DIR_PATH)
+                    "$path", MeetupContentProvider.DIR_PATH)
             uriMatcher.addURI(MeetupContentProvider.AUTHORITY, "$path/#",
                     MeetupContentProvider.ITEM_PATH)
             return uriMatcher

@@ -56,7 +56,8 @@ android {
                     [
                             'src/main/res/layouts/groups',
                             'src/main/res/layouts/events',
-                            'src/main/res/layouts/search-view'
+                            'src/main/res/layouts/search-view',
+                            'src/main/res/layouts/participants'
                     ]
         }
     }

@@ -13,7 +13,7 @@ interface MeetupRemoteResource {
 
     @GET("/2/events")
     fun getEvents(@Query("group_urlname") urlName: String,
-                  @Query("only") only: String = "id,status,name,yes_rsvp_count,venue.name,description,group.urlname",
+                  @Query("only") only: String = "id,status,name,yes_rsvp_count,venue.name,group.urlname",
                   @Query("sign") sign: String = "true",
                   @Query("status") status: String = "past,upcoming",
                   @Query("photo-host") photoHost: String = "public",

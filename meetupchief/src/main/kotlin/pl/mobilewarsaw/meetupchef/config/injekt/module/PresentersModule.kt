@@ -4,7 +4,10 @@ import pl.mobilewarsaw.meetupchef.presenter.events.EventListingPresenterImpl
 import pl.mobilewarsaw.meetupchef.presenter.events.EventsListingPresenter
 import pl.mobilewarsaw.meetupchef.presenter.groups.MeetupGroupsPresenter
 import pl.mobilewarsaw.meetupchef.presenter.groups.MeetupGroupsPresenterImpl
+import pl.mobilewarsaw.meetupchef.presenter.participants.ParticipantsPresenter
+import pl.mobilewarsaw.meetupchef.presenter.participants.ParticipantsPresenterImpl
 import pl.mobilewarsaw.meetupchef.ui.groups.MeetupEventCursorAdapter
+import pl.mobilewarsaw.meetupchef.ui.groups.MeetupParticipantsCursorAdapter
 import pl.mobilewarsaw.meetupchef.ui.groups.listingadapter.MeetupGroupsCursorAdapter
 import uy.kohesive.injekt.api.InjektModule
 import uy.kohesive.injekt.api.InjektRegistrar
@@ -18,5 +21,8 @@ class PresentersModule : InjektModule {
 
         addFactory(fullType<EventsListingPresenter>()) { EventListingPresenterImpl() }
         addFactory(fullType<MeetupEventCursorAdapter>()) { MeetupEventCursorAdapter() }
+
+        addFactory(fullType<ParticipantsPresenter>()) { ParticipantsPresenterImpl() }
+        addFactory(fullType<MeetupParticipantsCursorAdapter>()) { MeetupParticipantsCursorAdapter() }
     }
 }

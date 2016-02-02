@@ -7,17 +7,17 @@ import pl.touk.basil.getString
 
 private const val STATUS_CLOSED = "past"
 
-data class MeetupEvent(val eventId: String,
+data class MeetupEvent(val eventId: Int,
                        val name: String,
                        val attends: Int,
                        val status: String?,
-                       val description: String,
+                       val description: String?,
                        val groupUrlName: String) {
 
     companion object {
         fun fromCursor(cursor: Cursor): MeetupEvent {
             return MeetupEvent(
-                    eventId = cursor.getString(EventTable.EVENT_ID),
+                    eventId = cursor.getInt(EventTable.EVENT_ID),
                     name = cursor.getString(EventTable.NAME),
                     attends = cursor.getInt(EventTable.ATTENDS),
                     status = cursor.getString(EventTable.STATUS),

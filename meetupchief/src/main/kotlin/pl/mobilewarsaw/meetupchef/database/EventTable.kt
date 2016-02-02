@@ -23,9 +23,9 @@ object EventTable: Table {
 
     //TODO use the Kotlin Luke
     override val CREATE_STATEMENT: String = "create table $TABLE_NAME ($ID integer primary key autoincrement, " +
-                                                        "$EVENT_ID text not null unique, " +
+                                                        "$EVENT_ID integer not null unique, " +
                                                         "$NAME text not null, " +
-                                                        "$DESCRIPTION text not null, " +
+                                                        "$DESCRIPTION text  , " +
                                                         "$STATUS text not null, " +
                                                         "$VENUE text, " +
                                                         "$GROUP_URL_NAME text not null, " +

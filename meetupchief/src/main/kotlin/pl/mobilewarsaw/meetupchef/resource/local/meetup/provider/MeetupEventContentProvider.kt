@@ -24,7 +24,7 @@ class MeetupEventContentProvider : SpecializedContentProvider() {
     }
 
     override val path: String
-        get() = MeetupParticipantContentProvider.PATH
+        get() = PATH
 
     override val uriToNotify: Uri
         get() = CONTENT_URI

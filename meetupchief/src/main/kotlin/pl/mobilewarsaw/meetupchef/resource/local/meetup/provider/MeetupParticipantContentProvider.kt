@@ -1,17 +1,11 @@
 package pl.mobilewarsaw.meetupchef.resource.local.meetup.provider
 
-import android.content.ContentProvider
-import android.content.ContentResolver
 import android.content.ContentValues
-import android.content.UriMatcher
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
-import pl.mobilewarsaw.meetupchef.database.Database
-import pl.mobilewarsaw.meetupchef.database.EventTable
 import pl.mobilewarsaw.meetupchef.database.ParticipantTable
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupContentProvider
-import uy.kohesive.injekt.injectLazy
 
 
 class MeetupParticipantContentProvider : SpecializedContentProvider() {

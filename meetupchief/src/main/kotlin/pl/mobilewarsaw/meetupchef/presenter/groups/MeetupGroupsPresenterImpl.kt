@@ -3,12 +3,8 @@ package pl.mobilewarsaw.meetupchef.presenter.groups
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.database.ContentObserver
 import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.support.design.widget.Snackbar
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider

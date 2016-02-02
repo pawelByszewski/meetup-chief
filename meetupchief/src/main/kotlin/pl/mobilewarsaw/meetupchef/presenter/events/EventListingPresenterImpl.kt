@@ -8,11 +8,19 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import com.squareup.otto.Bus
+import com.squareup.otto.Subscribe
+import pl.mobilewarsaw.meetupchef.presenter.participants.ParticipantsPresenter
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupEvent
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupEventContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.EventRepository
 import pl.mobilewarsaw.meetupchef.service.MeetupSynchronizer
 import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
 import pl.mobilewarsaw.meetupchef.ui.events.*
+import pl.mobilewarsaw.meetupchef.ui.events.listingadapter.EventClicked
+import pl.mobilewarsaw.meetupchef.ui.groups.bus.GroupClicked
+import pl.mobilewarsaw.meetupchef.ui.participants.ParticipantsActivity
 import pl.touk.basil.registerUriObserver
 import uy.kohesive.injekt.injectValue
 
@@ -24,6 +32,7 @@ class EventListingPresenterImpl : EventsListingPresenter {
     private val state = State()
 
     private val eventRepository: EventRepository by injectValue()
+    private val bus: Bus by injectValue()
 
     override fun bind(eventsListingView: EventsListingView,
                       context: Context,
@@ -46,6 +55,8 @@ class EventListingPresenterImpl : EventsListingPresenter {
         } else {
             showEvents()
         }
+
+        bus.register(this)
     }
 
     private val contentResolver: ContentResolver
@@ -72,5 +83,15 @@ class EventListingPresenterImpl : EventsListingPresenter {
 
     private fun showEvents() {
         eventRepository.fetchEvents(state.urlName) { cursor: Cursor -> eventsListingView?.showEvents(cursor) }
+    }
+
+    @Subscribe
+    fun onMeetupEventClick(eventCLicked: EventClicked) {
+        onGroupClicked(eventCLicked.event)
+    }
+
+    private fun onGroupClicked(meetupEvent: MeetupEvent) {
+        val intent = ParticipantsActivity.createIntent(context!!, meetupEvent)
+        context?.startActivity(intent)
     }
 }

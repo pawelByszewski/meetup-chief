@@ -49,14 +49,6 @@
 
     <include layout="@layout/groups_error_view"/>
 
-
-    <View
-        android:id="@+id/toolbar_shadow"
-        android:layout_width="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_height="5dp"
-        android:background="@drawable/toolbar_dropshadow"/>
-
     <pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
