@@ -7,7 +7,7 @@ import android.os.IBinder
 import android.util.Log
 import com.squareup.otto.Bus
 import pl.mobilewarsaw.meetupchef.database.EventTable
-import pl.mobilewarsaw.meetupchef.database.MeetupGroupTable
+import pl.mobilewarsaw.meetupchef.database.GroupTable
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.GroupRepository
 import pl.mobilewarsaw.meetupchef.resource.meetup.MeetupEvent
@@ -73,7 +73,7 @@ class MeetupSynchronizer : Service() {
                 .observeOn(Schedulers.io())
                 .flatMap { meetups -> Observable.from(meetups) }
                 .subscribe({  meetup: Meetup ->
-                                databaseOperation.add(MeetupGroupTable.createInsertOperation(query.query, meetup))
+                                databaseOperation.add(GroupTable.createInsertOperation(query.query, meetup))
                             },
                             { throwable ->
                                 Log.e("MeetupSynchronizer", "Fail to find groups", throwable)
@@ -83,7 +83,7 @@ class MeetupSynchronizer : Service() {
                                 }
                             },
                             {
-                                databaseOperation.add(0, MeetupGroupTable.createDeleteNotCachedOperation())
+                                databaseOperation.add(0, GroupTable.createDeleteNotCachedOperation())
                                 contentResolver.applyBatch(MeetupContentProvider.AUTHORITY, databaseOperation)
                             }
                 )

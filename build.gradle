@@ -15,6 +15,7 @@ ext {
     support_version = '23.1.1'
 
     appcompat = "com.android.support:appcompat-v7:$support_version"
+    supportv4 = "com.android.support:appcompat-v7:$support_version"
     supportDesign = "com.android.support:design:$support_version"
     cardview = "com.android.support:cardview-v7:23.1.0"
 
@@ -33,7 +34,7 @@ ext {
     rxjava = 'io.reactivex:rxjava:1.0.15'
     rxjavaAndroid = 'io.reactivex:rxandroid:1.0.1'
     rxjavaAsyncUtils = 'io.reactivex:rxjava-async-util:0.21.0'
-    injekt = 'uy.kohesive.injekt:injekt-core:1.8.+'
+    injekt = 'uy.kohesive.injekt:injekt-core:1.11.+'
     multidex = "com.android.support:multidex:1.0.1"
     okHttpLoggingInterceptor = 'com.squareup.okhttp:logging-interceptor:2.6.0'
 

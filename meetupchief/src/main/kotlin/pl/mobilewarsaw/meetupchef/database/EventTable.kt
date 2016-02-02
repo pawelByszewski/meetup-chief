@@ -8,9 +8,9 @@ import pl.mobilewarsaw.meetupchef.resource.meetup.MeetupEvent
 import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Meetup
 
 
-object EventTable {
+object EventTable: Table {
 
-    val TABLE = "meetup_event"
+    override val TABLE_NAME = "meetup_event"
     val ID = "_id"
     val EVENT_ID = "event_id"
     val STATUS = "status"
@@ -22,7 +22,7 @@ object EventTable {
 
 
     //TODO use the Kotlin Luke
-    val CREATE_STATEMENT: String = "create table $TABLE ($ID integer primary key autoincrement, " +
+    override val CREATE_STATEMENT: String = "create table $TABLE_NAME ($ID integer primary key autoincrement, " +
                                                         "$EVENT_ID text not null unique, " +
                                                         "$NAME text not null, " +
                                                         "$DESCRIPTION text not null, " +

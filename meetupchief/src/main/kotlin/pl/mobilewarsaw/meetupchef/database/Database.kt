@@ -11,10 +11,11 @@ class Database : SQLiteOpenHelper {
 
     private constructor(context: Context) : super(context, Settings.databse.name, null, Settings.databse.version)
 
+    private val tables = listOf(GroupTable, EventTable, ParticipantTable)
+
     override fun onCreate(db: SQLiteDatabase?) {
         dropAllTables(db)
-        db?.execSQL(EventTable.CREATE_STATEMENT)
-        db?.execSQL(MeetupGroupTable.CREATE_STATEMENT)
+        tables.forEach { db?.execSQL(it.CREATE_STATEMENT) }
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -22,8 +23,7 @@ class Database : SQLiteOpenHelper {
     }
 
     private fun dropAllTables(db: SQLiteDatabase?) {
-        db?.dropTableIfExists(EventTable.TABLE)
-        db?.dropTableIfExists(MeetupGroupTable.TABLE)
+        tables.forEach { db?.dropTableIfExists(it.TABLE_NAME) }
     }
 
     companion object {
@@ -37,6 +37,5 @@ class Database : SQLiteOpenHelper {
             }
             return INSTANCE as Database
         }
-
     }
 }

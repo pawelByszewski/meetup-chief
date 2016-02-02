@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import pl.mobilewarsaw.meetupchef.database.CACHED
 import pl.mobilewarsaw.meetupchef.database.EventTable
-import pl.mobilewarsaw.meetupchef.database.MeetupGroupTable
+import pl.mobilewarsaw.meetupchef.database.GroupTable
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
@@ -15,7 +15,7 @@ import pl.touk.basil.query
 open class GroupRepository(val context: Context) {
 
      open fun fetchForQuery(query: String, action: (Cursor) -> Unit) {
-         val where = MeetupGroupTable.QUERY + "=?"
+         val where = GroupTable.QUERY + "=?"
         Observable.just(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI,
                 null, where,
                 arrayOf(query), null ))
@@ -25,7 +25,7 @@ open class GroupRepository(val context: Context) {
     }
 
     open fun fetchCached(action: (Cursor) -> Unit) {
-        val where = MeetupGroupTable.CACHE + "=?"
+        val where = GroupTable.CACHE + "=?"
         Observable.just(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI,
                 null, where,
                 arrayOf("$CACHED"), null ))
@@ -36,8 +36,8 @@ open class GroupRepository(val context: Context) {
 
     fun markCached(urlName: String) {
         val contentValues = ContentValues()
-        contentValues.put(MeetupGroupTable.CACHE, 1)
-        val where = "${MeetupGroupTable.URL_NAME}=?"
+        contentValues.put(GroupTable.CACHE, 1)
+        val where = "${GroupTable.URL_NAME}=?"
         context.contentResolver.update(MeetupGroupContentProvider.CONTENT_URI, contentValues,
                                         where, arrayOf(urlName))
     }

@@ -51,6 +51,14 @@ android {
     sourceSets {
         instrumentTest.setRoot('src/test')
         main.java.srcDirs += 'src/main/kotlin'
+        main {
+            res.srcDirs +=
+                    [
+                            'src/main/res/layouts/groups',
+                            'src/main/res/layouts/events',
+                            'src/main/res/layouts/search-view'
+                    ]
+        }
     }
 
     buildTypes {

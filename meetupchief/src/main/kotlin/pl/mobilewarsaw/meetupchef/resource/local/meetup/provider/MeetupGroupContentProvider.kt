@@ -8,12 +8,12 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import pl.mobilewarsaw.meetupchef.database.Database
-import pl.mobilewarsaw.meetupchef.database.MeetupGroupTable
+import pl.mobilewarsaw.meetupchef.database.GroupTable
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupContentProvider
 import uy.kohesive.injekt.injectLazy
 
 
-class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
+class MeetupGroupContentProvider : SpecializedContentProvider() {
 
     companion object {
         val PATH = "groups"
@@ -23,17 +23,8 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
             = Uri.parse("content://${MeetupContentProvider.AUTHORITY}/$PATH/${groupId ?: ""}")
     }
 
-    private val databse: Database by injectLazy()
-
-    override val uriMatcher: UriMatcher
-        get() {
-            val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
-            uriMatcher.addURI(MeetupContentProvider.AUTHORITY,
-                                PATH, MeetupContentProvider.DIR_PATH)
-            uriMatcher.addURI(MeetupContentProvider.AUTHORITY, "$PATH/#",
-                                MeetupContentProvider.ITEM_PATH)
-            return uriMatcher
-        }
+    override val path: String
+        get() = MeetupParticipantContentProvider.PATH
 
     override val uriToNotify: Uri
         get() = CONTENT_URI
@@ -41,11 +32,11 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
     override fun insert(uri: Uri?, values: ContentValues?): Uri? {
 
         //TODO use the kotlin Luke
-        var id =  databse.writableDatabase.insertWithOnConflict(MeetupGroupTable.TABLE, null,
+        var id =  databse.writableDatabase.insertWithOnConflict(GroupTable.TABLE_NAME, null,
                                 values, SQLiteDatabase.CONFLICT_IGNORE);
         if (id == -1L) {
-            id = databse.writableDatabase.update(MeetupGroupTable.TABLE, values,
-                    "${MeetupGroupTable.GROUP_ID}=?", arrayOf(values?.getAsString(MeetupGroupTable.GROUP_ID))).toLong()
+            id = databse.writableDatabase.update(GroupTable.TABLE_NAME, values,
+                    "${GroupTable.GROUP_ID}=?", arrayOf(values?.getAsString(GroupTable.GROUP_ID))).toLong()
         }
 
         return createContentUri(id)
@@ -54,29 +45,12 @@ class MeetupGroupContentProvider : ContentProvider(), PartialContentProvider {
     override fun query(uri: Uri?, projection: Array<out String>?,
                        selection: String?, selectionArgs: Array<out String>?,
                        sortOrder: String?): Cursor?
-        = databse.writableDatabase.query(MeetupGroupTable.TABLE, projection, selection,
+        = databse.writableDatabase.query(GroupTable.TABLE_NAME, projection, selection,
                                             selectionArgs, null, null, sortOrder)
 
-    fun delete(uri: Uri?): Int
-        =  delete(uri, null, null)
-
     override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int
-        = databse.writableDatabase.delete(MeetupGroupTable.TABLE, selection, selectionArgs)
-
-
-    //TODO use kotlin
-    override fun getType(uri: Uri?): String? {
-        return when (uriMatcher.match(uri)) {
-            MeetupContentProvider.DIR_PATH -> "${ContentResolver.CURSOR_DIR_BASE_TYPE}/vnd.com.mobilewarsaw.meetupchef.provider.$PATH"
-            MeetupContentProvider.ITEM_PATH -> "${ContentResolver.CURSOR_ITEM_BASE_TYPE}/vnd.com.mobilewarsaw.meetupchef.provider.$PATH"
-            else -> null
-        }
-    }
-
-    override fun onCreate(): Boolean {
-        throw UnsupportedOperationException()
-    }
+        = databse.writableDatabase.delete(GroupTable.TABLE_NAME, selection, selectionArgs)
 
     override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int
-        = databse.writableDatabase.update(MeetupGroupTable.TABLE, values, selection, selectionArgs)
+        = databse.writableDatabase.update(GroupTable.TABLE_NAME, values, selection, selectionArgs)
 }

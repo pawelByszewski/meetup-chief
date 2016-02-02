@@ -3,7 +3,9 @@ package pl.mobilewarsaw.meetupchef.resource.remote.meetup
 import pl.mobilewarsaw.meetupchef.Settings
 import pl.mobilewarsaw.meetupchef.resource.meetup.MeetupEvents
 import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Meetup
+import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Participant
 import retrofit.http.GET
+import retrofit.http.Path
 import retrofit.http.Query
 import rx.Observable
 
@@ -27,4 +29,14 @@ interface MeetupRemoteResource {
                   @Query("sign") sign: String = "true",
                   @Query("key") key: String = Settings.meetup.apiKey)
         : Observable<List<Meetup>>
+
+
+    @GET("/{groupUrl}/events/{eventId}/attendance")
+    fun getAttendance(@Path("groupUrl") groupUrl: String,
+                      @Path("eventId") eventId: String,
+                      @Query("photo-host") photoHost: String = "public",
+                      @Query("only") only: String = "id,name,members,group_photo.photo_link,category.name,urlname",
+                      @Query("sign") sign: String = "true",
+                      @Query("key") key: String = Settings.meetup.apiKey)
+        : Observable<List<Participant>>
 }

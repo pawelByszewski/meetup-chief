@@ -6,9 +6,9 @@ import android.net.Uri
 import pl.mobilewarsaw.meetupchef.Settings
 import pl.mobilewarsaw.meetupchef.config.injekt.MeetupChefInjektMain
 import pl.mobilewarsaw.meetupchef.database.Database
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.SpecializedContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupEventContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.PartialContentProvider
 import uy.kohesive.injekt.injectLazy
 import java.util.*
 
@@ -22,7 +22,7 @@ class MeetupContentProvider : ContentProvider() {
         val URI_NOT_MATCH = -1
     }
 
-    val contentProviders = arrayListOf<PartialContentProvider>()
+    val contentProviders = arrayListOf<SpecializedContentProvider>()
 
     override fun onCreate(): Boolean {
         MeetupChefInjektMain.init(context)

@@ -10,9 +10,9 @@ import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Meetup
 const val CACHED = 1
 const val UNCACHED = 0
 
-object MeetupGroupTable {
+object GroupTable : Table {
 
-    val TABLE = "meetupGroups"
+    override val TABLE_NAME = "meetupGroups"
     val ID = "_id"
     val GROUP_ID = "group_id"
     val NAME = "name"
@@ -25,7 +25,7 @@ object MeetupGroupTable {
 
 
     //TODO use the Kotlin Luke
-    val CREATE_STATEMENT: String = "create table $TABLE " +
+    override val CREATE_STATEMENT: String = "create table $TABLE_NAME " +
                                     "($ID integer primary key autoincrement, " +
                                     "$GROUP_ID text not null unique, " +
                                     "$NAME text not null, " +
@@ -38,13 +38,13 @@ object MeetupGroupTable {
 
     fun createInsertOperation(query: String, meetup: Meetup): ContentProviderOperation {
         return ContentProviderOperation.newInsert(MeetupGroupContentProvider.CONTENT_URI)
-                .withValue(MeetupGroupTable.NAME, meetup.name)
-                .withValue(MeetupGroupTable.GROUP_ID, meetup.id)
-                .withValue(MeetupGroupTable.MEMBERS, meetup.members)
-                .withValue(MeetupGroupTable.PHOTO, meetup.photo?.url ?: "")
-                .withValue(MeetupGroupTable.CATEGORY, meetup.category?.name ?: "")
-                .withValue(MeetupGroupTable.URL_NAME, meetup.urlName)
-                .withValue(MeetupGroupTable.QUERY, query)
+                .withValue(GroupTable.NAME, meetup.name)
+                .withValue(GroupTable.GROUP_ID, meetup.id)
+                .withValue(GroupTable.MEMBERS, meetup.members)
+                .withValue(GroupTable.PHOTO, meetup.photo?.url ?: "")
+                .withValue(GroupTable.CATEGORY, meetup.category?.name ?: "")
+                .withValue(GroupTable.URL_NAME, meetup.urlName)
+                .withValue(GroupTable.QUERY, query)
                 .build()
     }
 
