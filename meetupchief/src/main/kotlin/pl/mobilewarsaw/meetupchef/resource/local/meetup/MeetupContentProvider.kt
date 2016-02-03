@@ -9,6 +9,7 @@ import pl.mobilewarsaw.meetupchef.database.Database
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.SpecializedContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupEventContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupParticipantContentProvider
 import uy.kohesive.injekt.injectLazy
 import java.util.*
 
@@ -28,6 +29,7 @@ class MeetupContentProvider : ContentProvider() {
         MeetupChefInjektMain.init(context)
         contentProviders.add(MeetupGroupContentProvider())
         contentProviders.add(MeetupEventContentProvider())
+        contentProviders.add(MeetupParticipantContentProvider())
         return true
     }
 

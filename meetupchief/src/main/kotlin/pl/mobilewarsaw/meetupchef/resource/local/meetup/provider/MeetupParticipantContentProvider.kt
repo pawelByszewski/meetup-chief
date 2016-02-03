@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
+import pl.mobilewarsaw.meetupchef.database.EventTable
 import pl.mobilewarsaw.meetupchef.database.ParticipantTable
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupContentProvider
 
@@ -30,8 +31,20 @@ class MeetupParticipantContentProvider : SpecializedContentProvider() {
         return createContentUri(id)
     }
 
-    override fun query(uri: Uri?, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? {
-        throw UnsupportedOperationException()
+    override fun query(uri: Uri?, projection: Array<out String>?,
+                       selection: String?, selectionArgs: Array<out String>?,
+                       sortOrder: String?): Cursor?
+            = databse.writableDatabase.query(ParticipantTable.TABLE_NAME, projection, selection, selectionArgs, null, null, null)
+
+    override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int {
+        val eventId = uri?.getQueryParameter(ParticipantTable.EVENT_ID)
+        var where: String? = null
+        var args: Array<String>? = null
+        if (eventId  != null) {
+            where = ParticipantTable.EVENT_ID + "=?"
+            args = arrayOf(eventId)
+        }
+        return databse.writableDatabase.delete(ParticipantTable.TABLE_NAME, where, args)
     }
 
 }

@@ -33,9 +33,9 @@ interface MeetupRemoteResource {
 
     @GET("/{groupUrl}/events/{eventId}/attendance")
     fun getAttendance(@Path("groupUrl") groupUrl: String,
-                      @Path("eventId") eventId: String,
+                      @Path("eventId") eventId: Int,
                       @Query("photo-host") photoHost: String = "public",
-                      @Query("only") only: String = "id,name,members,group_photo.photo_link,category.name,urlname",
+//                      @Query("only") only: String = "id,name,members,group_photo.photo_link,category.name,urlname",
                       @Query("sign") sign: String = "true",
                       @Query("key") key: String = Settings.meetup.apiKey)
         : Observable<List<Participant>>

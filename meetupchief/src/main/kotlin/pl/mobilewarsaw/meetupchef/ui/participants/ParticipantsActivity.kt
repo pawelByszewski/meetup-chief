@@ -2,6 +2,7 @@ package pl.mobilewarsaw.meetupchef.ui.participants
 
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
@@ -14,6 +15,8 @@ import pl.mobilewarsaw.meetupchef.presenter.participants.ParticipantsPresenter
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupEvent
 import pl.mobilewarsaw.meetupchef.ui.groups.MeetupParticipantsCursorAdapter
 import pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
+import pl.touk.basil.isEmpty
+import pl.touk.basil.show
 import uy.kohesive.injekt.injectValue
 
 private const val COLUMNS_COUT = 2
@@ -22,8 +25,8 @@ const val EVENT_ID_KEY = "eventID"
 const val EVENT_NAME_KEY = "groupPhoto"
 
 class ParticipantsActivity: AppCompatActivity(), ParticipantsView {
+
     private val participantsRecycleView: RecyclerView by bindView(R.id.meetup_participants_list)
-//    private val participantsRecycleView: RecyclerView by bindView(R.id.meetup_events_list)
 
     private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.swipe_container)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -67,4 +70,15 @@ class ParticipantsActivity: AppCompatActivity(), ParticipantsView {
     override fun showEventName(eventName: String) {
         supportActionBar.title = eventName
     }
+
+    override fun showProgressBar() {
+        progressBar.show()
+    }
+
+    override fun showParticipants(cursor: Cursor) {
+        recycleViewAdapter!!.changeCursor(cursor)
+        swipeRefreshLayout.isRefreshing = false
+        progressBar.hide()
+    }
+
 }

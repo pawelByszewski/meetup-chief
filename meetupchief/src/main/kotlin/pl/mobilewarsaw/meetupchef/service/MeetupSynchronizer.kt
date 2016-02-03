@@ -8,11 +8,13 @@ import android.util.Log
 import com.squareup.otto.Bus
 import pl.mobilewarsaw.meetupchef.database.EventTable
 import pl.mobilewarsaw.meetupchef.database.GroupTable
+import pl.mobilewarsaw.meetupchef.database.ParticipantTable
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.GroupRepository
 import pl.mobilewarsaw.meetupchef.resource.meetup.MeetupEvent
 import pl.mobilewarsaw.meetupchef.resource.remote.meetup.MeetupRemoteResource
 import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Meetup
+import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Participant
 import pl.mobilewarsaw.meetupchef.service.error.NetworkError
 import pl.mobilewarsaw.meetupchef.service.error.UnknownSynchronizeError
 import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
@@ -43,11 +45,13 @@ class MeetupSynchronizer : Service() {
         when(query) {
             is MeetupSynchronizerQuery.Groups -> fetchGroups(query)
             is MeetupSynchronizerQuery.Events -> fetchEvents(query)
+            is MeetupSynchronizerQuery.Participants -> fetchParticipants(query)
         }
 
         return START_STICKY;
     }
 
+    // SRP!! add dispatcher and extract classes for each fetch
     private fun fetchEvents(query: MeetupSynchronizerQuery.Events) {
         val databaseOperation = arrayListOf<ContentProviderOperation>()
         meetupRemoteResource.getEvents(query.urlName)
@@ -62,6 +66,25 @@ class MeetupSynchronizer : Service() {
                             databaseOperation.add(0, EventTable.createDeleteForGroupOperations(query.urlName))
                             contentResolver.applyBatch(MeetupContentProvider.AUTHORITY, databaseOperation)
                             groupRepository.markCached(query.urlName)
+                        }
+                )
+    }
+
+    private fun fetchParticipants(query: MeetupSynchronizerQuery.Participants) {
+        val databaseOperation = arrayListOf<ContentProviderOperation>()
+        meetupRemoteResource.getAttendance(query.urlName, query.eventId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap { participants -> Observable.from(participants) }
+                .subscribe({  participant: Participant ->
+                                databaseOperation.add(ParticipantTable.createInsertOperation(query.eventId, participant)) },
+                        { throwable ->
+                            Log.e("MeetupSynchronizer", "Fail to find Events", throwable)
+                        },
+                        {
+                            databaseOperation.add(0, ParticipantTable.createDeleteForGroupOperations(query.eventId))
+                            contentResolver.applyBatch(MeetupContentProvider.AUTHORITY, databaseOperation)
+//                            groupRepository.markCached(query.urlName)
                         }
                 )
     }

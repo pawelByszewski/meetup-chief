@@ -28,10 +28,10 @@
         </activity>
 
         <activity android:name=".ui.participants.ParticipantsActivity"
-            android:parentActivityName="pl.mobilewarsaw.meetupchef.ui.groups.MeetupGroupsActivity" >
+            android:parentActivityName=".ui.events.EventsListingActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.groups.MeetupGroupsActivity" />
+                android:value=".ui.events.EventsListingActivity" />
         </activity>
 
 

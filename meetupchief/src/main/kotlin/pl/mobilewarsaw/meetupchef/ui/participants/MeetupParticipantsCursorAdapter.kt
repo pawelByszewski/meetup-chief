@@ -51,9 +51,10 @@ class MeetupParticipantsCursorAdapter(cursor: Cursor? = null)
     }
 
     private fun showImage(viewHolder: ViewHolder, pictureUrl: String) {
-        picasso.load(pictureUrl)
-                .fit()
-                .centerCrop()
-                .into(viewHolder.photo)
+        if (!pictureUrl.isNullOrBlank())
+            picasso.load(pictureUrl)
+                    .fit()
+                    .centerCrop()
+                    .into(viewHolder.photo)
     }
 }
