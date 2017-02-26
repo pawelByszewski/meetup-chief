@@ -4,7 +4,7 @@ import android.content.res.TypedArray
 
 inline fun TypedArray.recycleAfter(action: TypedArray.() -> Unit) {
     try {
-        action()
+        this.action()
     } finally {
         recycle()
     }

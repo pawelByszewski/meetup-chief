@@ -1,20 +1,19 @@
 package pl.mobilewarsaw.meetupchef.ui.groups
 
 import android.database.Cursor
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.View
 import butterknife.bindView
-
 import pl.mobilewarsaw.meetupchef.R
-import pl.mobilewarsaw.meetupchef.widget.searchview.SearchView
 import pl.mobilewarsaw.meetupchef.presenter.groups.MeetupGroupsPresenter
 import pl.mobilewarsaw.meetupchef.ui.groups.listingadapter.MeetupGroupsCursorAdapter
 import pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
+import pl.mobilewarsaw.meetupchef.widget.searchview.SearchView
 import pl.touk.basil.hide
 import pl.touk.basil.isEmpty
 import pl.touk.basil.show
@@ -60,7 +59,7 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar);
-        supportActionBar.setDisplayHomeAsUpEnabled(false);
+        supportActionBar!!.setDisplayHomeAsUpEnabled(false);
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

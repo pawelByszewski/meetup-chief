@@ -106,11 +106,11 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar);
-        supportActionBar.setDisplayHomeAsUpEnabled(true);
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
     }
 
     override fun showInToolbar(meeupGroupInitData: State) {
-        supportActionBar.title = meeupGroupInitData.name;
+        supportActionBar!!.title = meeupGroupInitData.name;
     }
 
     override fun showEvents(cursor: Cursor) {

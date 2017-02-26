@@ -22,7 +22,9 @@ class SearchView(context: Context?, attrs: AttributeSet?) : FrameLayout(context,
     var onSearch: ((String) -> Unit)? = null
 
     private val queryEditText: EditText by bindView(R.id.search_bar_text)
-    private val inputManager: InputMethodManager by bindSystemService(Activity.INPUT_METHOD_SERVICE)
+
+    private val inputManager: InputMethodManager
+            by bindSystemService(Activity.INPUT_METHOD_SERVICE)
 
     init {
         RelativeLayout.inflate(context, R.layout.search_view_layout, this)

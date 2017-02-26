@@ -7,32 +7,32 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 
-public fun <V> Activity.bindSystemService(serviceName: String)
+fun <V> Activity.bindSystemService(serviceName: String)
         : ReadOnlyProperty<Activity, V> = fetchSystemService(serviceName, Activity::getSystemService)
 
-public fun <V> View.bindSystemService(serviceName: String)
-        : ReadOnlyProperty<View, V> = fetchSystemService(serviceName, View::getSystemService)
-
-public fun <V> Fragment.bindSystemService(serviceName: String)
+fun <V> Fragment.bindSystemService(serviceName: String)
         : ReadOnlyProperty<Fragment, V> = fetchSystemService(serviceName, Fragment::serviceBinder)
 
-private fun Fragment.serviceBinder(serviceName: String): Any
+inline fun <V> bindSystemService(serviceName: String)
+        : ReadOnlyProperty<View, V> = fetchSystemService(serviceName, View::getSystemService)
+
+fun Fragment.serviceBinder(serviceName: String): Any
         = activity.getSystemService(serviceName)
 
-private fun View.getSystemService(serviceName: String): Any
+fun View.getSystemService(serviceName: String): Any
         = context.getSystemService(serviceName)
 
 
 @Suppress("UNCHECKED_CAST")
-private fun <T, V> fetchSystemService(serviceName: String, serviceBinder: T.(String) -> Any)
+inline fun <T, V> fetchSystemService(serviceName: String, noinline  serviceBinder: T.(String) -> Any)
         = Lazy { t: T, property: KProperty<*> ->
     t.serviceBinder(serviceName) as V? ?: systemServiceNotFound(serviceName, property)
 }
 
-private fun systemServiceNotFound(serviceName: String, property: KProperty<*>): Nothing
+fun systemServiceNotFound(serviceName: String, property: KProperty<*>): Nothing
         = throw IllegalStateException("System service $serviceName for '${property.name}' not found.")
 
-private class Lazy<T, V>(private val initializer: (T, KProperty<*>) -> V) : ReadOnlyProperty<T, V> {
+class Lazy<T, V>(private val initializer: (T, KProperty<*>) -> V) : ReadOnlyProperty<T, V> {
 
     private object EMPTY
     private var value: Any? = EMPTY
