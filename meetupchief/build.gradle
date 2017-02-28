@@ -81,6 +81,7 @@ dependencies {
     compile picasso
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:1.1.0-rc-91"
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.10-rc'
     compile injekt
     compile kotterKnife
 
@@ -89,13 +90,6 @@ dependencies {
     compile retrofit
     compile retrofitGsonConverter
     compile okHttpLoggingInterceptor
-    compile(retrofitRxAdapter) {
-        transitive = false
-    }
-
-    compile rxjava
-    compile rxjavaAndroid
-    compile rxjavaAsyncUtils
 
     compile multidex
 
