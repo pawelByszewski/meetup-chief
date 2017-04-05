@@ -1,11 +1,16 @@
 language: android
 android:
   components:
+    - tools
     - platform-tools
     - tools
     - build-tools-25.1.3
     - extra-android-m2repository
     - android-25
+    - extra-android-support
+    # Latest artifacts in local repository
+    - extra-google-m2repository
+
 
 licenses:
   - 'android-sdk-preview-license-.+'
