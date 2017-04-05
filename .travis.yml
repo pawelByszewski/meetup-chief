@@ -7,8 +7,12 @@ android:
     - extra-android-m2repository
     - android-25
 
-before_install:
-echo y | android update sdk --no-ui --all --filter ${ANDROID_EMULATOR},${ANDROID_PKGS},build-tools-25.1.3
+licenses:
+  - 'android-sdk-preview-license-.+'
+  - 'android-sdk-preview-license'
+  - 'android-sdk-license-.+'
+  - 'android-sdk-license'
+  - 'google-gdk-license-.+'
 
 jdk: oraclejdk8
 env:
