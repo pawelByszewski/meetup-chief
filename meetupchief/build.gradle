@@ -80,7 +80,7 @@ dependencies {
 
     compile picasso
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib:1.1.0-rc-91"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile injekt
     compile kotterKnife
 
