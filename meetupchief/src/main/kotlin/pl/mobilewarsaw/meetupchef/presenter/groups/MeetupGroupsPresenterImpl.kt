@@ -3,15 +3,13 @@ package pl.mobilewarsaw.meetupchef.presenter.groups
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.database.ContentObserver
-import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
+import kotlinx.coroutines.experimental.launch
+import pl.mobilewarsaw.meetupchef.experimental.Android
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
+import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.GroupRepository
 import pl.mobilewarsaw.meetupchef.service.MeetupSynchronizer
 import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
@@ -48,8 +46,12 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
     private val contentResolver: ContentResolver
         get() = context!!.contentResolver
 
-    private fun showAllGroups()
-        = groupRepository.fetchAllGroups { cursor: Cursor -> meetupGroupsView?.showMeetupGroups(cursor) }
+    private fun showAllGroups() {
+        launch(Android) {
+            val groupsCursor = groupRepository.fetchAllGroupsAsync().await()
+            meetupGroupsView?.showMeetupGroups(groupsCursor)
+        }
+    }
 
     private fun restoreState(savedInstanceState: Bundle?) {
         state.setup(savedInstanceState)

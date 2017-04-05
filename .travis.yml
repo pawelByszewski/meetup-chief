@@ -1,15 +1,27 @@
 language: android
 android:
   components:
+    - tools
     - platform-tools
     - tools
-    - build-tools-23.0.2
+    - build-tools-25.0.2
     - extra-android-m2repository
-    - android-23
+    - android-25
+    - extra-android-support
+    # Latest artifacts in local repository
+    - extra-google-m2repository
 
-jdk: oraclejdk7
+
+licenses:
+  - 'android-sdk-preview-license-.+'
+  - 'android-sdk-preview-license'
+  - 'android-sdk-license-.+'
+  - 'android-sdk-license'
+  - 'google-gdk-license-.+'
+
+jdk: oraclejdk8
 env:
   matrix:
-    - ANDROID_TARGET=android-23  ANDROID_ABI=armeabi-v7a MAVEN_OPTS="-XX:MaxPermSize=2048M -Xmx4g -Xms2g"
+    - ANDROID_TARGET=android-25  ANDROID_ABI=armeabi-v7a MAVEN_OPTS="-XX:MaxPermSize=2048M -Xmx4g -Xms2g"
 
 script: ./gradlew clean build --stacktrace

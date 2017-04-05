@@ -3,16 +3,14 @@ package pl.mobilewarsaw.meetupchef.presenter.events
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.database.ContentObserver
-import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
+import kotlinx.coroutines.experimental.launch
+import pl.mobilewarsaw.meetupchef.experimental.Android
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupEventContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.EventRepository
 import pl.mobilewarsaw.meetupchef.service.MeetupSynchronizer
 import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
-import pl.mobilewarsaw.meetupchef.ui.events.*
+import pl.mobilewarsaw.meetupchef.ui.events.EventsListingView
 import pl.touk.basil.registerUriObserver
 import uy.kohesive.injekt.injectValue
 
@@ -71,6 +69,9 @@ class EventListingPresenterImpl : EventsListingPresenter {
     }
 
     private fun showEvents() {
-        eventRepository.fetchEvents(state.urlName) { cursor: Cursor -> eventsListingView?.showEvents(cursor) }
+        launch(Android) {
+            val eventsCursor = eventRepository.fetchEventsAsync(state.urlName).await()
+            eventsListingView?.showEvents(eventsCursor)
+        }
     }
 }
