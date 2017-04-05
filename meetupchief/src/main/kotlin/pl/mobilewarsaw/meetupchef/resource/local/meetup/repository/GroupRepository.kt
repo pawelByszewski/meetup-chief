@@ -2,18 +2,16 @@ package pl.mobilewarsaw.meetupchef.resource.local.meetup.repository
 
 import android.content.Context
 import android.database.Cursor
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
-import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import pl.touk.basil.query
 
-open class GroupRepository(val context: Context) {
+open class GroupRepository(val androidContext: Context) {
 
-     open fun fetchAllGroups(action: (Cursor) -> Unit) {
-        Observable.just(context.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(action)
-    }
+     open fun fetchAllGroupsAsync() =
+        async(CommonPool) {
+            androidContext.contentResolver.query(MeetupGroupContentProvider.CONTENT_URI)
+        }
+
 }

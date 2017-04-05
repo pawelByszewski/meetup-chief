@@ -3,6 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0-rc1'
         classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.1.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.7'
@@ -26,16 +27,15 @@ ext {
     ottoBus = 'com.squareup:otto:1.3.8'
     picasso = 'com.squareup.picasso:picasso:2.5.1'
 
-    retrofit = 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
-    retrofitGsonConverter = 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-    retrofitRxAdapter = 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+    retrofit = 'com.squareup.retrofit2:retrofit:2.2.0'
+    retrofitGsonConverter = 'com.squareup.retrofit2:converter-gson:2.2.0'
 
     rxjava = 'io.reactivex:rxjava:1.0.15'
     rxjavaAndroid = 'io.reactivex:rxandroid:1.0.1'
     rxjavaAsyncUtils = 'io.reactivex:rxjava-async-util:0.21.0'
     injekt = 'uy.kohesive.injekt:injekt-core:1.14.+'
     multidex = "com.android.support:multidex:1.0.1"
-    okHttpLoggingInterceptor = 'com.squareup.okhttp:logging-interceptor:2.6.0'
+    okHttpLoggingInterceptor = 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
     // tests
     assertj = 'org.assertj:assertj-core:1.7.0'

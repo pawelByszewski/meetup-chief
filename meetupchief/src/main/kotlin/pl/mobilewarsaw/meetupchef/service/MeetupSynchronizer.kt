@@ -4,16 +4,15 @@ import android.app.Service
 import android.content.ContentProviderOperation
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.launch
 import pl.mobilewarsaw.meetupchef.database.EventTable
 import pl.mobilewarsaw.meetupchef.database.MeetupGroupTable
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupContentProvider
-import pl.mobilewarsaw.meetupchef.resource.meetup.MeetupEvent
 import pl.mobilewarsaw.meetupchef.resource.remote.meetup.MeetupRemoteResource
-import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Meetup
+import pl.mobilewarsaw.meetupchef.resource.remote.meetup.findGroup
+import pl.mobilewarsaw.meetupchef.resource.remote.meetup.getEvents
 import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
-import rx.Observable
-import rx.schedulers.Schedulers
 import uy.kohesive.injekt.injectValue
 
 class MeetupSynchronizer : Service() {
@@ -37,37 +36,26 @@ class MeetupSynchronizer : Service() {
             is MeetupSynchronizerQuery.Events -> fetchEvents(query)
         }
 
-        return START_STICKY;
+        return START_STICKY
     }
 
     private fun fetchEvents(query: MeetupSynchronizerQuery.Events) {
-        val databaseOperation = arrayListOf<ContentProviderOperation>()
-        meetupRemoteResource.getEvents(query.urlName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .flatMap { meetupEvents -> Observable.from(meetupEvents.events) }
-                .subscribe({  event: MeetupEvent -> databaseOperation.add(EventTable.createInsertOperation(event)) },
-                        { Log.e("MeetupSynchronizer", "Fail to find Events", it) },
-                        {
-                            databaseOperation.add(0, EventTable.createDeleteForGroupOperations(query.urlName))
-                            contentResolver.applyBatch(MeetupContentProvider.AUTHORITY, databaseOperation)
-                        }
-                )
+        launch(CommonPool) {
+            val databaseOperation = arrayListOf<ContentProviderOperation>()
+            meetupRemoteResource.getEvents(query).events
+                    .forEach { databaseOperation.add(EventTable.createInsertOperation(it)) }
+            databaseOperation.add(0, EventTable.createDeleteForGroupOperations(query.urlName))
+            contentResolver.applyBatch(MeetupContentProvider.AUTHORITY, databaseOperation)
+        }
     }
 
     private fun fetchGroups(query: MeetupSynchronizerQuery.Groups) {
-        val databaseOperation = arrayListOf<ContentProviderOperation>()
-        meetupRemoteResource.findGroup(query.query)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .flatMap { meetups -> Observable.from(meetups) }
-                .subscribe({  meetup: Meetup -> databaseOperation.add(MeetupGroupTable.createContentValues(meetup)) },
-                        { Log.e("MeetupSynchronizer", "Fail to find groups", it) },
-                        {
-                            databaseOperation.add(0, MeetupGroupTable.createDeleteAllOperation())
-                            contentResolver.applyBatch(MeetupContentProvider.AUTHORITY, databaseOperation)
-                        }
-                )
+        launch(CommonPool) {
+            val databaseOperation = arrayListOf<ContentProviderOperation>()
+            meetupRemoteResource.findGroup(query)
+                    .forEach { databaseOperation.add(MeetupGroupTable.createContentValues(it)) }
+            databaseOperation.add(0, MeetupGroupTable.createDeleteAllOperation())
+            contentResolver.applyBatch(MeetupContentProvider.AUTHORITY, databaseOperation)
+        }
     }
-
 }
