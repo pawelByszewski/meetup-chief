@@ -35,6 +35,12 @@ ext {
     multidex = "com.android.support:multidex:1.0.1"
     okHttpLoggingInterceptor = 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
+    requery = "io.requery:requery:1.1.2"
+    requeryAndroid = "io.requery:requery-android:1.2.1"
+    requeryProcessor = "io.requery:requery-processor:1.2.1"
+    requeryKotlin = "io.requery:requery-kotlin:1.2.1"
+    stetho = "com.facebook.stetho:stetho:1.4.1"
+
     // tests
     assertj = 'org.assertj:assertj-core:1.7.0'
     fest_assert_core = "org.easytesting:fest-assert-core:2.0M10"

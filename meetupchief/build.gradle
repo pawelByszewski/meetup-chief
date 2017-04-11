@@ -72,11 +72,16 @@ repositories {
     maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1/" }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     testCompile junit4
     compile appcompat
     compile supportDesign
     compile cardview
+
 
     compile picasso
 
@@ -92,6 +97,13 @@ dependencies {
     compile okHttpLoggingInterceptor
 
     compile multidex
+
+    compile requery
+    compile requeryAndroid
+    compile requeryKotlin
+    kapt requeryProcessor
+
+    debugCompile stetho
 
     compile project(':basil')
 
