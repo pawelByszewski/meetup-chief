@@ -17,9 +17,9 @@ import android.widget.ImageView
 import butterknife.bindView
 import com.squareup.picasso.Picasso
 import pl.mobilewarsaw.meetupchef.R
+import pl.mobilewarsaw.meetupchef.database.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.presenter.events.EventsListingPresenter
 import pl.mobilewarsaw.meetupchef.presenter.events.State
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.ui.groups.MeetupEventCursorAdapter
 import pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
 import pl.touk.basil.isEmpty

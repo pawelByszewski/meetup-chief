@@ -1,22 +1,17 @@
 package pl.mobilewarsaw.meetupchef.presenter.groups
 
-import android.content.ContentResolver
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
 import kotlinx.coroutines.experimental.launch
+import pl.mobilewarsaw.meetupchef.database.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.experimental.Android
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
+import pl.mobilewarsaw.meetupchef.resource.GroupsManager
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.GroupRepository
-import pl.mobilewarsaw.meetupchef.service.MeetupSynchronizer
-import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
 import pl.mobilewarsaw.meetupchef.ui.events.EventsListingActivity
 import pl.mobilewarsaw.meetupchef.ui.groups.MeetupGroupsView
 import pl.mobilewarsaw.meetupchef.ui.groups.bus.GroupClicked
-import pl.touk.basil.registerUriObserver
 import uy.kohesive.injekt.injectValue
 
 
@@ -24,6 +19,7 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
 
     private val groupRepository: GroupRepository by injectValue()
     private val bus: Bus by injectValue()
+    private val groupsManager: GroupsManager by injectValue()
 
     private val state = State()
     private var meetupGroupsView: MeetupGroupsView? = null
@@ -35,21 +31,14 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
         this.context = context
         this.meetupGroupsView = meetupGroupsView
 
-        contentResolver.registerUriObserver(MeetupGroupContentProvider.CONTENT_URI) {
-            showAllGroups()
-        }
-
         restoreState(savedInstanceState)
         bus.register(this)
     }
 
-    private val contentResolver: ContentResolver
-        get() = context!!.contentResolver
-
     private fun showAllGroups() {
         launch(Android) {
-            val groupsCursor = groupRepository.fetchAllGroupsAsync().await()
-            meetupGroupsView?.showMeetupGroups(groupsCursor)
+            val groupsResult = groupRepository.fetchAllGroupsAsync().await()
+            meetupGroupsView?.showMeetupGroups(groupsResult)
         }
     }
 
@@ -65,10 +54,10 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
         state.query = query
         meetupGroupsView?.showProgressBar()
 
-        val intent = Intent(context, MeetupSynchronizer::class.java)
-        val synchronizerQuery = MeetupSynchronizerQuery.Groups(query)
-        synchronizerQuery.toIntent(intent)
-        context?.startService(intent)
+        launch(Android) {
+            val groupsResult = groupsManager.updateEventsAsync(query).await()
+            meetupGroupsView?.showMeetupGroups(groupsResult)
+        }
     }
 
     private fun checkViewBinding() {
@@ -78,7 +67,7 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
     }
 
     @Subscribe
-    public fun onMeetupGroupClick(groupClicked: GroupClicked) {
+    fun onMeetupGroupClick(groupClicked: GroupClicked) {
         onGroupClicked(groupClicked.meetupGroup)
     }
 

@@ -109,6 +109,8 @@ abstract class CursorRecyclerViewAdapter<VH : RecyclerView.ViewHolder>
             notifyDataSetChanged()
         }
     }
+
+    abstract fun  updateGroups(cursor: Cursor)
 }
 
 private class CursorWrapper(private val cursor: Cursor?) {

@@ -1,9 +1,8 @@
 package pl.mobilewarsaw.meetupchef.presenter.groups
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
+import pl.mobilewarsaw.meetupchef.database.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.ui.groups.MeetupGroupsView
 
 interface MeetupGroupsPresenter {

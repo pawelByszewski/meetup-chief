@@ -1,11 +1,8 @@
 package pl.mobilewarsaw.meetupchef.database
 
 import android.content.ContentProviderOperation
-import android.content.ContentValues
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupEventContentProvider
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchef.resource.meetup.MeetupEvent
-import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Meetup
 
 
 object EventTable {

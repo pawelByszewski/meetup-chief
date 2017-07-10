@@ -8,8 +8,6 @@ import kotlinx.coroutines.experimental.launch
 import pl.mobilewarsaw.meetupchef.experimental.Android
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupEventContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.EventRepository
-import pl.mobilewarsaw.meetupchef.service.MeetupSynchronizer
-import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
 import pl.mobilewarsaw.meetupchef.ui.events.EventsListingView
 import pl.touk.basil.registerUriObserver
 import uy.kohesive.injekt.injectValue
@@ -40,7 +38,7 @@ class EventListingPresenterImpl : EventsListingPresenter {
         showMeetupGroupImage()
         if (savedInstanceState == null) {
             eventsListingView.showProgressBar()
-            synchronizeEvents()
+//            synchronizeEvents()
         } else {
             showEvents()
         }
@@ -57,15 +55,15 @@ class EventListingPresenterImpl : EventsListingPresenter {
         state.saveIn(outState)
     }
 
-    private fun synchronizeEvents() {
-        val query = MeetupSynchronizerQuery.Events(state.urlName)
-        val intent = Intent(context, MeetupSynchronizer::class.java)
-        query.toIntent(intent)
-        context.startService(intent)
-    }
+//    private fun synchronizeEvents() {
+//        val query = MeetupSynchronizerQuery.Events(state.urlName)
+//        val intent = Intent(context, MeetupSynchronizer::class.java)
+//        query.toIntent(intent)
+//        context.startService(intent)
+//    }
 
     override fun refreshEvents() {
-        synchronizeEvents()
+//        synchronizeEvents()
     }
 
     private fun showEvents() {

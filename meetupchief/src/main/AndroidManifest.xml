@@ -27,9 +27,6 @@
                 android:value="pl.mobilewarsaw.meetupchef.ui.groups.MeetupGroupsActivity" />
         </activity>
 
-
-        <service android:name="pl.mobilewarsaw.meetupchef.service.MeetupSynchronizer"/>
-
         <provider android:name="pl.mobilewarsaw.meetupchef.resource.local.meetup.MeetupContentProvider"
             android:authorities="pl.mobilewarsaw.meetupchef">
         </provider>

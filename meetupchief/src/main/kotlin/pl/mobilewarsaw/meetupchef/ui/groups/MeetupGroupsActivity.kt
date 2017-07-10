@@ -1,6 +1,5 @@
 package pl.mobilewarsaw.meetupchef.ui.groups
 
-import android.database.Cursor
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
@@ -9,13 +8,14 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.View
 import butterknife.bindView
+import io.requery.query.Result
 import pl.mobilewarsaw.meetupchef.R
+import pl.mobilewarsaw.meetupchef.database.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.presenter.groups.MeetupGroupsPresenter
 import pl.mobilewarsaw.meetupchef.ui.groups.listingadapter.MeetupGroupsCursorAdapter
 import pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
 import pl.mobilewarsaw.meetupchef.widget.searchview.SearchView
 import pl.touk.basil.hide
-import pl.touk.basil.isEmpty
 import pl.touk.basil.show
 import uy.kohesive.injekt.injectValue
 
@@ -69,12 +69,11 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
 
     private fun setupRecycleView() {
         groupsRecycleView.layoutManager = LinearLayoutManager(this)
-        meetupGroupsRecycleViewAdapter.lastViewMode = true
         groupsRecycleView.adapter = meetupGroupsRecycleViewAdapter
     }
 
-    override fun showMeetupGroups(cursor: Cursor) {
-        if (cursor.isEmpty()) {
+    override fun showMeetupGroups(groups: Result<MeetupGroup>) {
+        if (groups.isEmpty()) {
             errorView.show()
             swipeRefreshLayout.hide()
             emptyView.hide()
@@ -83,10 +82,13 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
             errorView.hide()
             swipeRefreshLayout.show()
         }
-        meetupGroupsRecycleViewAdapter!!.changeCursor(cursor)
+        meetupGroupsRecycleViewAdapter!!.updateGroups(groups)
         swipeRefreshLayout.isRefreshing = false
         progressBar.hide()
     }
+
+    private fun <T> Result<T>.isEmpty()
+        = firstOrNull() == null
 
     override fun showProgressBar() {
         emptyView.hide()

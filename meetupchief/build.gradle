@@ -20,7 +20,7 @@ buildscript {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: "com.tmiyamon.config"
 
 android {
@@ -82,7 +82,6 @@ dependencies {
     compile supportDesign
     compile cardview
 
-
     compile picasso
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -102,6 +101,13 @@ dependencies {
     compile requeryAndroid
     compile requeryKotlin
     kapt requeryProcessor
+
+    compile timber
+
+//    compile 'io.requery:requery:1.3.0'
+//    compile 'io.requery:requery-android:1.3.0'
+//    compile 'io.requery:requery-kotlin:1.3.0'
+//    kapt 'io.requery:requery-processor:1.3.0'
 
     debugCompile stetho
 

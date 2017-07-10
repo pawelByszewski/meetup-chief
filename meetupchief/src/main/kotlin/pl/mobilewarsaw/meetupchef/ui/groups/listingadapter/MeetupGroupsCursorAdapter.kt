@@ -1,30 +1,32 @@
 package pl.mobilewarsaw.meetupchef.ui.groups.listingadapter
 
-import android.database.Cursor
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.squareup.otto.Bus
 import com.squareup.picasso.Picasso
+import io.requery.query.Result
+import io.requery.sql.ResultSetIterator
 import pl.mobilewarsaw.meetupchef.R
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
-import pl.mobilewarsaw.meetupchef.ui.groups.listingadapter.BlankViewHolder
+import pl.mobilewarsaw.meetupchef.database.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.ui.groups.bus.GroupClicked
 import pl.mobilewarsaw.meetupchef.ui.recycleview.BASIC_VIEW_TYPE
-import pl.mobilewarsaw.meetupchef.ui.recycleview.CursorRecyclerViewAdapter
 import pl.touk.basil.clear
 import uy.kohesive.injekt.injectValue
-import kotlin.properties.Delegates
 
 
-class MeetupGroupsCursorAdapter(cursor: Cursor? = null)
-        : CursorRecyclerViewAdapter<RecyclerView.ViewHolder>(cursor) {
+class MeetupGroupsCursorAdapter
+        : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    override fun getItemCount(): Int {
+        return groups!!.count()
+    }
 
     private val picasso: Picasso by injectValue()
     private val bus: Bus by injectValue()
+    private var groups: Result<MeetupGroup>? = null
+    private var groupsResultSet: ResultSetIterator<MeetupGroup>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == BASIC_VIEW_TYPE) {
@@ -44,9 +46,10 @@ class MeetupGroupsCursorAdapter(cursor: Cursor? = null)
         }
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, cursor: Cursor) {
+
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         if (viewHolder is GroupViewHolder) {
-            val meetupGroup = MeetupGroup.fromCursor(cursor)
+            val meetupGroup = groupsResultSet!![position]
             viewHolder.setup(meetupGroup)
             showImage(viewHolder, meetupGroup)
         } else {
@@ -59,7 +62,7 @@ class MeetupGroupsCursorAdapter(cursor: Cursor? = null)
         if (meetupGroup.photoUrl.isNullOrBlank()) {
             showPlaceHolder(viewHolder)
         } else {
-            showImage(viewHolder, meetupGroup.photoUrl as String)
+            showImage(viewHolder, meetupGroup.photoUrl!!)
         }
     }
 
@@ -75,5 +78,10 @@ class MeetupGroupsCursorAdapter(cursor: Cursor? = null)
                 .fit()
                 .centerCrop()
                 .into(viewHolder.image)
+    }
+
+    fun updateGroups(groups: Result<MeetupGroup>) {
+        this.groups = groups
+        groupsResultSet = groups.iterator() as ResultSetIterator<MeetupGroup>
     }
 }

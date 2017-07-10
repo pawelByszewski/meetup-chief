@@ -14,6 +14,9 @@ import pl.mobilewarsaw.meetupchef.ui.recycleview.CursorRecyclerViewAdapter
 
 class MeetupEventCursorAdapter(cursor: Cursor? = null)
         : CursorRecyclerViewAdapter<MeetupEventCursorAdapter.ViewHolder>(cursor) {
+    override fun updateGroups(cursor: Cursor) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
 
     enum class StatusIcon(val icon: Int, val aplha: Float) {

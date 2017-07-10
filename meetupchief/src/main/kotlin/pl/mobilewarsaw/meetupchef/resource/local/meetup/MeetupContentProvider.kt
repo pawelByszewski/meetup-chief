@@ -7,7 +7,6 @@ import pl.mobilewarsaw.meetupchef.Settings
 import pl.mobilewarsaw.meetupchef.config.injekt.MeetupChefInjektMain
 import pl.mobilewarsaw.meetupchef.database.Database
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupEventContentProvider
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.MeetupGroupContentProvider
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.provider.PartialContentProvider
 import uy.kohesive.injekt.injectLazy
 import java.util.*
@@ -26,7 +25,6 @@ class MeetupContentProvider : ContentProvider() {
 
     override fun onCreate(): Boolean {
         MeetupChefInjektMain.init(context)
-        contentProviders.add(MeetupGroupContentProvider())
         contentProviders.add(MeetupEventContentProvider())
         return true
     }

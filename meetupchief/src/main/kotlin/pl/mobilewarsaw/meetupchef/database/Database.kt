@@ -14,7 +14,6 @@ class Database : SQLiteOpenHelper {
     override fun onCreate(db: SQLiteDatabase?) {
         dropAllTables(db)
         db?.execSQL(EventTable.CREATE_STATEMENT)
-        db?.execSQL(MeetupGroupTable.CREATE_STATEMENT)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -23,7 +22,6 @@ class Database : SQLiteOpenHelper {
 
     private fun dropAllTables(db: SQLiteDatabase?) {
         db?.dropTableIfExists(EventTable.TABLE)
-        db?.dropTableIfExists(MeetupGroupTable.TABLE)
     }
 
     companion object {

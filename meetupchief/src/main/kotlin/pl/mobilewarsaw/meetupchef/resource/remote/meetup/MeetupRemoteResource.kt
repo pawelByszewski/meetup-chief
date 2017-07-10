@@ -7,6 +7,7 @@ import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
+import timber.log.Timber
 
 interface MeetupRemoteResource {
 
@@ -33,5 +34,7 @@ interface MeetupRemoteResource {
 fun MeetupRemoteResource.getEvents(query: MeetupSynchronizerQuery.Events): MeetupEvents
         = getEventsCallable(query.urlName).execute().body()
 
-fun MeetupRemoteResource.findGroup(query: MeetupSynchronizerQuery.Groups): List<Meetup>
-        = findGroupCallable(query.query).execute().body()
+fun MeetupRemoteResource.findGroup(query: MeetupSynchronizerQuery.Groups): List<Meetup> {
+    Timber.d("find group with query: $query")
+    return findGroupCallable(query.query).execute().body()
+}

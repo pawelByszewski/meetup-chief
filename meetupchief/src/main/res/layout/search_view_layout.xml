@@ -54,7 +54,8 @@
                 android:inputType="textNoSuggestions"
                 android:imeOptions="actionSearch"
                 android:nextFocusUp="@id/search_bar_text"
-                android:nextFocusLeft="@id/search_bar_text"/>
+                android:nextFocusLeft="@id/search_bar_text"
+                android:text="mobile"/>
 
         </FrameLayout>
 

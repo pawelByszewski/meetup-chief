@@ -5,9 +5,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import pl.mobilewarsaw.meetupchef.R
-import pl.mobilewarsaw.meetupchef.resource.local.meetup.model.MeetupGroup
+import pl.mobilewarsaw.meetupchef.database.model.MeetupGroup
 import kotlin.properties.Delegates
-
 
 class GroupViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     var meetupGroup: MeetupGroup by Delegates.notNull()
