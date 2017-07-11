@@ -3,8 +3,8 @@ package pl.mobilewarsaw.meetupchef.presenter.events
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import pl.mobilewarsaw.meetupchef.experimental.Android
 import pl.mobilewarsaw.meetupchef.resource.EventsManager
 import pl.mobilewarsaw.meetupchef.ui.events.EventsListingView
 import uy.kohesive.injekt.injectValue
@@ -48,7 +48,7 @@ class EventListingPresenterImpl : EventsListingPresenter {
     }
 
     private fun showEvents() {
-        launch(Android) {
+        launch(UI) {
             val events = eventsManager.updateEventsAsync(state.urlName).await()
             eventsListingView?.showEvents(events)
         }

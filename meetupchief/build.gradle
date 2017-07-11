@@ -66,10 +66,13 @@ android {
 repositories {
     maven { url 'https://maven.fabric.io/public' }
     mavenCentral()
+    jcenter()
     maven {
         url "https://oss.sonatype.org/content/repositories/snapshots"
     }
     maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1/" }
+
+    maven { url "https://jitpack.io" }
 }
 
 kapt {
@@ -85,7 +88,8 @@ dependencies {
     compile picasso
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.14'
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.16"
+    compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-android', version: '0.16'
     compile injekt
     compile kotterKnife
 

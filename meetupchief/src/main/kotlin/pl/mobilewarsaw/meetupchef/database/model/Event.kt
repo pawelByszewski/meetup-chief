@@ -8,16 +8,6 @@ private const val STATUS_CLOSED = "past"
 @Entity
 interface Event : Parcelable, Persistable {
 
-//    val TABLE = "meetup_event"
-//    val ID = "_id"
-//    val EVENT_ID = "event_id"
-//    val STATUS = "status"
-//    val DESCRIPTION = "description"
-//    val NAME = "name"
-//    val ATTENDS = "yes_rsvp_count"
-//    val VENUE = "venue"
-//    val GROUP_URL_NAME = "groupUrlName"
-
     @get:Key
     @get:Generated
     var id: Int

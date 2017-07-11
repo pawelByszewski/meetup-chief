@@ -4,9 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import pl.mobilewarsaw.meetupchef.database.model.MeetupGroup
-import pl.mobilewarsaw.meetupchef.experimental.Android
 import pl.mobilewarsaw.meetupchef.resource.GroupsManager
 import pl.mobilewarsaw.meetupchef.resource.local.meetup.repository.GroupRepository
 import pl.mobilewarsaw.meetupchef.ui.events.EventsListingActivity
@@ -36,7 +36,7 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
     }
 
     private fun showAllGroups() {
-        launch(Android) {
+        launch(UI) {
             val groupsResult = groupRepository.fetchAllGroupsAsync().await()
             meetupGroupsView?.showMeetupGroups(groupsResult)
         }
@@ -54,7 +54,7 @@ class MeetupGroupsPresenterImpl : MeetupGroupsPresenter {
         state.query = query
         meetupGroupsView?.showProgressBar()
 
-        launch(Android) {
+        launch(UI) {
             val groupsResult = groupsManager.updateEventsAsync(query).await()
             meetupGroupsView?.showMeetupGroups(groupsResult)
         }
