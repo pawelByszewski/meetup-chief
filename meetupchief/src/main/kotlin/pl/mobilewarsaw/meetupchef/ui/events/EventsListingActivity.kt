@@ -2,9 +2,7 @@ package pl.mobilewarsaw.meetupchef.ui.events
 
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v4.app.NavUtils
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
@@ -16,14 +14,18 @@ import android.view.View
 import android.widget.ImageView
 import butterknife.bindView
 import com.squareup.picasso.Picasso
+import io.requery.query.Result
 import pl.mobilewarsaw.meetupchef.R
+import pl.mobilewarsaw.meetupchef.database.model.Event
+import pl.mobilewarsaw.meetupchef.database.model.EventEntity
 import pl.mobilewarsaw.meetupchef.database.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.presenter.events.EventsListingPresenter
 import pl.mobilewarsaw.meetupchef.presenter.events.State
-import pl.mobilewarsaw.meetupchef.ui.groups.MeetupEventCursorAdapter
+import pl.mobilewarsaw.meetupchef.requery.isEmpty
+import pl.mobilewarsaw.meetupchef.ui.groups.listingadapter.EventsRecycleViewAdapter
 import pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
-import pl.touk.basil.isEmpty
 import pl.touk.basil.show
+import timber.log.Timber
 import uy.kohesive.injekt.injectValue
 
 const val GROUP_URL_NAME_KEY = "urlname"
@@ -42,7 +44,7 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
     private val presenter: EventsListingPresenter by injectValue()
     private val picasso: Picasso by injectValue()
 
-    private val eventsRecycleViewAdapter: MeetupEventCursorAdapter by injectValue()
+    private val eventsRecycleViewAdapter: EventsRecycleViewAdapter by injectValue()
 
     companion object {
         fun createIntent(context: Context, meetupGroup: MeetupGroup): Intent {
@@ -106,18 +108,20 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar);
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun showInToolbar(meeupGroupInitData: State) {
         supportActionBar!!.title = meeupGroupInitData.name;
     }
 
-    override fun showEvents(cursor: Cursor) {
-        eventsRecycleViewAdapter!!.changeCursor(cursor)
+    override fun showEvents(eventsResult: Result<EventEntity>) {
+        Timber.d("show events, count: ${eventsResult.count()}")
+        eventsRecycleViewAdapter.updateEvents(eventsResult as Result<Event>)
+        eventsRecycleViewAdapter.notifyDataSetChanged()
         swipeRefreshLayout.isRefreshing = false
         progressBar.hide()
-        emptyView.show(cursor.isEmpty() )
+        emptyView.show(eventsResult.isEmpty())
     }
 
     override fun showProgressBar() {

@@ -11,10 +11,11 @@ import io.requery.sql.ResultSetIterator
 import pl.mobilewarsaw.meetupchef.R
 import pl.mobilewarsaw.meetupchef.database.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.ui.groups.bus.GroupClicked
-import pl.mobilewarsaw.meetupchef.ui.recycleview.BASIC_VIEW_TYPE
 import pl.touk.basil.clear
 import uy.kohesive.injekt.injectValue
 
+const val BASIC_VIEW_TYPE = 0
+const val LAST_VIEW_TYPE = 1
 
 class MeetupGroupsCursorAdapter
         : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

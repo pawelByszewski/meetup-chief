@@ -12,6 +12,7 @@ import io.requery.query.Result
 import pl.mobilewarsaw.meetupchef.R
 import pl.mobilewarsaw.meetupchef.database.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.presenter.groups.MeetupGroupsPresenter
+import pl.mobilewarsaw.meetupchef.requery.isEmpty
 import pl.mobilewarsaw.meetupchef.ui.groups.listingadapter.MeetupGroupsCursorAdapter
 import pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
 import pl.mobilewarsaw.meetupchef.widget.searchview.SearchView
@@ -86,9 +87,6 @@ class MeetupGroupsActivity : AppCompatActivity(), MeetupGroupsView {
         swipeRefreshLayout.isRefreshing = false
         progressBar.hide()
     }
-
-    private fun <T> Result<T>.isEmpty()
-        = firstOrNull() == null
 
     override fun showProgressBar() {
         emptyView.hide()

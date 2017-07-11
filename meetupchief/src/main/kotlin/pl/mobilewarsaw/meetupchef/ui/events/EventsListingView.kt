@@ -1,7 +1,8 @@
 package pl.mobilewarsaw.meetupchef.ui.events
 
 import android.content.Intent
-import android.database.Cursor
+import io.requery.query.Result
+import pl.mobilewarsaw.meetupchef.database.model.EventEntity
 import pl.mobilewarsaw.meetupchef.presenter.events.State
 
 interface EventsListingView {
@@ -10,7 +11,7 @@ interface EventsListingView {
 
     fun showInToolbar(meeupGroupInitData: State)
 
-    fun showEvents(cursor: Cursor)
+    fun showEvents(eventsResult: Result<EventEntity>)
 
     fun showProgressBar()
 

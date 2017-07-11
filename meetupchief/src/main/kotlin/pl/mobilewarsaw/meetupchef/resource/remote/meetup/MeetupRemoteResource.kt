@@ -1,6 +1,7 @@
 package pl.mobilewarsaw.meetupchef.resource.remote.meetup
 
 import pl.mobilewarsaw.meetupchef.Settings
+import pl.mobilewarsaw.meetupchef.resource.meetup.MeetupEvent
 import pl.mobilewarsaw.meetupchef.resource.meetup.MeetupEvents
 import pl.mobilewarsaw.meetupchef.resource.remote.meetup.model.Meetup
 import pl.mobilewarsaw.meetupchef.service.model.MeetupSynchronizerQuery
@@ -31,8 +32,8 @@ interface MeetupRemoteResource {
         : Call<List<Meetup>>
 }
 
-fun MeetupRemoteResource.getEvents(query: MeetupSynchronizerQuery.Events): MeetupEvents
-        = getEventsCallable(query.urlName).execute().body()
+fun MeetupRemoteResource.getEvents(query: String): List<MeetupEvent>
+        = getEventsCallable(query).execute().body().events
 
 fun MeetupRemoteResource.findGroup(query: MeetupSynchronizerQuery.Groups): List<Meetup> {
     Timber.d("find group with query: $query")

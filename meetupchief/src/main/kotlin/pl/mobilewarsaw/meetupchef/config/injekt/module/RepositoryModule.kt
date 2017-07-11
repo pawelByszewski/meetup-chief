@@ -10,7 +10,7 @@ import uy.kohesive.injekt.api.fullType
 
 class RepositoryModule(val context: Context) : InjektModule {
     override fun InjektRegistrar.registerInjectables() {
-        addSingletonFactory(fullType<GroupRepository>()) { GroupRepository(context) }
-        addSingletonFactory(fullType<EventRepository>()) { EventRepository(context) }
+        addSingletonFactory(fullType<GroupRepository>()) { GroupRepository() }
+        addSingletonFactory(fullType<EventRepository>()) { EventRepository() }
     }
 }

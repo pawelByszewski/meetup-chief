@@ -1,6 +1,5 @@
 package pl.mobilewarsaw.meetupchef.resource.local.meetup.repository
 
-import android.content.Context
 import android.util.Log
 import io.requery.Persistable
 import io.requery.query.Result
@@ -13,7 +12,7 @@ import pl.mobilewarsaw.meetupchef.database.model.MeetupGroup
 import pl.mobilewarsaw.meetupchef.database.model.MeetupGroupEntity
 import uy.kohesive.injekt.injectValue
 
-open class GroupRepository(val androidContext: Context) {
+open class GroupRepository {
 
     private val TAG = GroupRepository::class.java.name
 
