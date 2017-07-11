@@ -27,6 +27,7 @@ import pl.mobilewarsaw.meetupchef.widget.progressbar.ChefProgressBar
 import pl.touk.basil.show
 import timber.log.Timber
 import uy.kohesive.injekt.injectValue
+import kotlin.system.measureTimeMillis
 
 const val GROUP_URL_NAME_KEY = "urlname"
 const val GROUP_NAME_KEY = "groupName"
@@ -117,11 +118,16 @@ class EventsListingActivity : AppCompatActivity(), EventsListingView {
 
     override fun showEvents(eventsResult: Result<EventEntity>) {
         Timber.d("show events, count: ${eventsResult.count()}")
-        eventsRecycleViewAdapter.updateEvents(eventsResult as Result<Event>)
-        eventsRecycleViewAdapter.notifyDataSetChanged()
-        swipeRefreshLayout.isRefreshing = false
-        progressBar.hide()
-        emptyView.show(eventsResult.isEmpty())
+        val time = measureTimeMillis {
+            val start = System.currentTimeMillis()
+            eventsRecycleViewAdapter.updateEvents(eventsResult as Result<Event>)
+            eventsRecycleViewAdapter.notifyDataSetChanged()
+            swipeRefreshLayout.isRefreshing = false
+            progressBar.hide()
+            emptyView.show(eventsResult.isEmpty())
+            Timber.d("show events, 1-time: ${System.currentTimeMillis() - start}")
+        }
+        Timber.d("show events, time: $time")
     }
 
     override fun showProgressBar() {
